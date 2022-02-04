@@ -1,1 +1,1 @@
-# libhip
+# LibHip
