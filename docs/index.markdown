@@ -5,5 +5,6 @@
 layout: default
 ---
 # LibHip
-Adding images
-![]({{ site.url }}{{ site.baseurl }}/assets/images/testImg.png)
+The content will be available after the relevant paper under review is accepted
+<!-- Adding images -->
+<!-- ![]({{ site.url }}{{ site.baseurl }}/assets/images/testImg.png) -->
