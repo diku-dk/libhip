@@ -1,7 +1,7 @@
 # LibHip - A Hip Joint Finite Element Model Repository.
 ![test4](https://user-images.githubusercontent.com/45920627/166197056-810cbb7b-5877-4e4e-ad98-5beecb1af18f.png)
 
-# Model Features
+## Model Features
 * Open-access hip joint finite element model repository designed for simulation studies
 * 11 clinically verified subject-specific bilateral models, covering the bones and cartilages in the hip joint area
 * Open-access semi-automated modeling workflow using cutting-edge geometry processing tools
