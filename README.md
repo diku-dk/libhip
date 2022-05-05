@@ -35,15 +35,19 @@ conda activate libhip
 jupyter notebook
 ```
 
+## Tutorial for running the code
 
-## Documentation 
-```python
-soon to be added
-```
+- Step 1: xxx 
+- Step 2: xxx 
+- Step 3: xxx 
+- Step 4: xxx 
+- Step 5: xxx 
+
 ## Citation
-```python
-soon to be added
-```
+Please cite this work by using this reference:
+
+- Soon to be added due to review process.
+
 ## Acknowledgement 
 ❤️ We would like to thank the [Libigl](https://libigl.github.io) team, as the core of CarGen algorithm is based on the various functions available in the Libigl library.
 
