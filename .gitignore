@@ -131,5 +131,5 @@ dmypy.json
 # Added
 .DS_Store
 .idea/
-.obj
-.stl
+*.obj
+*.stl
