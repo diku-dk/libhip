@@ -133,3 +133,4 @@ dmypy.json
 .idea/
 *.obj
 *.stl
+__tracked_surface.stl
