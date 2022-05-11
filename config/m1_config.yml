@@ -1,0 +1,92 @@
+# parameters for the left hip joint acetabular cartilage
+lhj_ac_var:
+    gap_distance: 4.2
+    trimming_iteration: 1
+    smoothing_factor:  0.5             # default
+    smoothing_iteration_base: 2        # default
+    no_extend_trimming_iteration: 1
+    thickness_factor: 0.45             # default
+    bandwidth:  2                      # default
+    blending_order:  2                 # default
+    full_model: True                   # default
+
+# parameters for the left hip joint femoral cartilage
+lhj_fc_var:
+    trimming_iteration:  2
+    neighbourhood_size:  8
+    curvature_type: "mean"             # default
+    curve_info: False                  # default
+    min_curvature_threshold: 0.026     # default
+    max_curvature_threshold: .inf      # default
+    trimming_base_iteration: 1         # default
+    smoothing_factor: 0.5              # default
+    smoothing_iteration_base: 2        # default
+    thickness_factor: 0.45             # default
+    bandwidth: 3
+    blending_order: 2                  # default
+    full_model: True                   # default
+
+# parameters for the left sacroiliac joint
+lsj_var:
+    gap_distance:  4.4
+    trimming_iteration_p:  0
+    trimming_iteration_s:  0
+    smoothing_factor:  0.5                # default
+    smoothing_iteration_extruded_base: 2  # default
+    thickness_factor: 1                   # default
+    upsampling_iteration:  0              # default
+    smoothing_iteration_base: 3
+    fix_boundary: True                    # default
+    full_model: True                      # default
+
+# parameters for the right hip joint acetabular cartilage
+rhj_ac_var:
+    gap_distance: 4.2
+    trimming_iteration: 1
+    smoothing_factor:  0.5  # default
+    smoothing_iteration_base: 2 # default
+    no_extend_trimming_iteration: 1
+    thickness_factor: 0.45 # default
+    bandwidth:  2 # default
+    blending_order:  2 # default
+    full_model: True # default
+
+# parameters for the right hip joint femoral cartilage
+rhj_fc_var:
+    trimming_iteration:  7
+    neighbourhood_size:  20
+    curvature_type: "mean"
+    curve_info: False
+    min_curvature_threshold: 0.026
+    max_curvature_threshold: .inf
+    trimming_base_iteration: 1
+    smoothing_factor: 0.5
+    smoothing_iteration_base: 2
+    thickness_factor: 0.45
+    bandwidth: 2
+    blending_order: 2
+    full_model: True
+
+# parameters for the right sacroiliac joint
+rsj_var:
+    gap_distance:  4.2
+    trimming_iteration_p:  1
+    trimming_iteration_s:  1
+    smoothing_factor:  0.5
+    smoothing_iteration_extruded_base: 2
+    upsampling_iteration:  0
+    smoothing_iteration_base: 2
+    fix_boundary: True
+    full_model: True
+
+# parameters for the pubic joint
+pj_var:
+    gap_distance: 4.2
+    trimming_iteration_p: 1
+    trimming_iteration_s: 1
+    smoothing_factor: 0.5
+    smoothing_iteration_extruded_base: 2
+    upsampling_iteration: 0
+    smoothing_iteration_base: 2
+    fix_boundary: True
+    full_model: True
