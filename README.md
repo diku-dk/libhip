@@ -11,8 +11,7 @@
 ## Modeling Workflow and Research Data
 <img width="603" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/166197148-373c2553-6d1f-44c2-a4db-4168733bd6a2.png">
 
-<!-- * The input to our modeling workflow, including the CT scans and bone label masks can be found at [image_data](https://github.com/diku-dk/libhip/tree/main/models/image_data) and [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap), respectively. -->
-<!-- * The multi-body surface mesh of each subject, including the remeshed and cleaned bone models and cartilage surface meshes are provided in [cargen_output](/Users/nsv780/Documents/Github/libhip/model_generation/cargen_output). -->
+
 * The output of the volume mesh generation including the surface and volume mesh ofeach subject is provided in [surface_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/surface_mesh) and [volume_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/volume_mesh), respectively.
 
 ## Tutorial for running the code
@@ -37,19 +36,23 @@ We further crop the CT scans to the hip joint area to minimize the computational
 |m11 | Male | N.A | 1.3.6.1.4.1.9328.50.4.4.0051 |
 
 
-### Bone geometry reconstruction
+### Bone Geometry Reconstruction
 We obtain an explicit surface representation of all the bones using a semi-automated approach
 implemented in the [3D slicer software package](https://www.slicer.org). The bone bone contours and the existing gaps in the inter-bone cavities are verified by our senior [consultant radiologist](https://research.regionh.dk/rigshospitalet/en/persons/michael-bachmann-nielsen(87d575e5-755e-4182-b94d-75776981fc21)/publications.html). 
 
 The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. These label masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder for each subject.
 
-The initial [raw surface mesh](https://github.com/diku-dk/libhip/tree/main/model_repository/slicer_raw_output) transferred from the bone label maps are typically dense and may have poor quality. Our [PreProcessing code](https://github.com/diku-dk/libhip/blob/main/notebooks/0_PreProcessing.ipynb) cleans and remeshes the surface meshes using mainly the [fTetWild](https://wildmeshing.github.io/ftetwild/) and [Libigl](https://libigl.github.io) libraries. You can find the cleaned and remeshed models in the [preprocessing_output](https://github.com/diku-dk/libhip/tree/main/model_repository/slicer_raw_output) folder for each subject.
-    
+The initial [raw surface mesh](https://github.com/diku-dk/libhip/tree/main/model_repository/slicer_raw_output) transferred from the bone label maps are typically dense and may have poor quality. Our [pre-processing code](https://github.com/diku-dk/libhip/blob/main/notebooks/0_PreProcessing.ipynb) cleans and remeshes the surface meshes using mainly the [fTetWild](https://wildmeshing.github.io/ftetwild/) and [Libigl](https://libigl.github.io) libraries. You can find the cleaned and remeshed models in the [preprocessing_output](https://github.com/diku-dk/libhip/tree/main/model_repository/slicer_raw_output) folder for each subject.
 
-- Step 2: xxx 
-- Step 3: xxx 
-- Step 4: xxx 
-- Step 5: xxx 
+### Cartilage Geometry Reconstruction
+We apply a specialized geometry processing method to generate subject-specific cartilages in the hip joint area. This method was initially introduced by [Moshfeghifar et al.](https://doi.org/10.48550/arXiv.2203.10667) to generate subject-specific hip joint cartilages independent of image modalities. 
+
+Our [cartilage reconstruction code](https://github.com/diku-dk/libhip/blob/main/notebooks/1_CarGen.ipynb) adds new ideas to this algorithm to improve the hip joint results and extend this method to the paired sacroiliac joints and the pubic symphysis. The multi-body surface mesh of each subject, including the bone models and cartilage surface meshes are provided in [cargen_output](/Users/nsv780/Documents/Github/libhip/model_generation/cargen_output) folder.
+
+### Volume Mesh Generation
+
+### Finite Element Simulation
+
 
 ## Installation
 First, setup your conda environment for jupyter notebooks as below: 
