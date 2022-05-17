@@ -43,7 +43,7 @@ implemented in the [3D slicer software package](https://www.slicer.org). The bon
 
 The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. These label masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder for each subject.
 
-The initial bone surface mesh transferred from the bone label maps are typically dense and may have poor quality. Our [prerocessing code](https://github.com/diku-dk/libhip/blob/main/notebooks/0_PreProcessing.ipynb) cleans and remeshes the raw bone segmentation surface meshes. You can find the resulting remeshed models in the [preprocessing_output] folder.
+The initial [raw surface mesh](https://github.com/diku-dk/libhip/tree/main/model_repository/slicer_raw_output) transferred from the bone label maps are typically dense and may have poor quality. Our [PreProcessing code](https://github.com/diku-dk/libhip/blob/main/notebooks/0_PreProcessing.ipynb) cleans and remeshes the raw bone segmentation surface meshes. You can find the resulting remeshed models in the [preprocessing_output](https://github.com/diku-dk/libhip/tree/main/model_repository/slicer_raw_output) folder.
     
 
 - Step 2: xxx 
