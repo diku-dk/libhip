@@ -11,9 +11,50 @@
 ## Modeling Workflow and Research Data
 <img width="603" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/166197148-373c2553-6d1f-44c2-a4db-4168733bd6a2.png">
 
-* The input to our modeling workflow, including the CT scans and bone label masks can be found at [image_data](https://github.com/diku-dk/libhip/tree/main/models/image_data) and [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap), respectively.
+<!-- * The input to our modeling workflow, including the CT scans and bone label masks can be found at [image_data](https://github.com/diku-dk/libhip/tree/main/models/image_data) and [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap), respectively. -->
 <!-- * The multi-body surface mesh of each subject, including the remeshed and cleaned bone models and cartilage surface meshes are provided in [cargen_output](/Users/nsv780/Documents/Github/libhip/model_generation/cargen_output). -->
 * The output of the volume mesh generation including the surface and volume mesh ofeach subject is provided in [surface_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/surface_mesh) and [volume_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/volume_mesh), respectively.
+
+## Tutorial for running the code
+### Image Data
+The input to our modeling workflow is the surface mesh of the bony structures. These models are based on CT scans obtained from the open-access [Cancer Imaging Archive](https://www.cancerimagingarchive.net). We further crop the CT scans to the hip joint area to minimize the computational load during segmentation. Next, the cropped images are stored in NIFTI format in the [image_data](https://github.com/diku-dk/libhip/tree/main/models/image_data). folder. Below you can find the specification of each subject. For detailed data please refer to the manuscript and the Cancer Imaging Archive website.
+
+| Model | Sex | Age | Cancer Imaging Archive ID |
+| --- | --- | --- | --- |
+|m1 | Male | 65 | TCGA-4Z-AA7M |
+|m2 | Male | 64 | TCGA-4Z-AA7O |
+|m3 | Male | 65 | TCGA-4Z-AA7S |
+|m4 | Male | 56 | TCGA-4Z-AA7W |
+|m5 | Male | 73 | TCGA-4Z-AA80 |
+|m6 | Male | 62 | TCGA-4Z-AA84 |
+|m7 | Male | 51 | 1.3.6.1.4.1.9328.50.4.4.0004 |
+|m8 | Male | 50 | ABD_LYMPH_039 |
+|m9 | Male | 60 | 1.3.6.1.4.1.9328.50.4.4.0002 |
+|m10 | Male | 71 | 1.3.6.1.4.1.9328.50.4.4.0040 |
+|m11 | Male | N.A | 1.3.6.1.4.1.9328.50.4.4.0051 |
+
+<!-- |m1 | Male | 65 | GE LightSpeed VCT | [0.85, 0.85, 1.25]  | 365x221x291 | TCGA-4Z-AA7M|
+|m2 | Male | 64 | GE LightSpeed VCT| [0.78, 0.78, 1.25] |  394x215x257|TCGA-4Z-AA7O |
+|m3 | Male | 65 | Siemens Emotion 6|  [0.82, 0.82, 2.5]|  378x199x244| TCGA-4Z-AA7S|
+|m4 | Male | 56 | GE LightSpeed VCT| [0.90, 0.90, 1.25] | 362x184x236 |TCGA-4Z-AA7W |
+|m5 | Male | 73 | GE LightSpeed VCT|  [0.87, 0.87, 1.25]| 389x226x265 |TCGA-4Z-AA80 |
+|m6 | Male | 62 | Siemens Emotion 6|  [0.69, 0.69, 2.5]| 436x256x206 |TCGA-4Z-AA84 |
+|m7 | Male | 51 | Siemens Sensation 64| [0.78, 0.78, 1.00] | 405x232x250 | 1.3.6.1.4.1.9328.50.4.4.0004 |
+|m8 | Male | 50 | N.A| [0.97, 0.97, -] | 399x250x290 | ABD_LYMPH_039 |
+|m9 | Male | 60 | Siemens Sensation 64| [0.78, 0.78, 1.00] | 427x254x318 | 1.3.6.1.4.1.9328.50.4.4.0002 |
+|m10 | Male | 71 | Siemens Sensation 16 | [0.80, 0.80, 1.00] | 400x285x289 | 1.3.6.1.4.1.9328.50.4.4.0040 |
+|m11 | Male | N.A | Siemens Sensation 16 | [0.82, 0.82, 1.00] | 404x230x283 | 1.3.6.1.4.1.9328.50.4.4.0051 | -->
+
+### Bone geometry reconstruction
+We obtain an explicit surface representation of all the bones using a semi-automated approach
+implemented in the [3D slicer software package](https://www.slicer.org). The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. All the bone segmentation are verified by our [senior consultant radiologist](https://research.regionh.dk/rigshospitalet/en/persons/michael-bachmann-nielsen(87d575e5-755e-4182-b94d-75776981fc21)/publications.html). The bone label masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder.
+
+    
+
+- Step 2: xxx 
+- Step 3: xxx 
+- Step 4: xxx 
+- Step 5: xxx 
 
 ## Installation
 First, setup your conda environment for jupyter notebooks as below: 
@@ -34,14 +75,6 @@ Remember to activate your environment upon running the juyter notebook:
 conda activate libhip
 jupyter notebook
 ```
-
-## Tutorial for running the code
-
-- Step 1: xxx 
-- Step 2: xxx 
-- Step 3: xxx 
-- Step 4: xxx 
-- Step 5: xxx 
 
 ## Citation
 Please cite this work by using this reference:
