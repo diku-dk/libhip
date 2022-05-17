@@ -58,6 +58,10 @@ We apply a specialized geometry processing method to generate subject-specific c
 
 Our [cartilage reconstruction code](https://github.com/diku-dk/libhip/blob/main/notebooks/1_CarGen.ipynb) adds new ideas to this algorithm to improve the hip joint results and extend this method to the paired sacroiliac joints and the pubic symphysis. The multi-body surface mesh of each subject, including the bone models and cartilage surface meshes are provided in [cargen_output](/Users/nsv780/Documents/Github/libhip/model_generation/cargen_output) folder.
 
+<p align="center">
+<img width="700" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168859866-32300557-0988-403d-b91a-c647826f97d7.png">
+</p>
+
 ### 3. Multi-body Volume Mesh Generation
 Using [fTetWild](https://wildmeshing.github.io/ftetwild/), we create volume mesh for all the sub-domains simultaneously, ensuring neither overlapping nor gaps in the interfaces. This method welds the interface nodes together in the meshing step, avoiding further contact definitions in the simulation setup.
 
