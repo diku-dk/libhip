@@ -104,17 +104,17 @@ Please cite this work by using this reference:
 - Soon to be added due to review process.
 
 ## Acknowledgement 
-❤️ We would like to thank the [Libigl](https://libigl.github.io) team, as the core of CarGen algorithm is based on the various functions available in the Libigl library.
+- We would like to thank the [Libigl](https://libigl.github.io) team, as the core of LibHip algorithm is based on the various functions available in the Libigl library.
 
-❤️ This project has received funding from the European Union’s Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No. 764644.
+🌈 This project has received funding from the European Union’s Horizon 2020 research and innovation programme under the Marie Sklodowska-Curie grant agreement No. 764644.
 This repository only contains the [RAINBOW](https://rainbow.ku.dk) consortium’s views and the Research Executive Agency and the Commission are not responsible for any use that may be made of the information it contains.
 
 ![Webp net-resizeimage](https://user-images.githubusercontent.com/45920627/132510734-41c835fc-2502-4461-b3fd-770668d43c9d.jpg)
 
 
-❤️ This work was partially supported by the NSF CAREER award under Grant No. 1652515, the NSF grants OAC-1835712, OIA-1937043, CHS-1908767, CHS-1901091, NSERC DGECR-2021-00461 and RGPIN-2021-03707, a Sloan Fellowship, a gift from Adobe Research and a gift from Advanced Micro Devices, Inc. 
+- This work was partially supported by the NSF CAREER award under Grant No. 1652515, the NSF grants OAC-1835712, OIA-1937043, CHS-1908767, CHS-1901091, NSERC DGECR-2021-00461 and RGPIN-2021-03707, a Sloan Fellowship, a gift from Adobe Research and a gift from Advanced Micro Devices, Inc. 
 
-❤️ We thank the NYU IT High Performance Computing for resources, services, and staff expertise.
+- We thank the NYU IT High Performance Computing for resources, services, and staff expertise.
 
 
 
