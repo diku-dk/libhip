@@ -41,7 +41,7 @@ We further crop the CT scans to the hip joint area to minimize the computational
 We obtain an explicit surface representation of all the bones using a semi-automated approach
 implemented in the [3D slicer software package](https://www.slicer.org). The bone contours and the existing gaps in the inter-bone cavities are verified by our senior [consultant radiologist](https://research.regionh.dk/rigshospitalet/en/persons/michael-bachmann-nielsen(87d575e5-755e-4182-b94d-75776981fc21)/publications.html). 
 
-The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. These label masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder for each subject.
+The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. These segmentation masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder for each subject.
 
 <p align="center">
 <img width="700" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168824937-d35f5aa8-21a9-4cd1-9ee0-7f02f6d4ec70.png">
