@@ -53,6 +53,8 @@ Our [volume generation code](https://github.com/diku-dk/libhip/blob/main/noteboo
 
 The output of the volume mesh generation including the surface and volume mesh of each subject is provided in [surface_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/surface_mesh) and [volume_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/volume_mesh), respectively.
 
+We deliver two mesh densities for each subject: Fine and coarse meshes. The reason is to show that our pipeline can provide different mesh resolutions depending on the users’ computational resources.
+
 ### Finite Element Simulation
 
 
