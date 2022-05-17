@@ -67,14 +67,12 @@ Our [volume generation code](https://github.com/diku-dk/libhip/blob/main/noteboo
 <img width="800" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168844422-39654fdb-5f2b-45d8-9ec0-aff3b1f2f562.png">
 </p>
 
-The output of the volume mesh generation including the surface and volume mesh of each subject is provided in [surface_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/surface_mesh) and [volume_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/volume_mesh), respectively.
-
-We deliver two mesh densities for each subject: Fine and coarse meshes. The reason is to show that our pipeline can provide different mesh resolutions depending on the users’ computational resources.
+The output of the volume mesh generation including the surface and volume mesh of each subject is provided in [surface_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/surface_mesh) and [volume_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/volume_mesh), respectively. We deliver two mesh densities for each subject: *fine* and *coarse* meshes. The reason is to show that our pipeline can provide different mesh resolutions depending on the users’ computational resources.
 
 ### 4. Finite Element Simulation
-We use two different finite element solvers to to run simulations. We demonstrate the usability of our models with the off-the-shelves FEBio solver, and we study the importance of bilateral modeling in the hip joint area using PolyFEM. 
+We use two different finite element solvers to to run simulations. We demonstrate the usability of our models with the off-the-shelves [FEBio solver](https://febio.org), and we study the importance of bilateral modeling in the hip joint area using [PolyFEM](https://polyfem.github.io). 
 
-Our [simulation generator code](https://github.com/diku-dk/libhip/blob/main/notebooks/3_SimGen.ipynb), generates .feb files automatically which can be run in FEBio 3. All the simulation files and the simulation results are located in the [finite element](https://github.com/diku-dk/libhip/tree/main/model_repository/finite_element) folder.
+Our [simulation generator code](https://github.com/diku-dk/libhip/blob/main/notebooks/3_SimGen.ipynb), generates `.feb` files automatically which can be run in FEBio 3. All the simulation files and the simulation results are located in the [finite element](https://github.com/diku-dk/libhip/tree/main/model_repository/finite_element) folder.
 
 ## Installation
 First, setup your conda environment for jupyter notebooks as below: 
