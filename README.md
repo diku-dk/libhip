@@ -63,6 +63,10 @@ Using [fTetWild](https://wildmeshing.github.io/ftetwild/), we create volume mesh
 
 Our [volume generation code](https://github.com/diku-dk/libhip/blob/main/notebooks/2_VolGen.ipynb) generates volume meshes inside and outside the model, filling a bounding box around the model. These tetrahedrons still have no inside/out classification. Thus, we apply a post-processing step to extract the interior volume of each object and filter out the elements that do not belong to any of the objects. 
 
+<p align="center">
+<img width="800" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168844422-39654fdb-5f2b-45d8-9ec0-aff3b1f2f562.png">
+</p>
+
 The output of the volume mesh generation including the surface and volume mesh of each subject is provided in [surface_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/surface_mesh) and [volume_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/volume_mesh), respectively.
 
 We deliver two mesh densities for each subject: Fine and coarse meshes. The reason is to show that our pipeline can provide different mesh resolutions depending on the users’ computational resources.
