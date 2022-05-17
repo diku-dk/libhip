@@ -17,7 +17,10 @@
 
 ## Tutorial for running the code
 ### Image Data
-The input to our modeling workflow is the surface mesh of the bony structures. These models are based on CT scans obtained from the open-access [Cancer Imaging Archive](https://www.cancerimagingarchive.net). We further crop the CT scans to the hip joint area to minimize the computational load during segmentation. Next, the cropped images are stored in NIFTI format in the [image_data](https://github.com/diku-dk/libhip/tree/main/models/image_data). folder. Below you can find the specification of each subject. For detailed data please refer to the manuscript and the Cancer Imaging Archive website.
+The input to our modeling workflow is the surface mesh of the bony structures. These models are based on CT scans obtained from the open-access [Cancer Imaging Archive](https://www.cancerimagingarchive.net). You can find the original images by browsing through the website, using the ID provided for each subject in the table below.
+
+We further crop the CT scans to the hip joint area to minimize the computational load during segmentation and store the in NIFTI format. This data is located in the [image_data](https://github.com/diku-dk/libhip/tree/main/models/image_data) folder.
+
 
 | Model | Sex | Age | Cancer Imaging Archive ID |
 | --- | --- | --- | --- |
@@ -33,21 +36,12 @@ The input to our modeling workflow is the surface mesh of the bony structures. T
 |m10 | Male | 71 | 1.3.6.1.4.1.9328.50.4.4.0040 |
 |m11 | Male | N.A | 1.3.6.1.4.1.9328.50.4.4.0051 |
 
-<!-- |m1 | Male | 65 | GE LightSpeed VCT | [0.85, 0.85, 1.25]  | 365x221x291 | TCGA-4Z-AA7M|
-|m2 | Male | 64 | GE LightSpeed VCT| [0.78, 0.78, 1.25] |  394x215x257|TCGA-4Z-AA7O |
-|m3 | Male | 65 | Siemens Emotion 6|  [0.82, 0.82, 2.5]|  378x199x244| TCGA-4Z-AA7S|
-|m4 | Male | 56 | GE LightSpeed VCT| [0.90, 0.90, 1.25] | 362x184x236 |TCGA-4Z-AA7W |
-|m5 | Male | 73 | GE LightSpeed VCT|  [0.87, 0.87, 1.25]| 389x226x265 |TCGA-4Z-AA80 |
-|m6 | Male | 62 | Siemens Emotion 6|  [0.69, 0.69, 2.5]| 436x256x206 |TCGA-4Z-AA84 |
-|m7 | Male | 51 | Siemens Sensation 64| [0.78, 0.78, 1.00] | 405x232x250 | 1.3.6.1.4.1.9328.50.4.4.0004 |
-|m8 | Male | 50 | N.A| [0.97, 0.97, -] | 399x250x290 | ABD_LYMPH_039 |
-|m9 | Male | 60 | Siemens Sensation 64| [0.78, 0.78, 1.00] | 427x254x318 | 1.3.6.1.4.1.9328.50.4.4.0002 |
-|m10 | Male | 71 | Siemens Sensation 16 | [0.80, 0.80, 1.00] | 400x285x289 | 1.3.6.1.4.1.9328.50.4.4.0040 |
-|m11 | Male | N.A | Siemens Sensation 16 | [0.82, 0.82, 1.00] | 404x230x283 | 1.3.6.1.4.1.9328.50.4.4.0051 | -->
 
 ### Bone geometry reconstruction
 We obtain an explicit surface representation of all the bones using a semi-automated approach
-implemented in the [3D slicer software package](https://www.slicer.org). The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. All the bone segmentation are verified by our [senior consultant radiologist](https://research.regionh.dk/rigshospitalet/en/persons/michael-bachmann-nielsen(87d575e5-755e-4182-b94d-75776981fc21)/publications.html). The bone label masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder.
+implemented in the [3D slicer software package](https://www.slicer.org). The bone bone contours and the existing gaps in the inter-bone cavities are verified by our [senior consultant radiologist](https://research.regionh.dk/rigshospitalet/en/persons/michael-bachmann-nielsen(87d575e5-755e-4182-b94d-75776981fc21)/publications.html). 
+
+The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. These label masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder for each subject.
 
     
 
@@ -93,3 +87,18 @@ This repository only contains the [RAINBOW](https://rainbow.ku.dk) consortium’
 ❤️ This work was partially supported by the NSF CAREER award under Grant No. 1652515, the NSF grants OAC-1835712, OIA-1937043, CHS-1908767, CHS-1901091, NSERC DGECR-2021-00461 and RGPIN-2021-03707, a Sloan Fellowship, a gift from Adobe Research and a gift from Advanced Micro Devices, Inc. 
 
 ❤️ We thank the NYU IT High Performance Computing for resources, services, and staff expertise.
+
+
+
+
+<!-- |m1 | Male | 65 | GE LightSpeed VCT | [0.85, 0.85, 1.25]  | 365x221x291 | TCGA-4Z-AA7M|
+|m2 | Male | 64 | GE LightSpeed VCT| [0.78, 0.78, 1.25] |  394x215x257|TCGA-4Z-AA7O |
+|m3 | Male | 65 | Siemens Emotion 6|  [0.82, 0.82, 2.5]|  378x199x244| TCGA-4Z-AA7S|
+|m4 | Male | 56 | GE LightSpeed VCT| [0.90, 0.90, 1.25] | 362x184x236 |TCGA-4Z-AA7W |
+|m5 | Male | 73 | GE LightSpeed VCT|  [0.87, 0.87, 1.25]| 389x226x265 |TCGA-4Z-AA80 |
+|m6 | Male | 62 | Siemens Emotion 6|  [0.69, 0.69, 2.5]| 436x256x206 |TCGA-4Z-AA84 |
+|m7 | Male | 51 | Siemens Sensation 64| [0.78, 0.78, 1.00] | 405x232x250 | 1.3.6.1.4.1.9328.50.4.4.0004 |
+|m8 | Male | 50 | N.A| [0.97, 0.97, -] | 399x250x290 | ABD_LYMPH_039 |
+|m9 | Male | 60 | Siemens Sensation 64| [0.78, 0.78, 1.00] | 427x254x318 | 1.3.6.1.4.1.9328.50.4.4.0002 |
+|m10 | Male | 71 | Siemens Sensation 16 | [0.80, 0.80, 1.00] | 400x285x289 | 1.3.6.1.4.1.9328.50.4.4.0040 |
+|m11 | Male | N.A | Siemens Sensation 16 | [0.82, 0.82, 1.00] | 404x230x283 | 1.3.6.1.4.1.9328.50.4.4.0051 | -->
