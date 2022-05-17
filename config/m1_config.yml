@@ -1,0 +1,114 @@
+## subject information
+#subject:
+#    subject_id: m1
+# parameters for the left hip joint acetabular cartilage
+lhj_ac_var:
+    gap_distance: 4.2
+    trimming_iteration: 1
+    smoothing_factor:  0.5             # default
+    smoothing_iteration_base: 2        # default
+    no_extend_trimming_iteration: 1
+    w_gap_thickness_factor: 0.45       # default
+    wo_gap_thickness_factor: 0.50      # default
+    bandwidth:  2                      # default
+    blending_order:  2                 # default
+    full_model: True                   # default
+
+# parameters for the left hip joint femoral cartilage
+lhj_fc_var:
+    trimming_iteration: 2
+    neighbourhood_size: 8
+    curvature_type: "mean"             # default
+    curve_info: False                  # default
+    min_curvature_threshold: 0.026     # default
+    max_curvature_threshold: .inf      # default
+    trimming_base_iteration: 1         # default
+    smoothing_factor: 0.5              # default
+    smoothing_iteration_base: 2        # default
+    w_gap_thickness_factor: 0.45       # default
+    wo_gap_thickness_factor: 0.50      # default
+    bandwidth: 3
+    blending_order: 2                  # default
+    full_model: True                   # default
+
+# parameters for the left sacroiliac joint
+lsj_var:
+    gap_distance: 4.4
+    trimming_iteration_p: 0
+    smoothing_iteration_base: 3
+    smoothing_factor: 0.5                 # default
+    fix_boundary: True                    # default
+    trimming_iteration_s: 0
+    smoothing_iteration_extruded_base: 2  # default
+    upsampling_iteration: 0               # default
+    full_model: True                      # default
+
+# parameters for the right hip joint acetabular cartilage
+rhj_ac_var:
+    gap_distance: 5.3
+    trimming_iteration: 3
+    smoothing_factor: 0.5                 # default
+    smoothing_iteration_base: 2           # default
+    no_extend_trimming_iteration: 1
+    w_gap_thickness_factor: 0.45          # default
+    wo_gap_thickness_factor: 0.50         # default
+    bandwidth: 2                          # default
+    blending_order: 2                     # default
+    full_model: True                      # default
+
+# parameters for the right hip joint femoral cartilage
+rhj_fc_var:
+    trimming_iteration: 1
+    neighbourhood_size: 8
+    curvature_type: "mean"                 # default
+    curve_info: False                      # default
+    min_curvature_threshold: 0.026         # default
+    max_curvature_threshold: .inf          # default
+    trimming_base_iteration: 1             # default
+    smoothing_factor: 0.5                  # default
+    smoothing_iteration_base: 2            # default
+    w_gap_thickness_factor: 0.45           # default
+    wo_gap_thickness_factor: 0.50          # default
+    bandwidth: 2                           # default
+    blending_order: 2                      # default
+    full_model: True                       # default
+
+# parameters for the right sacroiliac joint
+rsj_var:
+    gap_distance: 3.8
+    trimming_iteration_p: 1
+    smoothing_iteration_base: 3
+    smoothing_factor: 0.5                 # default
+    fix_boundary: True                    # default
+    trimming_iteration_s:  0
+    smoothing_iteration_extruded_base: 3
+    upsampling_iteration: 0               # default
+    full_model: True                      # default
+
+# parameters for the pubic joint
+pj_var:
+    gap_distance: 7
+    trimming_iteration_p: 2
+    trimming_iteration_s: 2
+    smoothing_iteration_base: 2
+    smoothing_factor: 0.5                  # default
+    fix_boundary: True                     # default
+    smoothing_iteration_extruded_base: 2
+    upsampling_iteration: 0                # default
+    full_model: True                       # default
+
+# parameters for volume mesh generation
+vol_var:
+    epsilon_coarse: 0.0005                # default
+    epsilon_fine: 0.0005                  # default
+    edge_length_leg_coarse: 0.020         # default
+    edge_length_leg_fine: 0.006           # default
+    edge_length_girdle_coarse: 0.024      # default
+    edge_length_girdle_fine: 0.007        # default
+
+# parameters for simulation file generation
+sim_var:
+    lf_z_coord: -0.78                     # default
+    rf_z_coord: -0.78                     # default
+
+
