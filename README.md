@@ -12,8 +12,8 @@
 <img width="603" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/166197148-373c2553-6d1f-44c2-a4db-4168733bd6a2.png">
 
 * The input to our modeling workflow, including the CT scans and bone label masks can be found at [image_data](https://github.com/diku-dk/libhip/tree/main/models/image_data) and [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap), respectively.
-* The multi-body surface mesh of each subject, including the remeshed and cleaned bone models and cartilage surface meshes are provided in X.
-* The output of the volume mesh including the surface andvolume mesh ofeach subject is provided in Y.
+<!-- * The multi-body surface mesh of each subject, including the remeshed and cleaned bone models and cartilage surface meshes are provided in [cargen_output](/Users/nsv780/Documents/Github/libhip/model_generation/cargen_output). -->
+* The output of the volume mesh generation including the surface and volume mesh ofeach subject is provided in [surface_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/surface_mesh) and [volume_mesh](http://localhost:8888/tree/Documents/Github/libhip/model_repository/volume_mesh), respectively.
 
 ## Installation
 First, setup your conda environment for jupyter notebooks as below: 
