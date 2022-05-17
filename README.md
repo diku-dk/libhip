@@ -39,7 +39,7 @@ We further crop the CT scans to the hip joint area to minimize the computational
 
 ### 1. Bone Geometry Reconstruction
 We obtain an explicit surface representation of all the bones using a semi-automated approach
-implemented in the [3D slicer software package](https://www.slicer.org). The bone bone contours and the existing gaps in the inter-bone cavities are verified by our senior [consultant radiologist](https://research.regionh.dk/rigshospitalet/en/persons/michael-bachmann-nielsen(87d575e5-755e-4182-b94d-75776981fc21)/publications.html). 
+implemented in the [3D slicer software package](https://www.slicer.org). The bone contours and the existing gaps in the inter-bone cavities are verified by our senior [consultant radiologist](https://research.regionh.dk/rigshospitalet/en/persons/michael-bachmann-nielsen(87d575e5-755e-4182-b94d-75776981fc21)/publications.html). 
 
 The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. These label masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder for each subject.
 
