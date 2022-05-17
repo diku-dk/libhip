@@ -46,7 +46,7 @@ The initial [raw surface mesh](https://github.com/diku-dk/libhip/tree/main/model
 <img width="603" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168812343-6b0675fd-779b-4619-90cc-a7c4fce3881e.png">
 
 ### Cartilage Geometry Reconstruction
-We apply a specialized geometry processing method to generate subject-specific cartilages in the hip joint area. This method was initially introduced by [Moshfeghifar et al.](https://doi.org/10.48550/arXiv.2203.10667) to generate subject-specific hip joint cartilages independent of image modalities. 
+We apply a specialized geometry processing method to generate subject-specific cartilages in the hip joint area. This method was initially introduced by [Moshfeghifar et al. [2022]](https://doi.org/10.48550/arXiv.2203.10667) to generate subject-specific hip joint cartilages independent of image modalities. 
 
 Our [cartilage reconstruction code](https://github.com/diku-dk/libhip/blob/main/notebooks/1_CarGen.ipynb) adds new ideas to this algorithm to improve the hip joint results and extend this method to the paired sacroiliac joints and the pubic symphysis. The multi-body surface mesh of each subject, including the bone models and cartilage surface meshes are provided in [cargen_output](/Users/nsv780/Documents/Github/libhip/model_generation/cargen_output) folder.
 
