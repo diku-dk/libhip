@@ -56,7 +56,9 @@ The output of the volume mesh generation including the surface and volume mesh o
 We deliver two mesh densities for each subject: Fine and coarse meshes. The reason is to show that our pipeline can provide different mesh resolutions depending on the users’ computational resources.
 
 ### Finite Element Simulation
+We use two different finite element solvers to to run simulations. We demonstrate the usability of our models with the off-the-shelves FEBio solver, and we study the importance of bilateral modeling in the hip joint area using PolyFEM. 
 
+Our [simulation generator code](https://github.com/diku-dk/libhip/blob/main/notebooks/3_SimGen.ipynb), generates .feb files automatically which can be run in FEBio 3. All the simulation files and the simulation results are located in the [finite element](https://github.com/diku-dk/libhip/tree/main/model_repository/finite_element) folder.
 
 ## Installation
 First, setup your conda environment for jupyter notebooks as below: 
