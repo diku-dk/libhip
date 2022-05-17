@@ -19,7 +19,7 @@ We further crop the CT scans to the hip joint area to minimize the computational
 
 
 | Model | Sex | Age | Cancer Imaging Archive ID |
-| --- | --- | --- | --- |
+| --- | --- | --- | --- | 
 |m1 | Male | 65 | TCGA-4Z-AA7M |
 |m2 | Male | 64 | TCGA-4Z-AA7O |
 |m3 | Male | 65 | TCGA-4Z-AA7S |
@@ -30,7 +30,7 @@ We further crop the CT scans to the hip joint area to minimize the computational
 |m8 | Male | 50 | ABD_LYMPH_039 |
 |m9 | Male | 60 | 1.3.6.1.4.1.9328.50.4.4.0002 |
 |m10 | Male | 71 | 1.3.6.1.4.1.9328.50.4.4.0040 |
-|m11 | Male | N.A | 1.3.6.1.4.1.9328.50.4.4.0051 |
+|m11 | Male | -- | 1.3.6.1.4.1.9328.50.4.4.0051 |
 
 
 ### Bone Geometry Reconstruction
@@ -39,7 +39,11 @@ implemented in the [3D slicer software package](https://www.slicer.org). The bon
 
 The region of interest in these models include the sacrum bone, the paired hip bones, and the paired femur bones. These label masks can be found in the [segmentation_labelmap](https://github.com/diku-dk/libhip/tree/main/models/segmentation_labelmap) folder for each subject.
 
+<img width="603" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168824937-d35f5aa8-21a9-4cd1-9ee0-7f02f6d4ec70.png">
+
 The initial [raw surface mesh](https://github.com/diku-dk/libhip/tree/main/model_repository/slicer_raw_output) transferred from the bone label maps are typically dense and may have poor quality. Our [pre-processing code](https://github.com/diku-dk/libhip/blob/main/notebooks/0_PreProcessing.ipynb) cleans and remeshes the surface meshes using mainly the [fTetWild](https://wildmeshing.github.io/ftetwild/) and [Libigl](https://libigl.github.io) libraries. You can find the cleaned and remeshed models in the [preprocessing_output](https://github.com/diku-dk/libhip/tree/main/model_repository/slicer_raw_output) folder for each subject.
+
+<img width="603" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168812343-6b0675fd-779b-4619-90cc-a7c4fce3881e.png">
 
 ### Cartilage Geometry Reconstruction
 We apply a specialized geometry processing method to generate subject-specific cartilages in the hip joint area. This method was initially introduced by [Moshfeghifar et al.](https://doi.org/10.48550/arXiv.2203.10667) to generate subject-specific hip joint cartilages independent of image modalities. 
