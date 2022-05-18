@@ -28,7 +28,7 @@ Following, we explain our modeling pipeline step-by-step and guid you through th
 ### 0. Image Data
 The input to our modeling workflow is the surface mesh of the bony structures. These models are based on CT scans obtained from the open-access [Cancer Imaging Archive](https://www.cancerimagingarchive.net). You can find the original images by browsing through the website, using the ID provided for each subject in the table below.
 
-We further crop the CT scans to the hip joint area to minimize the computational load during segmentation and stored them in the NIFTI format. The cropped CT scans are located in the [image_data](https://github.com/diku-dk/libhip/tree/main/models/image_data) folder.
+We further crop the CT scans to the hip joint area to minimize the computational load during segmentation and stored them in the NIFTI format. The cropped CT scans are located in the [image_data](https://github.com/diku-dk/libhip/tree/main/model_repository/image_data) folder.
 
 <div align="center">
   
