@@ -1223,7 +1223,7 @@ def get_wall_sweep(t_vertices, t_faces, b_vertices, b_faces):
     b_center = np.average(b_vertices, axis=0)
     b_center = np.array([b_center])
 
-    x_centefr = 0.5 * (b_center + t_center)
+    x_center = 0.5 * (b_center + t_center)
 
     sd, _, cd1 = igl.signed_distance(x_center, t_vertices, t_faces, return_normals=False)
     sd, _, cd2 = igl.signed_distance(x_center, b_vertices, b_faces, return_normals=False)
