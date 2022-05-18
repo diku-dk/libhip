@@ -16,9 +16,11 @@
 ## Data Structure
 This repository consists of five main sections:
 - The [model repository](https://github.com/diku-dk/libhip/tree/main/model_repository) folder contains all the research data belonging to 11 subjects: the clinical images, the segmentation label maps, the milti-body surface and volume meshes, and the finite element models.
-- The [src](https://github.com/diku-dk/libhip/tree/main/src) folder contains our source codes of the modeling pipeline. These functions are called by the Jupyter notebooks in the `notebooks` folder.
-- The [notebooks](https://github.com/diku-dk/libhip/tree/main/notebooks) folder contains the preprocessing, the cartilage generation, the volume mesh generation, and the simulation file generation codes. These notebooks call the source codes from the `src` folder. 
-- The [config](https://github.com/diku-dk/libhip/tree/main/config) folder contains the subject-specific configurations which you need for each subject. A detailed explanation of each parameter is explained in the folder. 
+- The [src](https://github.com/diku-dk/libhip/tree/main/src), [notebooks](https://github.com/diku-dk/libhip/tree/main/notebooks), and the [config](https://github.com/diku-dk/libhip/tree/main/config) folders contains the codes that we used to create theese models.
+  - The `src` folder contains our source codes of the modeling pipeline. These functions are called by the Jupyter notebooks in the *notebooks* folder.
+  - The `notebooks` folder contains the preprocessing, the cartilage generation, the volume mesh generation, and the simulation file generation codes.       These notebooks call the source codes from the *src* folder. 
+  - The `config` folder contains the subject-specific configurations which you need for each subject. These parameters are called by the files in the *notebooks* folder during the modeling pipeline.
+
 ##
 Following we explain the our modeling pipeline and guid you through the existing codes and model folders:
 
