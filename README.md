@@ -13,7 +13,15 @@
 <img width="700" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/166197148-373c2553-6d1f-44c2-a4db-4168733bd6a2.png">
 </p>
 
+## Data Structure
+This repository consists of five main sections:
+- The [model repository](https://github.com/diku-dk/libhip/tree/main/model_repository) folder contains all the research data belonging to 11 subjects: the clinical images, the segmentation label maps, the milti-body surface and volume meshes, and the finite element models.
+- The [src](https://github.com/diku-dk/libhip/tree/main/src) folder contains our source codes of the modeling pipeline. These functions are called by the Jupyter notebooks in the `notebooks` folder.
+- The [notebooks](https://github.com/diku-dk/libhip/tree/main/notebooks) folder contains the preprocessing, the cartilage generation, the volume mesh generation, and the simulation file generation codes. These notebooks call the source codes from the `src` folder. 
+- The [config](https://github.com/diku-dk/libhip/tree/main/config) folder contains the subject-specific configurations which you need for each subject. A detailed explanation of each parameter is explained in the folder. 
 ##
+Following we explain the our modeling pipeline and guid you through the existing codes and model folders:
+
 ### 0. Image Data
 The input to our modeling workflow is the surface mesh of the bony structures. These models are based on CT scans obtained from the open-access [Cancer Imaging Archive](https://www.cancerimagingarchive.net). You can find the original images by browsing through the website, using the ID provided for each subject in the table below.
 
