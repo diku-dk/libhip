@@ -98,18 +98,23 @@ conda create -n libhip
 conda activate libhip
 conda config --add channels conda-forge
 ```
-Next, install the following packages in the cargen enviroment:
+Next, install the following packages in the libhip enviroment:
 ```python
 conda install igl
 conda install meshplot 
 conda install ipympl
 conda install jupyter
+conda install -c conda-forge matplotlib
+conda install pandas
+conda install -c conda-forge time
+conda install -c conda-forge matplotlib
 ```
 Remember to activate your environment upon running the juyter notebook: 
 ```python
 conda activate libhip
 jupyter notebook
 ```
+Further, [install](https://wildmeshing.github.io/ftetwild/) the fTetWild library using CMake on your machine.
 
 ## Citation
 Please cite this work by using this reference:
