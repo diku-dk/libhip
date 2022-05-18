@@ -37,7 +37,7 @@ class LhjAc:
         self.bandwidth: float = config["lhj_ac_var"]["bandwidth"]
         self.blending_order: int = config["lhj_ac_var"]["blending_order"]
         self.full_model = config["lhj_ac_var"]["full_model"]
-        self.subject_id: str = config["lhj_ac_var"]["subject_id"]
+        # self.subject_id: str = config["lhj_ac_var"]["subject_id"]
 
 class LhjFc:
     def __init__(self, config):
@@ -55,7 +55,7 @@ class LhjFc:
         self.bandwidth: float = config["lhj_fc_var"]["bandwidth"]
         self.blending_order: int = config["lhj_fc_var"]["blending_order"]
         self.full_model = config["lhj_fc_var"]["full_model"]
-        self.subject_id: str = config["lhj_fc_var"]["subject_id"]
+        # self.subject_id: str = config["lhj_fc_var"]["subject_id"]
 
 class Lsj:
     def __init__(self, config):
@@ -68,7 +68,7 @@ class Lsj:
         self.smoothing_iteration_extruded_base: int = config["lsj_var"]["smoothing_iteration_extruded_base"]
         self.upsampling_iteration: int = config["lsj_var"]["upsampling_iteration"]
         self.full_model = config["lsj_var"]["full_model"]
-        self.subject_id: str = config["lsj_var"]["subject_id"]
+        # self.subject_id: str = config["lsj_var"]["subject_id"]
 
 class RhjAc:
     def __init__(self, config):
@@ -82,7 +82,7 @@ class RhjAc:
         self.bandwidth: float = config["rhj_ac_var"]["bandwidth"]
         self.blending_order: int = config["rhj_ac_var"]["blending_order"]
         self.full_model = config["rhj_ac_var"]["full_model"]
-        self.subject_id: str = config["rhj_ac_var"]["subject_id"]
+        # self.subject_id: str = config["rhj_ac_var"]["subject_id"]
 
 class RhjFc:
     def __init__(self, config):
@@ -100,7 +100,7 @@ class RhjFc:
         self.bandwidth: float = config["rhj_fc_var"]["bandwidth"]
         self.blending_order: int = config["rhj_fc_var"]["blending_order"]
         self.full_model = config["rhj_fc_var"]["full_model"]
-        self.subject_id: str = config["rhj_fc_var"]["subject_id"]
+        # self.subject_id: str = config["rhj_fc_var"]["subject_id"]
 
 class Rsj:
     def __init__(self, config):
@@ -113,7 +113,7 @@ class Rsj:
         self.smoothing_iteration_extruded_base: int = config["rsj_var"]["smoothing_iteration_extruded_base"]
         self.upsampling_iteration: int = config["rsj_var"]["upsampling_iteration"]
         self.full_model = config["rsj_var"]["full_model"]
-        self.subject_id: str = config["rsj_var"]["subject_id"]
+        # self.subject_id: str = config["rsj_var"]["subject_id"]
 
 class Pj:
     def __init__(self, config):
@@ -126,7 +126,7 @@ class Pj:
         self.smoothing_iteration_extruded_base: int = config["pj_var"]["smoothing_iteration_extruded_base"]
         self.upsampling_iteration: int = config["pj_var"]["upsampling_iteration"]
         self.full_model = config["pj_var"]["full_model"]
-        self.subject_id: str = config["pj_var"]["subject_id"]
+        # self.subject_id: str = config["pj_var"]["subject_id"]
 
 class VolGen:
     def __init__(self, config):
@@ -142,8 +142,13 @@ class SimGen:
         self.lf_z_coord: float = config["sim_var"]["lf_z_coord"]
         self.rf_z_coord: float = config["sim_var"]["rf_z_coord"]
 
-class Config:
+class ReMsh:
+    def __init__(self, config):
+        self.remesh_epsilon: float = config["mesh_var"]["remesh_epsilon"]
+        self.remesh_edge_length_leg: float = config["mesh_var"]["remesh_edge_length_leg"]
+        self.remesh_edge_length_girdle: float = config["mesh_var"]["remesh_edge_length_girdle"]
 
+class Config:
     def __init__(self, config_path):
         self.config = None
         with  open(config_path) as fd:
@@ -157,6 +162,7 @@ class Config:
         self.pj_var = Pj(self.config)
         self.vol_var = VolGen(self.config)
         self.sim_var = SimGen(self.config)
+        self.mesh_var = ReMsh(self.config)
         # self.subject = SubInfo(self.config)
 
 # if __name__ == "__main__":

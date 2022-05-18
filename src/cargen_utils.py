@@ -6,14 +6,14 @@ import math
 import wildmeshing as wm
 import miniball
 import sys
+
 libisl_dir  = '/Users/nsv780/Documents/Github/libisl/python'
 sys.path.append (libisl_dir)
 from isl.geometry.surface_mesh import *
 
 
+def clean(vertices, faces):
 
-def clean(vertices,
-          faces):
     """
     this function removes duplicated faces and removes unreferenced vertices from the input mesh
 
@@ -30,8 +30,8 @@ def clean(vertices,
 
     return vertices, faces
 
-def read (path,
-          input_dimension):
+
+def read (path, input_dimension):
 
     """
     this function reads vertex and face information from an input surface mesh
@@ -51,8 +51,8 @@ def read (path,
 
     return vertices, faces
 
-def read_and_clean(path,
-                   input_dimension):
+
+def read_and_clean(path, input_dimension):
 
     """
     this function reads vertex and face information from an input surface mesh
@@ -74,6 +74,39 @@ def read_and_clean(path,
 
     return vertices, faces
 
+
+def remesh(vertices, faces, epsilon, edge_length):
+
+    """
+    We use fTetWild to mesh the volume of the surface boundary and re-extract the surface of the volume mesh as the resulting re-meshed surface.
+    Please refer to https://github.com/wildmeshing/fTetWild for more information.
+
+    :param vertices: list of vertex positions
+    :param faces: list of triangle indices
+    :param epsilon: the envelope of size epsilon. Using smaller envelope preserves features better but also takes longer time.
+    :param edge_length: the ideal edge length. Using smaller ideal edge length gives a denser mesh but also takes longer time.
+
+    :return: the set of vertices and faces of the re-meshed surface mesh
+    """
+    tetra = wm.Tetrahedralizer(epsilon=epsilon, edge_length_r=edge_length)
+    tetra.set_mesh(vertices, faces)
+    tetra.tetrahedralize()
+
+    remesh_vertices, remesh_tets = tetra.get_tet_mesh()
+    remesh_vertices, remesh_tets, _, _ = igl.remove_unreferenced(remesh_vertices, remesh_tets)
+
+    # only keep the surface mesh
+    remesh_faces = igl.boundary_facets(remesh_tets)
+
+    # flip the normals
+    flipped_remesh_faces = np.copy(remesh_faces)
+    flipped_remesh_faces[:, [0, 1]] = flipped_remesh_faces[:, [1, 0]]
+
+    rm_vertices, rm_faces = clean(remesh_vertices, flipped_remesh_faces)
+
+    print('number of triangles after re-meshing', len(rm_faces))
+
+    return rm_vertices, rm_faces
 
 
 def get_curvature_measures(vertices,
@@ -167,7 +200,6 @@ def get_initial_surface(vertices_p,
     return initial_face_idxs, np.round(np.min(sd_value),2)
 
 
-
 def get_initial_surface2(vertices_p,
                         faces_p,
                         vertices_s,
@@ -175,7 +207,7 @@ def get_initial_surface2(vertices_p,
                         gap_distance):
 
     """
-    this function selects the initial subset of the primary surface
+    This function selects the initial subset of the primary surface
 
     :param vertices_p: list of vertex positions of the primary surface
     :param faces_p: list of triangle indices of the primary surface
@@ -220,7 +252,7 @@ def get_initial_surface_bc(vertices_p,
                         gap_distance):
 
     """
-    this function selects the initial subset of the primary surface
+    This function selects the initial subset of the primary surface
 
     :param vertices_p: list of vertex positions of the primary surface
     :param faces_p: list of triangle indices of the primary surface
@@ -258,13 +290,12 @@ def get_initial_surface_bc(vertices_p,
     return initial_face_idxs, neigh_vertex_idxs
 
 
-
-
 def get_boundary_faces(faces,
                        sub_face_idxs,
                        face_adjacency, cumulative_sum):
+
     """
-    determines facet indices belonging to the boundary of a sub-region .
+    This function determines the facet indices belonging to the boundary of a sub-region.
 
     :param faces: list of faces where the sub-region is a part of
     :param sub_face_idxs: list of facet indices corresponding to the sub-region you want to find the boundary
@@ -291,8 +322,9 @@ def trim_boundary(faces,
                   face_adjacency,
                   cumulative_sum,
                   trimming_iteration):
+
     """
-    Trim the boundary of a sub-region
+    This function trims the boundary of a sub-region.
 
     :param faces: list of faces where the sub-region is a part of
     :param sub_face_idxs: list of facet indices corresponding to the region you want to trim
@@ -311,8 +343,9 @@ def trim_boundary(faces,
 
 def get_largest_component(faces,
                           sub_face_idxs):
+
     """
-    only keeps the largest component of a sub-region
+    This function only keeps the largest component of a sub-region.
 
     :param faces: list of faces where the sub-region is a part of
     :param sub_face_idxs: list of facet indices corresponding to the sub-region
@@ -331,8 +364,9 @@ def get_largest_component(faces,
 
 def remove_ears(faces,
                 sub_face_idxs):
+
     """
-    Removes any "ears" of the the sub-region.
+    This function removes any "ears" of the the sub-region.
     An "ear" refer to a single triangle with a vastly different normal than adjacent triangles
     See the illustration below for an example:
 
@@ -365,7 +399,7 @@ def grow_cartilage(faces,
                    max_curvature_threshold):
 
     """
-    grows the sub-region surface based on global curvature values
+    This function grows the sub-region surface based on global curvature values.
     TODO: Change this to be based on local curvature
 
     :param faces: list of faces where the sub-region is a part of
@@ -417,6 +451,7 @@ def assign_thickness(vertices_p,
                      faces_s,
                      sub_face_idxs,
                      thickness_factor):
+
     """
     this function assigns a thickness to all the primary vertices.
     The thickness of all the vertices outside the sub-region is set to zero
@@ -442,7 +477,6 @@ def assign_thickness(vertices_p,
 
     minz = (np.min ( sd_value) + np.mean(sd_value) ) /2
 
-
     # thickness of all the vertices outside the sub-region
     thickness_profile = np.zeros(vertices_p.shape[0])
 
@@ -461,8 +495,9 @@ def boundary_value(vertices,
                    internal_boundary,
                    thickness_profile,
                    blending_order):
+
     """
-    Computes the value at the boundary
+    This function computes the value at the boundary.
 
     :param vertices:
     :param faces:
@@ -489,8 +524,9 @@ def extrude_cartilage(vertices_p,
                       faces_p,
                       sub_face_idxs,
                       harmonic_weights):
+
     """
-    Extrudes the subset surface based on harmonic weights
+    This function extrudes the subset surface based on harmonic weights.
 
     :param vertices_p: list of vertex positions of the primary surface
     :param faces_p: list of triangle indices of the primary surface
@@ -518,13 +554,14 @@ def extrude_uniform(vertices_p,
                     faces_p,
                     sub_face_idxs,
                     uniform_thickness):
+
     """
-    Extrudes the subset surface based on harmonic weights
+    This function extrudes the subset surface based on harmonic weights.
 
     :param vertices_p: list of vertex positions of the primary surface
     :param faces_p: list of triangle indices of the primary surface
     :param sub_face_idxs: list of facet indices corresponding to the sub-region
-    :param harmonic_weights: The harmonic weights computed by 'boundary_value'
+    :param uniform_thickness:
 
     :return: extruded subset vertices
     """
@@ -543,10 +580,10 @@ def extrude_uniform(vertices_p,
     return extruded_vertices
 
 
-def norm_visualization(vertices,
-                       faces):
-    """
+def norm_visualization(vertices, faces):
 
+    """
+    This function visualizes the normal vector of each mesh face.
     :param vertices: list of vertices
     :param faces: list of faces
 
@@ -566,12 +603,14 @@ def norm_visualization(vertices,
     # frame.add_lines(centroids, end_points, shading={"line_color": "aqua"})
     return centroids, end_points
 
+
 def merge_surface_mesh(vertices_1,
                        faces_1,
                        vertices_2,
                        faces_2):
+
     """
-    Merges two surface meshes into one
+    This function merges two surface meshes into one
 
     :param vertices_1: list of vertex positions of the first surface
     :param faces_1: list of faces of the first surface
@@ -592,11 +631,14 @@ def smooth_and_separate_boundaries(vertices,
                                    faces_p,
                                    smoothing_factor,
                                    smoothing_iteration):
+
     """
-    smooths the subset boundaries and ensures no penetration to the underlying surface
+    This function smooths the subset boundaries and ensures no penetration to the underlying surface.
 
     :param vertices: list of vertex positions
     :param boundary_edges: list of the boundary edge indices
+    :param vertices_b:
+    :param faces_p:
     :param smoothing_factor:
     :param smoothing_iteration: number of smoothing iterations to perform
 
@@ -628,14 +670,13 @@ def smooth_and_separate_boundaries(vertices,
     return vertices
 
 
-def smooth_boundary(vertices,
-                    b_idxs,
-                    smoothing_factor):
+def smooth_boundary(vertices, b_idxs, smoothing_factor):
+
     """
-    Smooths the boundary of the surface using Laplacian smoothing
+    This function smooths the boundary of the surface using Laplacian smoothing.
 
     :param vertices: list of vertex positions
-    :param boundary_vertex_idxs: list of the boundary vertex indices
+    :param b_idxs:
     :param smoothing_factor:
 
     :return: list of smooth and non-penetrating vertices
@@ -647,8 +688,7 @@ def smooth_boundary(vertices,
     # new vertices
     new_vertices = np.zeros((len(b_idxs) - 2, 3))
     
-    # Loop through all boundary vertices and apply smoothing
-    
+    # loop through all boundary vertices and apply smoothing
     for i in range(1, len(b_idxs) - 1):
         
         delta = 0.5 * ( vertices[ b_idxs[i - 1] ] + vertices[ b_idxs[i + 1] ] ) - vertices[ b_idxs[i] ]
@@ -660,19 +700,15 @@ def smooth_boundary(vertices,
     return vertices
 
 
-def save_surface(vertices,
-                 faces,
-                 output_dim,
-                 path
-                 ):
+def save_surface(vertices, faces, output_dim, path):
+
     """
-    this function saves a surface mesh (obj file format) of the generated model
+    This function saves a surface mesh (obj file format) of the generated model
 
     :param vertices: list of vertex positions
     :param faces: list of the triangle faces
     :param output_dim: output dimension
-    :param output_name: name of the output file
-    :param output_dir: the directory where the out put will be stored in
+    :param path: The path where the file should be saved at.
 
     """
 
@@ -682,16 +718,17 @@ def save_surface(vertices,
     igl.write_triangle_mesh(path, vertices, faces)
 
 
-def get_area(vertices,
-             faces):
+def get_area(vertices, faces):
+
     """
-    this function measures the surface area of a given surface mesh
+    This function measures the surface area of a given surface mesh
 
     :param vertices: list of vertex positions
     :param faces: list of the triangle faces in which you want to measure the surface area
 
     :return: the surface area of the input triangles
     """
+
     surface_area = 0
     for i in range(len(faces)):
         u = vertices[faces[i, 1]] - vertices[faces[i, 0]]
@@ -709,8 +746,9 @@ def make_cut_plane_view(vertices,
                         faces,
                         d=0,
                         s=0.5):
+
     """
-    this function visualizes a plane cut view of a given mesh
+    This function visualizes a plane cut view of a given mesh
 
     :param vertices: list of vertex positions
     :param faces: list of the triangle faces in which you want to see the cut-plane
@@ -733,14 +771,16 @@ def make_cut_plane_view(vertices,
     return idx
 
 
-def get_wall(vertices_p,
-             boundary_vertex_idxs1,
-             boundary_vertex_idxs2 ):
+def get_wall(vertices_p, boundary_vertex_idxs1, boundary_vertex_idxs2 ):
+
     """
+    This function ...
 
     :param vertices_p:
-    :param boundary_vertex_idxs:
-    :return:
+    :param boundary_vertex_idxs1:
+    :param boundary_vertex_idxs2:
+
+    :return: the face list of the discretized plane
     """
     internal_boundary = np.copy(boundary_vertex_idxs1)
     external_boundary = np.copy(boundary_vertex_idxs2)
@@ -763,14 +803,15 @@ def get_wall(vertices_p,
 
     return wall_faces
 
+
 def snap_to_surface ( vertices, vertices_r, faces_r ):
+
     """
+    This function ...
 
     :param vertices:
     :param vertices_r:
     :param faces_r:
-    :param penetration:
-    :param gap:
     :return:
     """
 
@@ -781,16 +822,24 @@ def snap_to_surface ( vertices, vertices_r, faces_r ):
     return vertices_p
 
 
-
-def refine_secondary_bone ( vertices_p, faces_p, ex_base_b_vertex_idxs, vertices_s, faces_s ,  vertices_b, faces_b):
+def refine_secondary_bone (vertices_p,
+                           faces_p,
+                           ex_base_b_vertex_idxs,
+                           vertices_s,
+                           faces_s,
+                           vertices_b,
+                           faces_b):
 
     """
+    This function ...
 
-    :param vertices:
-    :param vertices_r:
-    :param faces_r:
-    :param penetration:
-    :param gap:
+    :param vertices_p:
+    :param faces_p:
+    :param ex_base_b_vertex_idxs:
+    :param vertices_s:
+    :param faces_s:
+    :param vertices_b:
+    :param faces_b:
     :return:
     """
     face_adjacency, cumulative_sum = igl.vertex_triangle_adjacency(faces_s, len(vertices_s))
@@ -799,11 +848,7 @@ def refine_secondary_bone ( vertices_p, faces_p, ex_base_b_vertex_idxs, vertices
     face_idxs = get_initial_surface(vertices_s, faces_s,  vertices_b, faces_b, 10)
     subset_s = faces_s[face_idxs]
     subset_vertex_idxs = np.unique(subset_s.flatten())
-    #
-    # frame = mp.plot(vertices_s, faces_s, c=pastel_light_blue, shading=sh_true)
-    # frame.add_mesh (vertices_s, subset_s, c=sweet_pink, shading=sh_true)
-    # # frame.add_mesh(vertices_c, faces_c, c= bone, shading = sh_true )
-    #
+
     #
     index_list = []
     distance = []
@@ -826,13 +871,10 @@ def refine_secondary_bone ( vertices_p, faces_p, ex_base_b_vertex_idxs, vertices
     #
     vertex_idxs = subset_vertex_idxs[index_list]
     #
-    #
     s_face_idxs = []
     for j in vertex_idxs:
         for k in range(cumulative_sum[j], cumulative_sum[j + 1]):
             s_face_idxs += [face_adjacency[k]]
-
-    # s_face_idxs = trim_boundary(faces_s, s_face_idxs, face_adjacency, cumulative_sum, 1)
 
     frame = mp.plot(vertices_s, faces_s, c=bone, shading=sh_true)
     frame.add_points(vertices_p[ex_base_b_vertex_idxs], shading={"point_color": "green", "point_size": 3})
@@ -840,7 +882,7 @@ def refine_secondary_bone ( vertices_p, faces_p, ex_base_b_vertex_idxs, vertices
     # frame.add_mesh(vertices_s, faces_s, c= bone, shading = sh_true )
     frame.add_mesh(vertices_s, faces_s[s_face_idxs], c= pastel_green, shading = sh_true)
 
-    frame = mp.plot(vertices_s, faces_s[s_face_idxs], c= pastel_green, shading = sh_true)
+    mp.plot(vertices_s, faces_s[s_face_idxs], c= pastel_green, shading = sh_true)
 
     print(faces_s[s_face_idxs])
 
@@ -848,51 +890,12 @@ def refine_secondary_bone ( vertices_p, faces_p, ex_base_b_vertex_idxs, vertices
     print(ss_vertex_idxs)
     print('new', len(ss_vertex_idxs))
 
-    # method 2
-    # triangle centroids
-    # triangle_centroids = igl.barycenter(vertices_p, faces_p[sub_face_idxs])
-    #
-    # sd_value, face_idxs, _ = igl.signed_distance(triangle_centroids, vertices_s, faces_s, return_normals=False)
-    #
-    # print(len(triangle_centroids))
-    # face_idxs = np.unique( face_idxs)
-    # print(len(face_idxs))
-
-
-
-    # frame = mp.plot(vertices_s, faces_s, c= bone, shading = sh_true )
-    # frame.add_mesh(vertices_s, faces_s[face_idxs], c=pastel_light_blue, shading=sh_true)
-    # # frame.add_points(vertices_b[all_nod_idxs], shading={"point_color": "green", "point_size": 3})
-    # frame.add_mesh(vertices_c, faces_c, c= bone, shading = sh_true )
-
-    # # faces below a distance threshold
-    # contact_face_idxs = np.where(sd_value < 0.07)[0]
-    #
-    # # viz
-    # frame = mp.plot(vertices_s, faces_s, c=bone, shading=sh_false)
-    # frame.add_mesh(vertices_1, faces_1[contact_face_idxs], c=organ, shading=sh_true)
-
-    # initial cartilage surface definition
-    # distance = []
-    # for i in vertices_s:
-    #     closest_vertex = np.linalg.norm(i - nipple_coord)
-    #     distance.append(closest_vertex)
-    #
-    # seed_idxs = np.where(distance == np.min(distance))[0]
-    # seed_idx = np.array(seed_idxs[0])
-    # seed = [vertices_p[seed_idx]]
-    # seed = np.array(seed)
-    # vertices_p = np.copy (vertices)
-    # sd_value, _, closest_points = igl.signed_distance(vertices_p, vertices_r, faces_r, return_normals=False)
-    # vertices_p = closest_points
-
-    # return vertices_p
-
-
 
 
 def remove_penetration (vertices, vertices_r, faces_r):
+
     """
+    This function ...
 
     :param vertices:
     :param vertices_r:
@@ -917,7 +920,7 @@ def contact_surface(vertices_1,
     This function measured the contact surface in the cartilage-cartilage interface.
 
     :param vertices_1: vertices: list of vertex positions
-    :param face_1:
+    :param faces_1:
     :param vertices_2: list of vertex positions
     :param faces_2:
     :param epsilon:
@@ -996,9 +999,9 @@ def get_dihedral_angle (vertices, faces, face_idxs, neigh_face_list ):
 
     :param vertices:
     :param faces:
-
+    :param face_idxs:
+    :param neigh_face_list:
     :return:
-
     """
 
     # face normals
@@ -1033,6 +1036,7 @@ def get_dihedral_angle (vertices, faces, face_idxs, neigh_face_list ):
 
     return max_angles
 
+
 def fix_boundary(vertices, faces, face_idxs, boundary_vertex_idxs, folded_vertex_idxs ):
 
     """
@@ -1040,9 +1044,10 @@ def fix_boundary(vertices, faces, face_idxs, boundary_vertex_idxs, folded_vertex
 
     :param vertices:
     :param faces:
-
+    :param face_idxs:
+    :param boundary_vertex_idxs:
+    :param folded_vertex_idxs:
     :return:
-
     """
 
     # adjacency info
@@ -1082,34 +1087,21 @@ def fix_boundary(vertices, faces, face_idxs, boundary_vertex_idxs, folded_vertex
 
     return face_idxs
 
-def remesh(vertices, faces, epsilon, edge_length):
-
-    tetra = wm.Tetrahedralizer(epsilon=epsilon, edge_length_r=edge_length)
-    tetra.set_mesh(vertices, faces)
-    tetra.tetrahedralize()
-
-    remesh_vertices, remesh_tets = tetra.get_tet_mesh()
-
-    remesh_vertices, remesh_tets, _, _ = igl.remove_unreferenced(remesh_vertices, remesh_tets)
-
-    remesh_faces = igl.boundary_facets(remesh_tets)
-
-    # flip the normals
-    flipped_remesh_faces = np.copy(remesh_faces)
-    flipped_remesh_faces[:, [0, 1]] = flipped_remesh_faces[:, [1, 0]]
-
-    rm_vertices, rm_faces = clean(remesh_vertices, flipped_remesh_faces)
-
-    print('number of triangles after remeshing', len(rm_faces))
-
-    return rm_vertices, rm_faces
 
 def fit_cylinder (vertices_p, faces_p, base_face_idxs):
+
+    """
+
+    :param vertices_p:
+    :param faces_p:
+    :param base_face_idxs:
+    :return:
+    """
 
     face_idxs = np.arange(len(faces_p))
     rest_face_idxs = np.delete(face_idxs, base_face_idxs, axis=0)
 
-    # find fovea region
+    # find the fovea region
     components = igl.face_components(faces_p[rest_face_idxs])
     components_count = np.bincount(components)
     z = np.argmin(components_count)
@@ -1121,7 +1113,7 @@ def fit_cylinder (vertices_p, faces_p, base_face_idxs):
     # boundary vertex indices
     fovea_b_vertex_idxs = igl.boundary_loop(faces_p[fovea_face_idxs])
 
-    # extrude poitive
+    # extrude positive
 
     fovea_top_vertices = extrude_uniform(vertices_p, faces_p, fovea_face_idxs, 2)
     fovea_bottom_vertices = extrude_uniform(vertices_p, faces_p, fovea_face_idxs, -2)
@@ -1149,6 +1141,15 @@ def fit_cylinder (vertices_p, faces_p, base_face_idxs):
 
 
 def get_angle(o, p1, p2):
+
+    """
+    This function ...
+
+    :param o:
+    :param p1:
+    :param p2:
+    :return:
+    """
     # vector
     v1 = p1 - o
     v2 = p2 - o
@@ -1167,11 +1168,29 @@ def get_angle(o, p1, p2):
 
 
 def get_distance(p1, p2):
+
+    """
+    This function ...
+
+
+    :param p1:
+    :param p2:
+    :return:
+    """
     dist = np.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2 + (p2[2] - p1[2]) ** 2)
+
     return dist
 
 
 def build_edge(sar, l, wall_edges):
+    """
+
+    :param sar:
+    :param l:
+    :param wall_edges:
+    :return:
+    """
+
     for i in range(len(sar)):
         if sar[i][1] == 0:
             l[0] = sar[i][0]
@@ -1186,6 +1205,17 @@ def build_edge(sar, l, wall_edges):
 
 def get_wall_sweep(t_vertices, t_faces, b_vertices, b_faces):
 
+    """
+    This function builds a wall surface mesh between two interfaces. Given the borders of the two interfaces, the sweep
+    line algorithm passes an imaginary line through the border nodes and builds a discretized plane between them.
+
+    :param t_vertices:
+    :param t_faces:
+    :param b_vertices:
+    :param b_faces:
+    :return:
+    """
+
     # center point
     t_center = np.average(t_vertices, axis=0)
     t_center = np.array([t_center])
@@ -1193,7 +1223,7 @@ def get_wall_sweep(t_vertices, t_faces, b_vertices, b_faces):
     b_center = np.average(b_vertices, axis=0)
     b_center = np.array([b_center])
 
-    x_center = 0.5 * (b_center + t_center)
+    x_centefr = 0.5 * (b_center + t_center)
 
     sd, _, cd1 = igl.signed_distance(x_center, t_vertices, t_faces, return_normals=False)
     sd, _, cd2 = igl.signed_distance(x_center, b_vertices, b_faces, return_normals=False)
@@ -1327,7 +1357,7 @@ def get_wall_sweep(t_vertices, t_faces, b_vertices, b_faces):
     # frame.add_lines(b_vertices[initial[0]], t_vertices[initial[1]], shading={"line_color": "red"})
     ##
 
-    # remove unreferrenced
+    # remove unreferenced
     new_vertices_b = b_vertices[closed_b_idxs]
     new_vertices_t = t_vertices[closed_t_idxs]
 
@@ -1462,9 +1492,6 @@ def get_wall_sweep(t_vertices, t_faces, b_vertices, b_faces):
     # frame.add_mesh(all_vertices, face_list[:11], c=new_pink, shading={"wireframe": True})
     # frame.add_lines(b_vertices[initial[0]], t_vertices[initial[1]], shading={"line_color": "red", "line_width": 5.0})
 
-    # save_surface(all_vertices, face_list[:11], 'mm',
-    #                  '/Users/nsv780/Documents/Github/HipRepo/models/viz/sweep.obj')
-    ##
     norm_visualization(all_vertices, face_list)
 
     return all_vertices, face_list
@@ -1472,14 +1499,23 @@ def get_wall_sweep(t_vertices, t_faces, b_vertices, b_faces):
 
 def gap_fill(vertices_s, b1_faces, surface_face_idxs, face_idxs, cumulative_sum):
 
-    gap_boundary_vertex_idxs = [2]
+    """
+    This function...
 
+    :param vertices_s:
+    :param b1_faces:
+    :param surface_face_idxs:
+    :param face_idxs:
+    :param cumulative_sum:
+    :return:
+    """
+
+    gap_boundary_vertex_idxs = [2]
     l = igl.boundary_loop(b1_faces[surface_face_idxs])
 
     # frame = mp.plot(vertices_s, b1_faces, c=bone, shading=sh_false)
     # frame.add_mesh(vertices_s, b1_faces[surface_face_idxs], c=pastel_blue, shading=sh_true)
     # frame.add_points(vertices_s[l], shading={"point_size": 5, "point_color": "red"})
-
 
     while len(gap_boundary_vertex_idxs) != 0:
 
@@ -1498,9 +1534,7 @@ def gap_fill(vertices_s, b1_faces, surface_face_idxs, face_idxs, cumulative_sum)
         if len(gap_boundary_vertex_idxs) == 0:
             break
 
-        # boundaries
-
-        # bothside boundary face
+        # both-side boundary face
         boundary_face_idxs = []
 
         for j in gap_boundary_vertex_idxs:
@@ -1518,7 +1552,15 @@ def gap_fill(vertices_s, b1_faces, surface_face_idxs, face_idxs, cumulative_sum)
 
     return surface_face_idxs
 
+
 def fit_sphere_femur(vertices):
+
+    """
+    This function ...
+
+    :param vertices:
+    :return:
+    """
 
     # fit a sphere to ROi
     c, r2 = miniball.get_bounding_ball(vertices)
@@ -1536,58 +1578,6 @@ def fit_sphere_femur(vertices):
     s_vertices  = s_vertices + c
 
     return s_vertices, s_faces
-
-
-"""
-Cartilage generation parameters
-
-Sets the parameter of the joint for future cartilage generation.
-
-@param neighbourhood_size: How far away (in terms of edges) a vertex can be, while still considered
-a neighbour. Also referred to as 'k-ring' in some literature.
-@param curvature_type: choose between "gaussian", "mean", "minimum", "maximum"
-Refers to the gaussian, mean, the maximum and the minimum of the principal curvatures, respectively.
-@param gap_distance: The distance between the primary bone and the secondaries.
-@param trimming_iteration: number of times the trimming step should be performed.
-@param min_curvature_threshold: The minimum curvature where we will consider the surface to be part of the cartilage
-@param max_curvature_threshold: The maximum curvature where we will consider the surface to be part of the cartilage
-@param blending_order: Order of the harmonic weight computation during cartilage generation.
-@param smoothing_factor: The size of the smoothing step (this is similar to the 'h' parameter in mean curvature flow)
-@param smoothing_iteration_base: The number of times the smoothing step should be performed on the base layer.
-@param smoothing_iteration_extruded_base: The number of times the smoothing step should be performed on the extruded layer.
-@param output_dimension: The scale of the output ("mm" = millimeters, "m" = meters).
-@param thickness_factor: a constant which will be multiplied by the distance between two surfaces.This allows you to 
-control the thickness value.
-"""
-
-
-class Var:
-
-    def __init__(self):
-
-
-        self.neighbourhood_size: int = 20
-        self.curvature_type: str = "mean"
-        self.gap_distance: float = 4.2
-        self.trimming_iteration: int = 7
-        self.trimming_iteration_p: int = 1
-        self.trimming_iteration_s: int = 1
-        self.min_curvature_threshold: float = 0.026
-        self.max_curvature_threshold: float = np.inf
-        self.blending_order: int = 2
-        self.smoothing_factor: float = 0.5
-        self.smoothing_iteration_base: int = 2
-        self.smoothing_iteration_extruded_base: int = 2
-        self.extend_cartilage_flag = True
-        self.full_model = True
-        self.curve_info = False
-        self.upsampling_iteration: int = 0
-        self.thickness_factor: float = 0.45
-        self.fix_boundary = True
-        self.no_extend_trimming_iteration: int = 2
-        self.bandwidth: float = 2
-        self.trimming_base_iteration : int = 1
-
 
 
 " Colors and Eye-candies"

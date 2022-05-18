@@ -105,6 +105,12 @@ vol_var:
 
 # parameters for simulation file generation
 sim_var:
-    lf_z_coord: -0.78                     # default
-    rf_z_coord: -0.78                     # default
+    lf_z_coord: -0.545                    # default
+    rf_z_coord: -0.545                    # default
+
+# parameters for surface re-meshing
+mesh_var:
+    remesh_epsilon: 0.001                 # default
+    remesh_edge_length_leg: 0.006         # default
+    remesh_edge_length_girdle: 0.007      # default
 
