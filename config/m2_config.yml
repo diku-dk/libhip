@@ -114,4 +114,11 @@ mesh_var:
     remesh_edge_length_leg: 0.006         # default
     remesh_edge_length_girdle: 0.007      # default
 
-
+# anatomical measurements data
+ant_var:
+    l_distal_midpoint_x: 121.51160203
+    l_distal_midpoint_y: 45.56243858
+    l_distal_midpoint_z: -717.10369873
+    r_distal_midpoint_x: -104.0861333
+    r_distal_midpoint_y: 48.8948682
+    r_distal_midpoint_z: -717.10369873

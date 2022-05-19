@@ -148,6 +148,15 @@ class ReMsh:
         self.remesh_edge_length_leg: float = config["mesh_var"]["remesh_edge_length_leg"]
         self.remesh_edge_length_girdle: float = config["mesh_var"]["remesh_edge_length_girdle"]
 
+class AntM:
+    def __init__(self, config):
+        self.l_distal_midpoint_x: float = config["ant_var"]["l_distal_midpoint_x"]
+        self.l_distal_midpoint_y: float = config["ant_var"]["l_distal_midpoint_y"]
+        self.l_distal_midpoint_z: float = config["ant_var"]["l_distal_midpoint_z"]
+        self.r_distal_midpoint_x: float = config["ant_var"]["r_distal_midpoint_x"]
+        self.r_distal_midpoint_y: float = config["ant_var"]["r_distal_midpoint_y"]
+        self.r_distal_midpoint_z: float = config["ant_var"]["r_distal_midpoint_z"]
+
 class Config:
     def __init__(self, config_path):
         self.config = None
@@ -163,6 +172,7 @@ class Config:
         self.vol_var = VolGen(self.config)
         self.sim_var = SimGen(self.config)
         self.mesh_var = ReMsh(self.config)
+        self.ant_var = AntM(self.config)
         # self.subject = SubInfo(self.config)
 
 # if __name__ == "__main__":

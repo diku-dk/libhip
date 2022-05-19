@@ -4,12 +4,7 @@ import meshplot as mp
 import matplotlib.pyplot as plt
 import math
 import wildmeshing as wm
-import miniball
 import sys
-
-libisl_dir  = '/Users/nsv780/Documents/Github/libisl/python'
-sys.path.append (libisl_dir)
-from isl.geometry.surface_mesh import *
 
 
 def clean(vertices, faces):
@@ -1553,33 +1548,6 @@ def gap_fill(vertices_s, b1_faces, surface_face_idxs, face_idxs, cumulative_sum)
     return surface_face_idxs
 
 
-def fit_sphere_femur(vertices):
-
-    """
-    This function ...
-
-    :param vertices:
-    :return:
-    """
-
-    # fit a sphere to ROi
-    c, r2 = miniball.get_bounding_ball(vertices)
-    r     = np.round(np.sqrt(r2),2)
-    c1    = np.round(c,2)
-
-    print('')
-    print ( "femur sphere center point:", c1, " mm" )
-    # print ( "the average radius is", r, " mm" )
-    print ( "the average diameter is", r*2, " mm" )
-
-    # create the sphere for femur
-    s_vertices, s_faces   = create_sphere ( r, 50, 50 )
-
-    s_vertices  = s_vertices + c
-
-    return s_vertices, s_faces
-
-
 " Colors and Eye-candies"
 
 # color definitions
@@ -1598,6 +1566,10 @@ sweet_pink = np.array([0.9, 0.4, 0.45])  #230, 102, 115
 rib = np.array([253, 232, 158]) / 255.
 skin = np.array([242, 209, 177]) / 255.
 chest = np.array([188, 95, 76]) / 255.
+dark_bone = np.array ([217, 208, 184])/255
+dark_red = np.array([179, 0, 0])/255
+dark_blue = np.array([0, 90, 179])/255
+dark_green = np.array([0, 179, 89])/255
 
 
 new_pink = np.array([202, 102, 115]) / 255.

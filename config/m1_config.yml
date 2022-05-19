@@ -114,7 +114,14 @@ sim_var:
 # parameters for surface re-meshing
 mesh_var:
     remesh_epsilon: 0.001                 # default
-    remesh_edge_length_leg: 0.006         # default
+    remesh_edge_length_leg: 0.007
     remesh_edge_length_girdle: 0.007      # default
 
-
+# anatomical measurements data
+ant_var:
+    l_distal_midpoint_x: 126.83071601
+    l_distal_midpoint_y: 25.33372216
+    l_distal_midpoint_z: -782.94000244
+    r_distal_midpoint_x: -120.60079794
+    r_distal_midpoint_y: 28.15702945
+    r_distal_midpoint_z: -782.94000244

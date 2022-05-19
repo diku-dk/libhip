@@ -5,6 +5,7 @@ import meshplot as mp
 import math
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
 
 def get_hj_ac(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_path):
 
@@ -620,11 +621,18 @@ def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, par
     thickness_wo_gap_num = np.where(harmonic_weights_wo_gap == 0)[0]
     harmonic_thick_wo_gap = np.delete(harmonic_weights_wo_gap, thickness_wo_gap_num, axis=0)
 
+    # to later fit a sphere to
+    anatomical_dir = os.path.dirname(anatomical_path)
+    basep_vertex_idxs = np.unique(p_faces[p_face_idxs].flatten())
+    subject_id = df.loc[1, 'Value']
+
     if df.loc[7, 'Value'] == 'empty':
+        np.save(anatomical_dir + '/' + str(subject_id) + '_lhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
         df.loc[7, 'Value'] = np.round(cartilage_area, 2)
         df.loc[8, 'Value'] = np.round(np.mean(harmonic_thick_w_gap), 2)
         df.loc[9, 'Value'] = np.round(np.mean(harmonic_thick_wo_gap), 2)
     else:
+        np.save(anatomical_dir + '/' + str(subject_id) + '_rhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
         df.loc[14, 'Value'] = np.round(cartilage_area, 2)
         df.loc[15, 'Value'] = np.round(np.mean(harmonic_thick_w_gap), 2)
         df.loc[16, 'Value'] = np.round(np.mean(harmonic_thick_wo_gap), 2)
@@ -632,7 +640,6 @@ def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, par
     # write to the specific anatomical file for each subject
     df.to_csv(str(anatomical_path), index=False)
 
-    #     s_vertices, s_faces = src.fit_sphere_femur(vertices_p[base_vertex_idxs])
 
     #     # to measure thickness
     #     thickness_profile_w_gap_def, _ = src.assign_thickness(vertices_p,
