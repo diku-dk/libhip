@@ -1,5 +1,4 @@
 from src.cartilage_reconstruction import *
-from src.visualization_utils import *
 from src.cargen_utils import *
 from src.volgen_utils import *
 from src.febgen_utils import *
