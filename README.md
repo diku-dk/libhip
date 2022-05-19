@@ -115,8 +115,7 @@ Remember to activate your environment upon running the jupyter notebook:
 conda activate libhip
 jupyter notebook
 ```
-Further, [install](https://wildmeshing.github.io/ftetwild/) the fTetWild library using CMake on your machine.
-Finall, [clone](https://github.com/erleben/libisl.git) the libisl library on your machine.
+Further, [install](https://wildmeshing.github.io/ftetwild/) the fTetWild library using CMake on your machine, and [clone](https://github.com/erleben/libisl.git) the libisl library on your machine.
 ## Citation
 Please cite this work by using this reference:
 
