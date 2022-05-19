@@ -76,7 +76,7 @@ Our [cartilage reconstruction code](https://github.com/diku-dk/libhip/blob/main/
 ### 3. Multi-body Volume Mesh Generation
 Using [fTetWild](https://wildmeshing.github.io/ftetwild/), we create volume mesh for all the sub-domains simultaneously, ensuring neither overlapping nor gaps in the interfaces. This method welds the interface nodes together in the meshing step, avoiding further contact definitions in the simulation setup.
 
-Our [volume generation code](https://github.com/diku-dk/libhip/blob/main/notebooks/2_VolGen.ipynb) generates volume meshes inside and outside the model, filling a bounding box around the model. These tetrahedrons still have no inside/out classification. Thus, we apply a post-processing step to extract the interior volume of each object and filter out the elements that do not belong to any of the objects. 
+Our [volume generation code](https://github.com/diku-dk/libhip/blob/main/notebooks/3_VolGen.ipynb) generates volume meshes inside and outside the model, filling a bounding box around the model. These tetrahedrons still have no inside/out classification. Thus, we apply a post-processing step to extract the interior volume of each object and filter out the elements that do not belong to any of the objects. 
 
 <p align="center">
 <img width="800" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168844422-39654fdb-5f2b-45d8-9ec0-aff3b1f2f562.png">
@@ -89,7 +89,7 @@ We use two different finite element solvers to run simulations:
 - We demonstrate the usability of our models with the off-the-shelves [FEBio solver](https://febio.org)
 - We study the importance of bilateral modeling in the hip joint area using [PolyFEM](https://polyfem.github.io)
 
-Our [simulation generator code](https://github.com/diku-dk/libhip/blob/main/notebooks/3_SimGen.ipynb) generates an FEBio model file (`.feb`) automatically suitable for `FEBio Version3.0` . All the simulation files and results are located in the [finite element](https://github.com/diku-dk/libhip/tree/main/model_repository/finite_element) folder.
+Our [simulation generator code](https://github.com/diku-dk/libhip/blob/main/notebooks/4_SimGen.ipynb) generates an FEBio model file (`.feb`) automatically suitable for `FEBio Version3.0` . All the simulation files and results are located in the [finite element](https://github.com/diku-dk/libhip/tree/main/model_repository/finite_element) folder.
 
 ## Installation
 First, set up your conda environment for jupyter notebooks as below: 
@@ -108,6 +108,7 @@ conda install -c conda-forge matplotlib
 conda install pandas
 conda install -c conda-forge time
 conda install -c conda-forge matplotlib
+conda install -c conda-forge wildmeshing
 ```
 Remember to activate your environment upon running the jupyter notebook: 
 ```python
@@ -115,7 +116,7 @@ conda activate libhip
 jupyter notebook
 ```
 Further, [install](https://wildmeshing.github.io/ftetwild/) the fTetWild library using CMake on your machine.
-
+Finall, [clone](https://github.com/erleben/libisl.git) the libisl library on your machine.
 ## Citation
 Please cite this work by using this reference:
 
