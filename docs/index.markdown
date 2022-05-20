@@ -5,6 +5,8 @@
 layout: default
 ---
 # LibHip
-The content will be available after the relevant paper under review is accepted
+The content will be available after the relevant paper under review is accepted. 
+
+Following, you can see some example screenshots from the repository.
 <!-- Adding images -->
 <!-- ![]({{ site.url }}{{ site.baseurl }}/assets/images/testImg.png) -->
