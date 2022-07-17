@@ -54,7 +54,7 @@ Further, the figure below illustrates the stress distribution pattern in the fem
 <img alt="Screenshot 2022-07-17 at 11 05 07" src="https://user-images.githubusercontent.com/45920627/179405020-32dd1c3a-4228-4384-85dd-65756ddd934b.png">
 </p>
 
-## Mesh convergence with respect ot the order of the elements
+## 2- Mesh convergence with respect ot the order of the elements
 This experiment aims to show how PolyFEM can use multiple element orders in a multi-body domain. In some cases, this help to have more accurate results by only increasing the order of the elements in thin domains. We assigned **Tet4, Tet10, Tet20** elements to the cartilage tissue, and ran the same simulation setup explained in **Experiment B** in Section 3.8 of the manuscript. 
 
 
