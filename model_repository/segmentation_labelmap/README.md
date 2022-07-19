@@ -1,3 +1,4 @@
+# Segmentation label map
 We obtain an explicit surface representation of all the bones using a semi-automated approach implemented in the [3D slicer](https://slicer.org) software package. 
 This method entails initial region labelling and contouring, followed by manual refinements to ensure accurate 3D approximations with no rough surfaces, holes, or connected tissues. 
 In all subjects, the segmentation label maps essentially detail the shape and boundaries of the bones and identify the inter-bone cavities in the joint areas.
