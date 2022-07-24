@@ -4,11 +4,11 @@ This method entails initial region labelling and contouring, followed by manual 
 In all subjects, the segmentation label maps essentially detail the shape and boundaries of the bones and identify the inter-bone cavities in the joint areas.
 
 The label maps are provided in NIfTI file format for each subject. Each `m*-label map.nii` includes 2D segmentation masks as below:
-* Green: the label map for the right femur
-* Yellow: the label map for the left femur 
-* Brown: the label map for the right pelvis
-* Blue: the label map for the left pelvis
-* Red: the label map for the sacrum 
+* Green: the label map for the **right femur**
+* Yellow: the label map for the **left femur** 
+* Brown: the label map for the **right pelvis**
+* Blue: the label map for the **left pelvis**
+* Red: the label map for the **sacrum** 
 
 A senior consultant radiologist has verified these bone segmentation. The clinical expert initially scrolls through all the segmented slices in each subject and verifies
 the bone contours and the existing gaps in the inter-bone cavities. Then, he verifies the anatomical shape and smoothness of the reconstructed 3D surfaces. This procedure justifies the validation of our method in obtaining precise geometries.
