@@ -1,13 +1,7 @@
 # Mesh Convergence Study
-We perform a mesh convergence analysis to obtain the optimal mesh size for the models with respect to multiple approaches. First, we investigare the effect of different mesh sizes on the simulation output. Next, we study the effect of the order of the tetrahedral elements on the simulation output. 
-
-These experiment further show that our modeling pipeline can re-generate different mesh resolutions with minimal manual effort. The simulation results of all these finite element models converge correctly with no issues related to mesh properties. Therefore, one can generate finer/coarser versions based on their specific problem.
-## 1 - Mesh convergence with respect to the mesh resolution
-In this method we study the effect of mesh resolution on the simulation results. The von mises stress pattern and value are estimated as the relative output in two specific zones: 
- * The stress value in the femoral head center
- * The stress distribution pattern in the femoral cartilage
+We perform a mesh convergence analysis to obtain the optimal mesh resolution and the corresponding meshing parameters. The meshing parameters for other subjects are then calibrated to produce similar mesh properties as the optimal mesh settings. 
  
-### Data Structure
+## Data Structure
 We generate seven different set of mesh resolutions of the [subject m1](https://github.com/diku-dk/libhip/tree/main/model_repository/cargen_output/m1) as stated in the Table below. We change the mesh resolution by tweaking the **envelope of size epsilon** and **the ideal edge legnth (l)** parameters of [fTetWild](https://wildmeshing.github.io/ftetwild/).
 
 <div align="center">
@@ -24,14 +18,18 @@ We generate seven different set of mesh resolutions of the [subject m1](https://
  
 </div>
 
-### Simulation Setup
-The same simulation setup explained in **Experiment A** in Section 3.8 of the manuscript is then applied to all these mesh resolutions. We apply a pseudo-stance scenario under dynamic structural mechanics analysis, and the von Mises stress is calculated as the direct simulation output. The pelvic girdle is fixed in the x,y, and z-direction, and we push the femur bones toward the pelvic girdle in the z-direction. The femur bones have restricted displacement and rotation in the x and y-direction, and we apply a load equal to the bodyweight to the distal end of the femoral bones. This load starts from zero and increases linearly to 430 N on each femur. An augmented surface contact algorithm with friction-less tangential interaction is applied between the articular interfaces allowing unhindered motion in the hip joint.
+## Simulation Setup
+The same simulation setup explained in **experiment A** in Section 3.8 of the manuscript is then applied to all these mesh resolutions. The von mises stress pattern and value are estimated as the relative output in two specific zones: 
+ * The stress value in the femoral head center
+ * The stress distribution pattern in the femoral cartilage
+
+A pseudo-stance scenario under *dynamic* structural mechanics analysis is set up in [FEBio](https://febio.org). Since FEBio requires an initial slight penetration between the contact surfaces, we use the model versions with no gap in the hip joints to build the simulation files. We fix the pelvic girdle by restricting the sacrum's displacement and rotation in the x,y, and z-direction. The distal end of each femoral bone is tied to a rigid body. This rigid body has a force applied in the z-direction and is restricted in the other directions. The rigid force starts from zero and increases linearly to 430N on each femur. The articular interfaces in the hip joints are selected as the contact surfaces, and an augmented surface contact algorithm with friction-less tangential interaction is applied between them.
 
 <p align="center">
-<img width="350" alt="Screenshot 2022-07-17 at 11 05 07" src="https://user-images.githubusercontent.com/45920627/179391566-4139d630-46ef-4687-a123-b69870b2a582.png">
+<img alt="Screenshot 2022-07-24 at 18 08 08" src="https://user-images.githubusercontent.com/45920627/180656143-66edec29-5300-47f2-906f-01accc955278.png">
 </p>
 
-### Stress value and pattern analysis
+## Stress value in the femoral head center
 In each mesh resolution, the von Mises stress is calculated for the left and right femoral head centers. The relative percentage change of the output to the highest resolution (Res_7) is considered the convergence criterion. As seen in the Table, the percentage change decreases for both the left and right sides and decreases as the mesh resolution increases and converges with less than 3% residual mesh error after **Res_5**. 
 
 <div align="center">
@@ -48,16 +46,14 @@ In each mesh resolution, the von Mises stress is calculated for the left and rig
 
 </div>
 
-Further, the figure below illustrates the stress distribution pattern in the femoral head cartilage. It is important to note that the stress value in the femoral cartilage is not a proper measure for the classical mesh convergence, as the stress value estimations result from sliding forces in a non-smooth contact problem. In this case, many other parameters, such as the sliding contact and the dynamic setup, can affect the output results. Therefore, we only focus on the stress pattern in this zone. The stress pattern varies and then gets consistent to a certain level after **Res5**.
+## Stress distribution pattern in the femoral cartilage
+The figure below illustrates the stress distribution pattern in the femoral head cartilage. It should be noted that observing the stress value in the femoral cartilage is a difficult approach for a mesh convergence study when non-smooth contract is involved. The stress values we observe depend both on the sliding forces in a non-smooth contact problem and mesh resolution. In this case, many other parameters, such as the sliding contact and the dynamic setup, can affect the output results. Therefore, we only focus on the stress pattern in this zone. The stress pattern varies and then gets consistent to a certain level after **Res5**.
 
 <p align="center">
 <img alt="Screenshot 2022-07-17 at 11 05 07" src="https://user-images.githubusercontent.com/45920627/179405020-32dd1c3a-4228-4384-85dd-65756ddd934b.png">
 </p>
 
-## 2- Mesh convergence with respect ot the order of the elements
-This experiment aims to show how PolyFEM can use multiple element orders in a multi-body domain. In some cases, this help to have more accurate results by only increasing the order of the elements in thin domains. We assigned **Tet4, Tet10, Tet20** elements to the cartilage tissue, and ran the same simulation setup explained in **Experiment B** in Section 3.8 of the manuscript. 
+#
+Besides convergence, this experiment shows that our modeling pipeline can re-generate different mesh resolutions with minimal manual effort. The simulation results of all these finite element models converge correctly with no issues related to mesh properties. Therefore, one can generate finer/coarser versions based on the users’ computational resources.
 
 
-
-
-   
