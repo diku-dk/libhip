@@ -99,7 +99,7 @@ The output of the volume mesh generation, including the surface and volume mesh 
 ### 4. Finite Element Simulation
 We demonstrate the performance of our models in different simulation setups and show that our models are compatible with different FE solvers. A pseudo-stance scenario under dynamic structural mechanics analysis is set up in the [FEBio](https://febio.org) and [PolyFEM](https://polyfem.github.io) solvers. We provide \num{11} FE model with two hip joint versions: with and without a gap between the articular cartilages. Since FEBio requires an initial slight penetration between the contact surfaces, we use the model versions with no gap in the hip joints. PolyFEM, in contrast, requires an initial configuration free of penetrations; thus, we use the model versions with a small gap between the articular cartilage layers.
 
-Our [simulation generator code](https://github.com/diku-dk/libhip/blob/main/notebooks/4_SimGen.ipynb) generates an FEBio model file (`.feb`) automatically suitable for `FEBio Version3.0` . All the simulation files and results are located in the [finite element](https://github.com/diku-dk/libhip/tree/main/model_repository/Simulation) folder.
+Our [simulation generator code](https://github.com/diku-dk/libhip/blob/main/notebooks/4_SimGen.ipynb) generates an FEBio model file (`.feb`) automatically suitable for `FEBio Version3.0` . All the simulation files and results are located in the [Simulation](https://github.com/diku-dk/libhip/tree/main/model_repository/Simulation) folder.
 
 ## Installation
 First, set up your conda environment for jupyter notebooks as below: 
@@ -125,7 +125,7 @@ Remember to activate your environment upon running the jupyter notebook:
 conda activate libhip
 jupyter notebook
 ```
-Further, [install](https://wildmeshing.github.io/ftetwild/) the fTetWild library using CMake on your machine, and [clone](https://github.com/erleben/libisl.git) the libisl library on your machine.
+Further, [install fTetWild](https://wildmeshing.github.io/ftetwild/) using CMake, [clone libisl](https://github.com/erleben/libisl.git), and install the [git lfs](https://git-lfs.github.com) on your machine beofre cloning the repository.
 ## Citation
 Please cite this work by using this reference:
 
