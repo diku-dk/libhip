@@ -2,7 +2,7 @@
 We perform a mesh convergence analysis to obtain the optimal mesh resolution and the corresponding meshing parameters. The meshing parameters for other subjects are then calibrated to produce similar mesh properties as the optimal mesh settings. 
  
 ## Data Structure
-We generate seven different set of mesh resolutions of the [subject m1](https://github.com/diku-dk/libhip/tree/main/model_repository/cargen_output/m1) as stated in the Table below. We change the mesh resolution by tweaking the **envelope of size epsilon** and **the ideal edge legnth (l)** parameters of [fTetWild](https://wildmeshing.github.io/ftetwild/).
+We generate seven different set of mesh resolutions of the [subject m1](https://github.com/diku-dk/libhip/tree/main/model_repository/CartiGen/m1) as stated in the Table below. We change the mesh resolution by tweaking the **envelope of size epsilon** and **the ideal edge legnth (l)** parameters of [fTetWild](https://wildmeshing.github.io/ftetwild/).
 
 <div align="center">
  
