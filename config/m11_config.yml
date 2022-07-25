@@ -96,12 +96,9 @@ pj_var:
 
 # parameters for volume mesh generation
 vol_var:
-    epsilon_coarse: 0.0005                # default
-    epsilon_fine: 0.0005                  # default
-    edge_length_leg_coarse: 0.020         # default
-    edge_length_leg_fine: 0.006           # default
-    edge_length_girdle_coarse: 0.024      # default
-    edge_length_girdle_fine: 0.007        # default
+    epsilon: 0.0005                       # default
+    edge_length_leg: 0.021                # default
+    edge_length_girdle: 0.015             # default
 
 # parameters for simulation file generation
 sim_var:
