@@ -130,12 +130,9 @@ class Pj:
 
 class VolGen:
     def __init__(self, config):
-        self.epsilon_coarse: str = config["vol_var"]["epsilon_coarse"]
-        self.epsilon_fine: str = config["vol_var"]["epsilon_fine"]
-        self.edge_length_leg_coarse: str = config["vol_var"]["edge_length_leg_coarse"]
-        self.edge_length_girdle_coarse: str = config["vol_var"]["edge_length_girdle_coarse"]
-        self.edge_length_leg_fine: str = config["vol_var"]["edge_length_leg_fine"]
-        self.edge_length_girdle_fine: str = config["vol_var"]["edge_length_girdle_fine"]
+        self.epsilon: str = config["vol_var"]["epsilon"]
+        self.edge_length_leg: str = config["vol_var"]["edge_length_leg"]
+        self.edge_length_girdle: str = config["vol_var"]["edge_length_girdle"]
 
 class SimGen:
     def __init__(self, config):

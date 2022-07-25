@@ -63,26 +63,25 @@ def mk_json(name, operation, json_dir):
     return json_path
 
 
-def run_boolean(tetwild_dir, json_path, o_path, eps, edge_length):
+def run_boolean(ftetwild_dir, json_path, output_path, epsilon, edge_length):
+    """
+    :param ftetwild_dir: locate this path to the 'build' folder of ftetwild.
+    :param json_path:
+    :param output_path:
+    :param epsilon:
+    :param edge_length:
+
     """
 
-    :param o_dir:
-    :param json_path:
-    :param name:
-    :param tetwild_dir:
-    :param eps:
-    :param edge_length:
-    :return:
-    """
 
     json_path = str(json_path.resolve())
 
     prev_path = Path.cwd()
 
-    os.chdir(tetwild_dir)
+    os.chdir(ftetwild_dir)
     os.system("./FloatTetwild_bin --csg " + json_path +
-              " --level 3 -e " + eps + " -l " + edge_length +
-              " -o " + o_path + " --no-binary --no-color --export-raw")
+              " --level 3 -e " + epsilon + " -l " + edge_length +
+              " -o " + output_path + " --no-binary --no-color --export-raw")
 
     os.chdir(prev_path)
 #--stop-energy 8
@@ -174,7 +173,7 @@ def read_volume_mesh(path, input_dimension, output_dimension):
 
     return vertices, elements
 
-def leg_filter (csg_output_dir, output_path, vertices_c, faces_c, vertices_f, faces_f, input_dimension, output_dimension):
+def leg_filter (csg_output_dir, output_path, data_path,  vertices_c, faces_c, vertices_f, faces_f, input_dimension, output_dimension):
 
     raw_vertices, raw_elements = read_volume_mesh(csg_output_dir + "__all.msh", input_dimension, output_dimension)
 
@@ -226,7 +225,7 @@ def leg_filter (csg_output_dir, output_path, vertices_c, faces_c, vertices_f, fa
     flipped_femur_tri = np.copy(femur_tri)
     flipped_femur_tri[:, [0, 1]] = flipped_femur_tri[:, [1, 0]]
 
-    np.save(output_path + '_femur_faces', flipped_femur_tri )
+    np.save(data_path + '_femur_faces', flipped_femur_tri )
 
     femur_tri_idxs = []
 
@@ -242,7 +241,7 @@ def leg_filter (csg_output_dir, output_path, vertices_c, faces_c, vertices_f, fa
     frame = mp.plot(physical_vertices, flipped_all_tri[slide_tri_idxs], c=src.pastel_blue, shading=src.sh_true)
     slide_surface_list = flipped_all_tri[slide_tri_idxs]
 
-    np.save( output_path+'_sliding_faces', slide_surface_list )
+    np.save( data_path+'_sliding_faces', slide_surface_list )
 
     # cartilage surface
     cart_tri = igl.boundary_facets(physical_elements[:len(elemC_idxs)])
@@ -275,17 +274,17 @@ def leg_filter (csg_output_dir, output_path, vertices_c, faces_c, vertices_f, fa
     )
 
     mylist = [len(elemC_idxs), len(elemF_idxs) ]
-    np.save( output_path + '_element_idxs_list', mylist )
+    np.save( data_path + '_element_idxs_list', mylist )
 
     # save the surface mesh of the femur
     f_vertices, f_faces, _, _ = igl.remove_unreferenced(physical_vertices, flipped_femur_tri)
     fc_vertices, fc_faces, _, _ = igl.remove_unreferenced(physical_vertices, flipped_cart_tri)
 
-    igl.write_triangle_mesh( output_path +'_femur.obj', f_vertices, f_faces)
-    igl.write_triangle_mesh( output_path + '_cart.obj', fc_vertices, fc_faces)
+    igl.write_triangle_mesh( output_path + '_bn_femur.obj', f_vertices, f_faces)
+    igl.write_triangle_mesh( output_path + '_jnt_fc.obj', fc_vertices, fc_faces)
 
 
-def girdle_filter (csg_output_dir, output_path, vertices_1, faces_1, vertices_2, faces_2, vertices_3, faces_3, vertices_4, faces_4,
+def girdle_filter (csg_output_dir, output_path, data_path,  vertices_1, faces_1, vertices_2, faces_2, vertices_3, faces_3, vertices_4, faces_4,
                   vertices_5, faces_5, vertices_6, faces_6, vertices_7, faces_7, vertices_8, faces_8, input_dimension, output_dimension ):
 
     raw_vertices, raw_elements = read_volume_mesh(csg_output_dir +"__all.msh", input_dimension, output_dimension)
@@ -386,7 +385,7 @@ def girdle_filter (csg_output_dir, output_path, vertices_1, faces_1, vertices_2,
     eight = len(elem_idxs_8)
 
     mylist = [one, two, three, four, five, six, seven, eight ]
-    np.save(output_path + '_element_idxs_list', mylist)
+    np.save(data_path + '_element_idxs_list', mylist)
 
     # remove unreferenced
     physical_vertices, physical_elements, _, _ = igl.remove_unreferenced(raw_vertices,
@@ -472,8 +471,8 @@ def girdle_filter (csg_output_dir, output_path, vertices_1, faces_1, vertices_2,
     lslide_surface_list = flipped_all_tri[lslide_tri_idxs]
     rslide_surface_list = flipped_all_tri[rslide_tri_idxs]
 
-    np.save(output_path +'_lsliding_faces', lslide_surface_list)
-    np.save(output_path +'_rsliding_faces', rslide_surface_list)
+    np.save(data_path +'_lsliding_faces', lslide_surface_list)
+    np.save(data_path +'_rsliding_faces', rslide_surface_list)
 
     # save each parts surface
     lsi_elem_idxs = np.where(labels == 1)
@@ -537,15 +536,14 @@ def girdle_filter (csg_output_dir, output_path, vertices_1, faces_1, vertices_2,
     lp_vertices,  lp_faces,  _, _ = igl.remove_unreferenced(physical_vertices, flipped_lpelvis_tri)
     rp_vertices,  rp_faces,  _, _ = igl.remove_unreferenced(physical_vertices, flipped_rpelvis_tri)
 
-    igl.write_triangle_mesh(output_path + '_lsi.obj', lsi_vertices, lsi_faces)
-    igl.write_triangle_mesh(output_path + '_rsi.obj', rsi_vertices, rsi_faces)
-    igl.write_triangle_mesh(output_path + '_lpc.obj', lpc_vertices, lpc_faces)
-    igl.write_triangle_mesh(output_path + '_rpc.obj', rpc_vertices, rpc_faces)
-    igl.write_triangle_mesh(output_path + '_pubic.obj', p_vertices,   p_faces)
-    igl.write_triangle_mesh(output_path + '_sacrum.obj',  s_vertices, s_faces)
-    igl.write_triangle_mesh(output_path + '_lpelvis.obj', lp_vertices,  lp_faces)
-    igl.write_triangle_mesh(output_path + '_rpelvis.obj', rp_vertices,  rp_faces)
-
+    igl.write_triangle_mesh(output_path + '_jnt_lsi.obj', lsi_vertices, lsi_faces)
+    igl.write_triangle_mesh(output_path + '_jnt_rsi.obj', rsi_vertices, rsi_faces)
+    igl.write_triangle_mesh(output_path + '_jnt_lac.obj', lpc_vertices, lpc_faces)
+    igl.write_triangle_mesh(output_path + '_jnt_rac.obj', rpc_vertices, rpc_faces)
+    igl.write_triangle_mesh(output_path + '_jnt_ps.obj', p_vertices,   p_faces)
+    igl.write_triangle_mesh(output_path + '_bn_sacrum.obj',  s_vertices, s_faces)
+    igl.write_triangle_mesh(output_path + '_bn_lpelvis.obj', lp_vertices,  lp_faces)
+    igl.write_triangle_mesh(output_path + '_bn_rpelvis.obj', rp_vertices,  rp_faces)
 
     s_face_idxs = []
     for i in range(len(flipped_sacrum_tri)):
@@ -556,52 +554,7 @@ def girdle_filter (csg_output_dir, output_path, vertices_1, faces_1, vertices_2,
             s_face_idxs.append(ind[o[0]])
 
     wo_inner_surface_list = flipped_all_tri[s_face_idxs]
-    np.save(output_path + '_sacrum_minus_sharing_interfaces', wo_inner_surface_list)
-
-    # pg surface with the inner borders
-    # merge all the separate surfaces before removing the unrefferences
-    # pg_faces = np.concatenate((flipped_lsi_tri, flipped_rsi_tri, flipped_lpc_tri, flipped_rpc_tri, flipped_pubic_tri,
-    #                                                        flipped_sacrum_tri,flipped_lpelvis_tri,flipped_rpelvis_tri))
-    #
-    # # now find their indices
-    # pg_face_idxs = []
-    # for i in range(len(pg_faces)):
-    #     ind = np.where(flipped_all_tri == pg_faces[i])[0]
-    #     m = np.unique(ind, return_counts=True)[1]
-    #     o = np.where(m == 3)[0]
-    #     if len(o) != 0:
-    #         pg_face_idxs.append(ind[o[0]])
-
-    # m1_face_idxs = []
-    # for i in range(len(lslide_surface_list)):
-    #     ind = np.where(flipped_all_tri == lslide_surface_list[i])[0]
-    #     m = np.unique(ind, return_counts=True)[1]
-    #     o = np.where(m == 3)[0]
-    #     if len(o) != 0:
-    #         m1_face_idxs.append(ind[o[0]])
-    #
-    # m2_face_idxs = []
-    # for i in range(len(rslide_surface_list)):
-    #     ind = np.where(flipped_all_tri == rslide_surface_list[i])[0]
-    #     m = np.unique(ind, return_counts=True)[1]
-    #     o = np.where(m == 3)[0]
-    #     if len(o) != 0:
-    #         m2_face_idxs.append(ind[o[0]])
-    #
-    # m_face_idxs = np.concatenate((m1_face_idxs, m2_face_idxs))
-    # w_inner_face_idxs= np.delete(pg_face_idxs, m_face_idxs, axis=0)
-    #
-    # w_inner_surface_list = flipped_all_tri[w_inner_face_idxs]
-    # np.save(output_path + '_surface_plus_sharing_interfaces', w_inner_surface_list)
-
-    # pg surface without the inner borders (this works)
-    # s_face_idxs = np.concatenate((lslide_tri_idxs, rslide_tri_idxs))
-    # wo_inner_face_idxs = np.delete(all_tri_idxs, s_face_idxs, axis=0)
-    # wo_inner_surface_list = flipped_all_tri[wo_inner_face_idxs]
-    #
-    # np.save(output_path + '_surface_minus_sharing_interfaces', wo_inner_surface_list)
-
-
+    np.save(data_path + '_sacrum_minus_sharing_interfaces', wo_inner_surface_list)
 
 
 def merge_volume_mesh(vertices_1,
@@ -622,148 +575,3 @@ def merge_volume_mesh(vertices_1,
     merged_elements = np.concatenate((elements_1, elements_2 + len(vertices_1)))
 
     return merged_vertices, merged_elements
-
-
-
-#  backup
-# def upper_filter (path1, path2, vertices_1, faces_1, vertices_2, faces_2, vertices_3, faces_3, vertices_4, faces_4,
-#                   vertices_5, faces_5, vertices_6, faces_6, vertices_7, faces_7, vertices_8, faces_8 ):
-#
-#     raw_vertices, raw_elements = read_volume_mesh(path1 + "__all.msh")
-#
-#     # barycenter
-#     barycenter = igl.barycenter(raw_vertices, raw_elements)
-#
-#     # use signed distance to find "lsi"
-#     # sd_1, _, _ = igl.signed_distance(barycenter, vertices_1, faces_1, return_normals=False)
-#     # elem_idxs_1 = np.where(sd_1 <= 0)[0]
-#
-#     # wn for the surface meshes
-#     wn_1 = igl.fast_winding_number_for_meshes(vertices_1, faces_1, barycenter)
-#
-#     plt.hist(wn_1, 50)
-#     plt.show()
-#
-#     # filter based on winding number
-#     elem_idxs_1 = np.where(wn_1 >0.08)[0]
-#
-#     # viz together
-#     frame = mp.plot(raw_vertices, raw_elements[elem_idxs_1], c=src.pastel_orange, shading=src.sh_true)
-#     frame.add_mesh(vertices_1, faces_1, c = src.bone, shading = src.sh_true)
-
-    # # use signed distance to find "rsi"
-    # sd_2, _, _ = igl.signed_distance(barycenter, vertices_2, faces_2, return_normals = False)
-    # elem_idxs_2 =np.where(sd_2<=0)[0]
-    #
-    # # use signed distance to find "lpc"
-    # sd_3, _, _ = igl.signed_distance(barycenter, vertices_3, faces_3, return_normals=False)
-    # elem_idxs_3 = np.where(sd_3 <= 0)[0]
-    #
-    # # use signed distance to find "rpc"
-    # sd_4, _, _ = igl.signed_distance(barycenter, vertices_4, faces_4, return_normals=False)
-    # elem_idxs_4 = np.where(sd_4 <= 0)[0]
-    #
-    # # use signed distance to find "pubic"
-    # sd_5, _, _ = igl.signed_distance(barycenter, vertices_5, faces_5, return_normals=False)
-    # elem_idxs_5 = np.where(sd_5 <= 0)[0]
-    #
-    # # use signed distance to find "sacrum"
-    # sd_6, _, _ = igl.signed_distance(barycenter, vertices_6, faces_6, return_normals=False)
-    # elem_idxs_6 = np.where(sd_6 <= 0)[0]
-    #
-    # # use signed distance to find "lpelvis"
-    # sd_7, _, _ = igl.signed_distance(barycenter, vertices_7, faces_7, return_normals=False)
-    # elem_idxs_7 = np.where(sd_7 <= 0)[0]
-    #
-    # # use signed distance to find "rpelvis"
-    # sd_8, _, _ = igl.signed_distance(barycenter, vertices_8, faces_8, return_normals=False)
-    # elem_idxs_8 = np.where(sd_8 <= 0)[0]
-    #
-    #
-    # # give priority to cartilage comparing to bone (first is always cartilage)
-    #
-    # # lsi and sacrum
-    # _, _, mutual_ind_6 = np.intersect1d(elem_idxs_1, elem_idxs_6, return_indices=True)
-    # print(elem_idxs_6)
-    # print(mutual_ind_6)
-    # elem_idxs_6 = np.delete(elem_idxs_6, mutual_ind_6, axis=0)
-    # print(elem_idxs_6)
-    #
-    # # lsi and lpelvis
-    # _, _, mutual_ind_7 = np.intersect1d(elem_idxs_1, elem_idxs_7, return_indices=True)
-    # elem_idxs_7 = np.delete(elem_idxs_7, mutual_ind_7, axis=0)
-    #
-    # # rsi and sacrum
-    # _, _, mutual_ind_6 = np.intersect1d(elem_idxs_2, elem_idxs_6, return_indices=True)
-    # elem_idxs_6 = np.delete(elem_idxs_6, mutual_ind_6, axis=0)
-    #
-    # # rsi and rpelvis
-    # _, _, mutual_ind_8 = np.intersect1d(elem_idxs_2, elem_idxs_8, return_indices=True)
-    # elem_idxs_8 = np.delete(elem_idxs_8, mutual_ind_8, axis=0)
-    #
-    # # lpc and lpelvis
-    # _, _, mutual_ind_7 = np.intersect1d(elem_idxs_3, elem_idxs_7, return_indices=True)
-    # elem_idxs_7 = np.delete(elem_idxs_7, mutual_ind_7, axis=0)
-    #
-    # # rpc and rpelvis
-    # _, _, mutual_ind_8 = np.intersect1d(elem_idxs_4, elem_idxs_8, return_indices=True)
-    # elem_idxs_8 = np.delete(elem_idxs_8, mutual_ind_8, axis=0)
-    #
-    # # pubic and lpelvis
-    # _, _, mutual_ind_7 = np.intersect1d(elem_idxs_5, elem_idxs_7, return_indices=True)
-    # elem_idxs_7 = np.delete(elem_idxs_7, mutual_ind_7, axis=0)
-    #
-    # # pubic and rpelvis
-    # _, _, mutual_ind_8 = np.intersect1d(elem_idxs_5, elem_idxs_8, return_indices=True)
-    # elem_idxs_8 = np.delete(elem_idxs_8, mutual_ind_8, axis=0)
-    #
-    # # merge elements
-    # merged_element_idxs = np.concatenate((elem_idxs_1, elem_idxs_2,elem_idxs_3,elem_idxs_4,elem_idxs_5,elem_idxs_6,elem_idxs_7,elem_idxs_8 ))
-    #
-    # one = len(elem_idxs_1)
-    # two = len(elem_idxs_2)
-    # three = len(elem_idxs_3)
-    # four = len(elem_idxs_4)
-    # five = len(elem_idxs_5)
-    # six = len(elem_idxs_6)
-    # seven = len(elem_idxs_7)
-    # eight = len(elem_idxs_8)
-    #
-    # # remove unreferenced
-    # physical_vertices, physical_elements, _, _ = igl.remove_unreferenced(raw_vertices,
-    #                                                                      raw_elements[merged_element_idxs])
-    #
-    # # put labels in this new stack
-    # labels = np.zeros(len(physical_elements), dtype=int)
-    # labels[:one] = 1
-    # labels[one:one+two] = 2
-    # labels[one+two:one+two+three] = 3
-    # labels[one+two+three:one+two+three+four] = 4
-    # labels[one+two+three+four:one+two+three+four+five] = 5
-    # labels[one+two+three+four+five:one+two+three+four+five+six] = 6
-    # labels[one+two+three+four+five+six:one+two+three+four+five+six+seven] = 7
-    # labels[one+two+three+four+five+six+seven:] = 8
-    #
-    #
-    # # print(np.unique(labels))
-    # #
-    # # print('length of elements one', one)
-    # # print('length of elements two', two)
-    # # print('length of elements three', three)
-    # # print('length of elements four', four)
-    # # print('length of elements five', five)
-    # # print('length of elements six', six)
-    # # print('length of elements seven', seven)
-    # # print('length of elements eight', eight)
-    # #
-    # # print('length of labels', len(labels))
-    #
-    # # save
-    # meshio.write_points_cells(
-    #     path2 + '.msh',
-    #     points=physical_vertices,
-    #     cells=[("tetra", physical_elements)],
-    #     cell_data={"gmsh:physical": np.array([labels]), "gmsh:geometrical": np.array([labels])},
-    #     file_format="gmsh22",
-    #     binary=False,
-    # )
