@@ -465,8 +465,8 @@ def girdle_filter (csg_output_dir, output_path, data_path,  vertices_1, faces_1,
     lslide_tri_idxs = np.delete(all_tri_idxs, lrest_tri_idxs, axis=0)
     rslide_tri_idxs = np.delete(all_tri_idxs, rrest_tri_idxs, axis=0)
 
-    frame = mp.plot(physical_vertices, flipped_all_tri[lslide_tri_idxs], c=src.pastel_blue, shading=src.sh_true)
-    frame.add_mesh (physical_vertices, flipped_all_tri[rslide_tri_idxs], c=src.pastel_blue, shading=src.sh_true)
+    # frame = mp.plot(physical_vertices, flipped_all_tri[lslide_tri_idxs], c=src.pastel_blue, shading=src.sh_true)
+    # frame.add_mesh (physical_vertices, flipped_all_tri[rslide_tri_idxs], c=src.pastel_blue, shading=src.sh_true)
 
     lslide_surface_list = flipped_all_tri[lslide_tri_idxs]
     rslide_surface_list = flipped_all_tri[rslide_tri_idxs]
