@@ -16,7 +16,7 @@ The main features of the models are listed as below:
 
 ## Data Structure
 This repository consists of the following sections:
-- The [model repository](https://github.com/diku-dk/libhip/tree/main/model_repository) folder contains all the research data belonging to 11 subjects: the clinical images, the segmentation label maps, the multi-body surface and volume meshes, and the finite element models. Detailed explanation of each research data is provided in the related folder.
+- The [model_repository](https://github.com/diku-dk/libhip/tree/main/model_repository) folder contains all the research data belonging to 11 subjects: the clinical images, the segmentation label maps, the multi-body surface and volume meshes, and the finite element models. Detailed explanation of each research data is provided in the related folder.
 
 <p align="center">
 <img width="813" alt="Screenshot 2022-07-24 at 22 08 36" src="https://user-images.githubusercontent.com/45920627/180664049-89446fcb-bfa9-465f-a108-3e9cd917eec0.png">
@@ -29,7 +29,7 @@ This repository consists of the following sections:
   - The `src` folder locates the source python functions of our modeling pipeline. These functions are called by the Jupyter notebooks in the *notebooks* folder.
   - The `notebooks` folder contains the preprocessing, cartilage generation, the volume mesh generation, and the simulation file generation codes.       These notebooks call the source codes from the *src* folder. 
   - The `config` folder contains the subject-specific configurations you need for each subject. These parameters are called by the files in the *notebooks* folder during the modeling pipeline.
-  - Each time you run the Jupyter notebooks, the output of each step is stored in the `model generation` folder.
+  - Each time you run the Jupyter notebooks, the output of each step is stored in the [model_generation](https://github.com/diku-dk/libhip/tree/main/model_generation) folder.
 
 ##
 Following, we explain our modeling pipeline step-by-step and guide you through the existing code and model folders:
