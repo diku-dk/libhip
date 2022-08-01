@@ -1,0 +1,40 @@
+Following, we explain our modeling pipeline step-by-step and guide you through the existing code and model folders:
+
+# Pre-processing
+The input to our modeling workflow is the surface mesh of the bony structures. 
+* The bone surface mesh is segmented directly from CT images. For more information about the images and the delineated label maps please checkout the [ImageData](https://github.com/diku-dk/libhip/tree/main/model_repository/ImageData) and the [LabelMap](https://github.com/diku-dk/libhip/tree/main/model_repository/LabelMaps) folders, respectively.
+* The initial 3D representation of the bone labelmaps are stored in the [RawSegment](https://github.com/diku-dk/libhip/tree/main/model_repository/RawSegment) folder. These models are typically dense and may have poor qualities; Thus, we need to improve the quality and resize the triangles before using them for our pipeline.
+* The `0_PreProcessing.ipynb` code cleans and re-meshes the surface meshes and stores the output in the [preprocessing_output](https://github.com/diku-dk/libhip/tree/main/model_generation/preprocessing_output) folder. You can find the cleaned and re-meshed bone models for all the subjects in the [CleanSegment](https://github.com/diku-dk/libhip/tree/main/model_repository/CleanSegment) folder.
+
+<p align="center">
+<img width="700" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168812343-6b0675fd-779b-4619-90cc-a7c4fce3881e.png">
+</p>
+
+# Cartilage Geometry Reconstruction
+We apply a specialized geometry processing method to generate subject-specific cartilages in the hip joint area. This method was initially introduced by [Moshfeghifar et al. [2022]](https://doi.org/10.48550/arXiv.2203.10667) and we added new ideas to this algorithm to improve the hip joint results and extend this method to the paired sacroiliac joints and the pubic symphysis.
+
+The `1_CarGen.ipynb` code generates the cartilages residing in hip joint, sacroiliac joint, and the pubic symphysis and stores the output in the [cargen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/cargen_output) folder. You can find the cartilage and the underlying bone surface meshes for all the subjects in the [CartiGen](https://github.com/diku-dk/libhip/tree/main/model_repository/CartiGen) folder.
+
+<p align="center">
+<img width="700" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168859866-32300557-0988-403d-b91a-c647826f97d7.png">
+</p>
+
+# Multi-body Volume Mesh Generation
+Using [fTetWild](https://wildmeshing.github.io/ftetwild/), we create volume mesh for all the sub-domains simultaneously, ensuring neither overlapping nor gaps in the interfaces. This method welds the interface nodes together in the meshing step, avoiding further contact definitions in the simulation setup.
+
+The `3_VolGen.ipynb` code generates volume meshes inside and outside the model, filling a bounding box around the model. These tetrahedrons still have no inside/out classification. Thus, we apply a post-processing step to extract the interior volume of each object and filter out the elements that do not belong to any of the objects. 
+
+This code has several mid-outputs which the user will not need and they are stored in the [mid_outputs](https://github.com/diku-dk/libhip/tree/main/model_generation/mid_outputs) folder. Each time you run this code, the final multi-body volume mesh together with the extracted surface meshes are stored in the [volgen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/volgen_output) folder. The surface and volume mesh for all the subjects are provided in the [SurfaceMesh](https://github.com/diku-dk/libhip/tree/main/model_repository/SurfaceMesh) and the [VolumeMesh](https://github.com/diku-dk/libhip/tree/main/model_repository/VolumeMesh) folders, respectively.
+
+
+<p align="center">
+<img width="800" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168844422-39654fdb-5f2b-45d8-9ec0-aff3b1f2f562.png">
+</p>
+
+
+# Finite Element Simulation
+We demonstrate the performance of our models in different simulation setups and show that our models are compatible with different FE solvers. A pseudo-stance scenario under dynamic structural mechanics analysis is set up in the [FEBio](https://febio.org) and [PolyFEM](https://polyfem.github.io) solvers. 
+
+We provide 11 FE model with two hip joint versions: with and without a gap between the articular cartilages. Since FEBio requires an initial slight penetration between the contact surfaces, we use the model versions with no gap in the hip joints. PolyFEM, in contrast, requires an initial configuration free of penetrations; thus, we use the model versions with a small gap between the articular cartilage layers.
+
+The `4_SimGen.ipynb` code generates an FEBio model file (`.feb`) automatically suitable for `FEBio Version3.0` . Each time you run the code, the output foles are stored in the [simulation_output](https://github.com/diku-dk/libhip/tree/main/model_generation/simulation_output) folder.  All the simulation files and results are located in the [Simulation](https://github.com/diku-dk/libhip/tree/main/model_repository/Simulation) folder.
