@@ -31,8 +31,6 @@ This repository consists of the following sections:
   - The `config` folder contains the subject-specific configurations you need for each subject. These parameters are called by the files in the *notebooks* folder during the modeling pipeline.
   - Each time you run the Jupyter notebooks, the output of each step is stored in the `model generation` folder.
 
-💡 Before running the Jupyter notebooks, please make sure to make the following empty folders in the `model generation` folder:`anatomical_info`, `cargen_output`, `mid_outputs` (containing `json_output`, `ftet_output`, and `nodal_output`), `preprocessing_output`, `simulation_output`, and `volgen_output`
-
 ##
 Following, we explain our modeling pipeline step-by-step and guide you through the existing code and model folders:
 
