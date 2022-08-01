@@ -9,11 +9,6 @@ The main features of the models are listed as below:
 * A direct geometry processing cartilage reconstruction method using segmented bone models
 * Multi-body volume mesh generation, resulting in high-quality discretization, conforming and congruent shared interfaces, and accurate geometries
 
-## Modeling Flowchart and Research Data
-<p align="center">
-<img width="700" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/166197148-373c2553-6d1f-44c2-a4db-4168733bd6a2.png">
-</p>
-
 ## Data Structure
 This repository consists of the following sections:
 - The [model_repository](https://github.com/diku-dk/libhip/tree/main/model_repository) folder contains all the research data belonging to 11 subjects: the clinical images, the segmentation label maps, the multi-body surface and volume meshes, and the finite element models. Detailed explanation of each research data is provided in the related folder.
@@ -22,25 +17,27 @@ This repository consists of the following sections:
 <img width="813" alt="Screenshot 2022-07-24 at 22 08 36" src="https://user-images.githubusercontent.com/45920627/180664049-89446fcb-bfa9-465f-a108-3e9cd917eec0.png">
 </p>
 
+## Modeling Flowchart and Pipeline
+<p align="center">
+<img width="700" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/166197148-373c2553-6d1f-44c2-a4db-4168733bd6a2.png">
+</p>
 
-
-
-- The [src](https://github.com/diku-dk/libhip/tree/main/src), [notebooks](https://github.com/diku-dk/libhip/tree/main/notebooks), and the [config](https://github.com/diku-dk/libhip/tree/main/config) folders contain the codes that we used to create these models.
+The [src](https://github.com/diku-dk/libhip/tree/main/src), [notebooks](https://github.com/diku-dk/libhip/tree/main/notebooks), and the [config](https://github.com/diku-dk/libhip/tree/main/config) folders contain the codes that we used to create these models.
   - The `src` folder locates the source python functions of our modeling pipeline. These functions are called by the Jupyter notebooks in the *notebooks* folder.
   - The `notebooks` folder contains the preprocessing, cartilage generation, the volume mesh generation, and the simulation file generation codes.       These notebooks call the source codes from the *src* folder. 
   - The `config` folder contains the subject-specific configurations you need for each subject. These parameters are called by the files in the *notebooks* folder during the modeling pipeline.
   - Each time you run the Jupyter notebooks, the output of each step is stored in the [model_generation](https://github.com/diku-dk/libhip/tree/main/model_generation) folder.
 
 ## Installation
-1. Clone this repository to your local directory and go into that folder. Below, is an example of how to clone this repository using the command line:
+First, clone this repository to your local directory and go into that folder. Below, is an example of how to clone this repository using the command line:
 ```python
 git clone https://github.com/diku-dk/libhip.git
 ```
-2. Create a conda environment named `libhip`, using the channel `conda-forge` and the list of packages in the `requirements.txt` file: 
+Next, create a conda environment named `libhip`, using the channel `conda-forge` and the list of packages in the `requirements.txt` file: 
 ```python
 conda create --name libhip -c conda-forge --file requirements.txt 
 ```
-3. Activate your environment and run the jupyter notebook: 
+Finally, activate your environment and run the jupyter notebook: 
 ```python
 conda activate libhip
 jupyter notebook
