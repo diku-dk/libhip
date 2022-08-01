@@ -99,30 +99,20 @@ We demonstrate the performance of our models in different simulation setups and 
 Our [simulation generator code](https://github.com/diku-dk/libhip/blob/main/notebooks/4_SimGen.ipynb) generates an FEBio model file (`.feb`) automatically suitable for `FEBio Version3.0` . All the simulation files and results are located in the [Simulation](https://github.com/diku-dk/libhip/tree/main/model_repository/Simulation) folder.
 
 ## Installation
-First, set up your conda environment for jupyter notebooks as below: 
+1. Clone this repository to your local directory and go into that folder. Below, is an example of how to clone this repository using the command line:
 ```python
-conda create -n libhip
-conda activate libhip
-conda config --add channels conda-forge
+git clone https://github.com/diku-dk/libhip.git
 ```
-Next, install the following packages in the libhip environment:
+2. Create a conda environment named `libhip`, using the channel `conda-forge` and the list of packages in the `requirements.txt` file: 
 ```python
-conda install igl
-conda install meshplot 
-conda install ipympl
-conda install jupyter
-conda install -c conda-forge matplotlib
-conda install pandas
-conda install -c conda-forge time
-conda install -c conda-forge matplotlib
-conda install -c conda-forge wildmeshing
+conda create --name libhip -c conda-forge --file requirements.txt 
 ```
-Remember to activate your environment upon running the jupyter notebook: 
+3. Activate your environment and run the jupyter notebook: 
 ```python
 conda activate libhip
 jupyter notebook
 ```
-Further, [install fTetWild](https://wildmeshing.github.io/ftetwild/) using CMake, [clone libisl](https://github.com/erleben/libisl.git), and install the [git lfs](https://git-lfs.github.com) on your machine beofre cloning the repository.
+Further, [install fTetWild](https://wildmeshing.github.io/ftetwild/) using CMake, [clone libisl](https://github.com/erleben/libisl.git), and install the [git lfs](https://git-lfs.github.com) on your machine.
 ## Citation
 Please cite this work by using this reference:
 
