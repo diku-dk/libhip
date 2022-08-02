@@ -20,9 +20,11 @@ The `0_PreProcessing.ipynb` code cleans and re-meshes the surface meshes and sto
 # Cartilage Geometry Reconstruction
 We apply a specialized geometry processing method to generate subject-specific cartilages in the hip joint area. This method was initially introduced by [Moshfeghifar et al. [2022]](https://doi.org/10.48550/arXiv.2203.10667) and we added new ideas to this algorithm to improve the hip joint results and extend this method to sacroiliac joints and pubic symphysis.
 
-The `1_CarGen.ipynb` code generates single-piece cartilages for the sacroiliac joint and the pubic symphysis, filling the inter-bone cavity. The joint space in the hip joint is divided between the acetabular and the femoral layers, allocating roughly half of the joint space to each cartilage's thickness.  
+The `1_CarGen.ipynb` code generates single-piece cartilages for the sacroiliac joint and the pubic symphysis, filling the inter-bone cavity. The joint space in the hip joint is divided between the acetabular and the femoral layers, allocating roughly half of the joint space to each cartilage's thickness. Further, the average cartilage thickness and the bone coverage area are measured for the three joints. 
 
-We want our models to be compatible with FE solvers with different approaches; Thus, we provide two versions of hip joint models for each subject : *with* and *without a gap* between the articular cartilages. Once you run this code, the outputs are stored in the [cargen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/cargen_output) and the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folders.
+We want our models to be compatible with FE solvers with different approaches; Thus, we provide two versions of hip joint models for each subject : *with* and *without a gap* between the articular cartilages. 
+
+Once you run this code, the outputs and teh cartilage anatomical measurements are stored in the [cargen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/cargen_output) and the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folders, respectively.
 
 <p align="center">
 <img width="800" alt="cargen_tree" src = "https://user-images.githubusercontent.com/45920627/182378275-b46c97c3-af79-4dcf-9b7f-5af70f5572cf.png">
@@ -33,6 +35,24 @@ We want our models to be compatible with FE solvers with different approaches; T
 <p align="center">
 <img width="700" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168859866-32300557-0988-403d-b91a-c647826f97d7.png">
 </p>
+
+# Bone anatomical measurements
+The `2_BoneAnt.ipynb` code measures the bone anatomical measurements and saves the output in the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folder. The measured parameters are as below:
+
+* **Hip joint center (HJC)** & **simplified femoral head radius (SR)**: we fit a sphere to the femoral head and choose the center and radius of this sphere as the hip joint center and the simplified femoral head radius, respectively. To minimize the bias from manual fitting, we use a least-squares method for spherical fit; 
+* **Actual femoral head surface mesh (AR)**: the distance from the HJC to the femoral head surface mesh; 
+* **Visible femur length (VFL)**:  the length of the line connecting the most proximal point of the femur to the mid-point of the most distal part of the same bone;
+* **Neck-shaft angle (NSA)**: measures the angle between the neck and shaft axes. We first extract the centerline of the femoral bone geometry using the VMTK extension in the 3D slicer software package. Then, we apply a least-squares Linear Regression method to find the best fitting lines to the neck and shaft part of the centerline. The angle between these two lines shows the NSA;
+* **Width of the pelvis (PW)**: the distance between the most lateral point of the pelvic bones to the femoral head center;
+* **Inter-hip separation (IHS)**: the distance between the paired hip joint centers; 
+* **Height of ilium (IH)**: the vertical distance between the most superior part of the pelvic bones and the hip joint center; 
+* **Width of ilium (IW)**: the horizontal distance between the hip joint center and the most lateral point of the pelvic bones;
+
+<p align="center">
+<img width="600" alt="bone_ant" src="https://user-images.githubusercontent.com/45920627/182394952-2a371d4b-2cab-4834-b833-8997ead09466.png">
+</p>
+
+:bulb: You can find the bone anatomical measurenebts for all the subjects in the [MorphoData](https://github.com/diku-dk/libhip/tree/main/model_repository/MorphoData) folder.
 
 # Multi-body Volume Mesh Generation
 Using [fTetWild](https://wildmeshing.github.io/ftetwild/), we create volume mesh for all the sub-domains simultaneously, ensuring neither overlapping nor gaps in the interfaces. This method welds the interface nodes together in the meshing step, avoiding further contact definitions in the simulation setup.
