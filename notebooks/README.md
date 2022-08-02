@@ -52,7 +52,7 @@ The `2_BoneAnt.ipynb` code measures the bone anatomical measurements and saves t
 <img width="600" alt="bone_ant" src="https://user-images.githubusercontent.com/45920627/182394952-2a371d4b-2cab-4834-b833-8997ead09466.png">
 </p>
 
-:bulb: You can find the bone anatomical measurenebts for all the subjects in the [MorphoData](https://github.com/diku-dk/libhip/tree/main/model_repository/MorphoData) folder.
+:bulb: You can find the bone anatomical measurements for all the subjects in the [MorphoData](https://github.com/diku-dk/libhip/tree/main/model_repository/MorphoData) folder.
 
 # Multi-body Volume Mesh Generation
 Using [fTetWild](https://wildmeshing.github.io/ftetwild/), we create volume mesh for all the sub-domains simultaneously, ensuring neither overlapping nor gaps in the interfaces. This method welds the interface nodes together in the meshing step, avoiding further contact definitions in the simulation setup.
