@@ -4,7 +4,12 @@ Here, we explain our modeling pipeline and guide you through the existing codes.
 The input to our modeling workflow is the surface mesh of the bony structures. 
 * The bone surface mesh is segmented directly from CT images. For more information about the images and the delineated label maps please checkout the [ImageData](https://github.com/diku-dk/libhip/tree/main/model_repository/ImageData) and the [LabelMap](https://github.com/diku-dk/libhip/tree/main/model_repository/LabelMaps) folders, respectively.
 * The initial 3D representation of the bone labelmaps are stored in the [RawSegment](https://github.com/diku-dk/libhip/tree/main/model_repository/RawSegment) folder. These models are typically dense and may have poor qualities; Thus, we need to improve the quality and resize the triangles before using them for our pipeline.
-* The `0_PreProcessing.ipynb` code cleans and re-meshes the surface meshes and stores the output in the [preprocessing_output](https://github.com/diku-dk/libhip/tree/main/model_generation/preprocessing_output) folder. 
+
+The `0_PreProcessing.ipynb` code cleans and re-meshes the surface meshes and stores the output in the [preprocessing_output](https://github.com/diku-dk/libhip/tree/main/model_generation/preprocessing_output) folder. 
+
+<p align="center">
+<img width="800" alt="remeshing_tree" src = "https://user-images.githubusercontent.com/45920627/182364874-1bdbd277-8e99-4590-9349-c7d8a97132c8.png">
+</p>
 
 :bulb: You can find the cleaned and re-meshed bone models for all the subjects in the [CleanSegment](https://github.com/diku-dk/libhip/tree/main/model_repository/CleanSegment) folder.
 
@@ -20,7 +25,7 @@ The `1_CarGen.ipynb` code generates single-piece cartilages for the sacroiliac j
 We want our models to be compatible with FE solvers with different approaches; Thus, we provide two versions of hip joint models for each subject : *with* and *without a gap* between the articular cartilages. Each time you run this code, the output is stored in the [cargen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/cargen_output) folder.
 
 <p align="center">
-<img width="800" alt="cargen_tree" src = "https://user-images.githubusercontent.com/45920627/182340649-9d77116d-4b86-4fbb-a8a5-f9a2884a7883.png">
+<img width="800" alt="cargen_tree" src = "https://user-images.githubusercontent.com/45920627/182364198-60c592b7-6cd8-437e-99e4-d723a755553f.png">
 </p>
 
 :bulb: You can find the cartilage and the underlying bone surface meshes for all the subjects in the [CartiGen](https://github.com/diku-dk/libhip/tree/main/model_repository/CartiGen) folder.
