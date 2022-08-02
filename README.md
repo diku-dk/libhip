@@ -42,7 +42,7 @@ Finally, activate your environment and run the jupyter notebook:
 conda activate libhip
 jupyter notebook
 ```
-Further, [install fTetWild](https://wildmeshing.github.io/ftetwild/) using CMake, [clone libisl](https://github.com/erleben/libisl.git), and install the [git lfs](https://git-lfs.github.com) on your machine.
+Further, [install fTetWild](https://wildmeshing.github.io/ftetwild/) using CMake and [clone RAINBOW](https://github.com/diku-dk/RAINBOW) on your machine.
 ## Citation
 Please cite this work by using this reference:
 
