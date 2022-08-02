@@ -626,12 +626,12 @@ def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, par
     subject_id = df.loc[1, 'Value']
 
     if df.loc[7, 'Value'] == 'empty':
-        np.save(mid_outputs_dir + '/' + str(subject_id) + '_lhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
+        np.save(str(mid_outputs_dir) + '/' + str(subject_id) + '_lhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
         df.loc[7, 'Value'] = np.round(cartilage_area, 2)
         df.loc[8, 'Value'] = np.round(np.mean(harmonic_thick_w_gap), 2)
         df.loc[9, 'Value'] = np.round(np.mean(harmonic_thick_wo_gap), 2)
     else:
-        np.save(mid_outputs_dir + '/' + str(subject_id) + '_rhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
+        np.save(str(mid_outputs_dir) + '/' + str(subject_id) + '_rhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
         df.loc[14, 'Value'] = np.round(cartilage_area, 2)
         df.loc[15, 'Value'] = np.round(np.mean(harmonic_thick_w_gap), 2)
         df.loc[16, 'Value'] = np.round(np.mean(harmonic_thick_wo_gap), 2)
