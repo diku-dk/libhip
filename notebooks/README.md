@@ -39,6 +39,10 @@ Once you run this code, the outputs and teh cartilage anatomical measurements ar
 # Bone anatomical measurements
 The `2_BoneAnt.ipynb` code measures the bone anatomical measurements and saves the output in the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folder. 
 
+<p align="center">
+<img width="800" alt="bone_tree" src = "https://user-images.githubusercontent.com/45920627/182417305-4bd853f9-7dd6-4248-922a-b87b74ec9c5e.png">
+</p>
+
 :bulb: You can find the bone anatomical measurements for all the subjects in the [MorphoData](https://github.com/diku-dk/libhip/tree/main/model_repository/MorphoData) folder.
 
 # Multi-body Volume Mesh Generation
