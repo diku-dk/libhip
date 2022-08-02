@@ -22,10 +22,10 @@ We apply a specialized geometry processing method to generate subject-specific c
 
 The `1_CarGen.ipynb` code generates single-piece cartilages for the sacroiliac joint and the pubic symphysis, filling the inter-bone cavity. The joint space in the hip joint is divided between the acetabular and the femoral layers, allocating roughly half of the joint space to each cartilage's thickness.  
 
-We want our models to be compatible with FE solvers with different approaches; Thus, we provide two versions of hip joint models for each subject : *with* and *without a gap* between the articular cartilages. Each time you run this code, the output is stored in the [cargen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/cargen_output) folder.
+We want our models to be compatible with FE solvers with different approaches; Thus, we provide two versions of hip joint models for each subject : *with* and *without a gap* between the articular cartilages. Once you run this code, the outputs are stored in the [cargen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/cargen_output) and the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folders.
 
 <p align="center">
-<img width="800" alt="cargen_tree" src = "https://user-images.githubusercontent.com/45920627/182364198-60c592b7-6cd8-437e-99e4-d723a755553f.png">
+<img width="800" alt="cargen_tree" src = "https://user-images.githubusercontent.com/45920627/182378275-b46c97c3-af79-4dcf-9b7f-5af70f5572cf.png">
 </p>
 
 :bulb: You can find the cartilage and the underlying bone surface meshes for all the subjects in the [CartiGen](https://github.com/diku-dk/libhip/tree/main/model_repository/CartiGen) folder.
