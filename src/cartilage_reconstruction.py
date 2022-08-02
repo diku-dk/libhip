@@ -333,7 +333,7 @@ def get_hj_ac(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_pa
     return p_vertices, output_w_gap_vertices, output_w_gap_faces, output_wo_gap_vertices, output_wo_gap_faces, fc_face_idxs
 
 
-def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, param, anatomical_path):
+def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, param, anatomical_path, mid_outputs_dir):
 
     """
     This function generates the hip joint femoral cartilage based on the femur and hip bones
@@ -622,17 +622,16 @@ def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, par
     harmonic_thick_wo_gap = np.delete(harmonic_weights_wo_gap, thickness_wo_gap_num, axis=0)
 
     # to later fit a sphere to
-    anatomical_dir = os.path.dirname(anatomical_path)
     basep_vertex_idxs = np.unique(p_faces[p_face_idxs].flatten())
     subject_id = df.loc[1, 'Value']
 
     if df.loc[7, 'Value'] == 'empty':
-        np.save(anatomical_dir + '/' + str(subject_id) + '_lhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
+        np.save(mid_outputs_dir + '/' + str(subject_id) + '_lhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
         df.loc[7, 'Value'] = np.round(cartilage_area, 2)
         df.loc[8, 'Value'] = np.round(np.mean(harmonic_thick_w_gap), 2)
         df.loc[9, 'Value'] = np.round(np.mean(harmonic_thick_wo_gap), 2)
     else:
-        np.save(anatomical_dir + '/' + str(subject_id) + '_rhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
+        np.save(mid_outputs_dir + '/' + str(subject_id) + '_rhj_fc_base_faces', pb_vertices[basep_vertex_idxs])
         df.loc[14, 'Value'] = np.round(cartilage_area, 2)
         df.loc[15, 'Value'] = np.round(np.mean(harmonic_thick_w_gap), 2)
         df.loc[16, 'Value'] = np.round(np.mean(harmonic_thick_wo_gap), 2)
