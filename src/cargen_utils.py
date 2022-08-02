@@ -230,8 +230,8 @@ def get_initial_surface2(vertices_p,
     neigh_vertex_idxs= np.unique(faces_s[neigh_face_idxs].flatten())
 
     # histogram
-    y, x, _ = plt.hist(sd_value, bins=1000)
-    ii = np.where(y == np.max(y))[0]
+    # y, x, _ = plt.hist(sd_value, bins=1000)
+    # ii = np.where(y == np.max(y))[0]
     # print('x =',x[ii])
     # plt.xlabel("distance from the primary to the secondary bone")
     # plt.ylabel("number of facets")
@@ -275,8 +275,8 @@ def get_initial_surface_bc(vertices_p,
     neigh_vertex_idxs= np.unique(faces_s[neigh_face_idxs].flatten())
 
     # histogram
-    y, x, _ = plt.hist(sd_value, bins=1000)
-    ii = np.where(y == np.max(y))[0]
+    # y, x, _ = plt.hist(sd_value, bins=1000)
+    # ii = np.where(y == np.max(y))[0]
     # print('x =',x[ii])
     # plt.xlabel("distance from the primary to the secondary bone")
     # plt.ylabel("number of facets")
