@@ -1,0 +1,19 @@
+,Parameters,m9
+0,Interhip separation,185.21
+1,Height of left ilium,157.23
+2,Height of right Ilium,151.38
+3,Width of left ilium,55.02
+4,Width of right ilium,54.3
+5,Width of the pelvis,298.58
+6,left ball center,[[  77.67 -163.42 -468.02]]
+7,right ball center,[[-107.18 -175.08 -467.15]]
+8,left head ball radius,28.3
+9,right head ball radius,28.54
+10,left_head_center,[[  69.64 -164.69 -466.33]]
+11,right_head_center,[[-101.53 -173.91 -468.41]]
+12,left head mean radius,27.0
+13,right head mean radius,27.0
+14,lplane,[[ 101.53807547 -143.16150227 -547.2130127 ]]
+15,rplane,[[-140.86017237 -159.53103029 -547.2130127 ]]
+16,Left femur greatest,110.55
+17,Right femur greatest,113.15
