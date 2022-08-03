@@ -29,16 +29,16 @@ The [src](https://github.com/diku-dk/libhip/tree/main/src), [notebooks](https://
 
 ## Installation
 First, clone this repository to your local directory and go into that folder. Below, is an example of how to clone this repository using the command line:
-```python
+```bash
 git clone https://github.com/diku-dk/libhip.git
 cd libhip
 ```
 Next, create a conda environment named `libhip`, using the channel `conda-forge` and the list of packages in the `requirements.txt` file: 
-```python
+```bash
 conda create --name libhip -c conda-forge --file requirements.txt 
 ```
 Finally, activate your environment and run the jupyter notebook: 
-```python
+```bash
 conda activate libhip
 jupyter notebook
 ```
