@@ -24,7 +24,7 @@ The `1_CarGen.ipynb` code generates single-piece cartilages for the sacroiliac j
 
 We want our models to be compatible with FE solvers with different approaches; Thus, we provide two versions of hip joint models for each subject : *with* and *without a gap* between the articular cartilages. 
 
-Once you run this code, the outputs and teh cartilage anatomical measurements are stored in the [cargen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/cargen_output) and the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folders, respectively.
+Once you run this code, the outputs and teh cartilage anatomical measurements are stored in the [cargen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/cargen_output) and the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folders, respectively. This code has several mid-output results which the user will not need and they will be stored in the [mid_outputs/ant_output](https://github.com/diku-dk/libhip/tree/main/model_generation/mid_outputs/ant_output) folder.
 
 <p align="center">
 <img width="800" alt="cargen_tree" src = "https://user-images.githubusercontent.com/45920627/182378275-b46c97c3-af79-4dcf-9b7f-5af70f5572cf.png">
@@ -59,7 +59,7 @@ In this jupyter notebook, we use [fTetWild](https://wildmeshing.github.io/ftetwi
 ftetwild_dir = Path.home()/ 'Documents'/ 'Github'/ 'fTetWild'/ 'build'
 ```
 
-Each time you run this code, the final multi-body volume mesh together with the extracted surface meshes are stored in the [volgen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/volgen_output) folder. This code has several mid-outputs which the user will not need and they are stored in the [mid_outputs](https://github.com/diku-dk/libhip/tree/main/model_generation/mid_outputs) folder. 
+Each time you run this code, the final multi-body volume mesh together with the extracted surface meshes are stored in the [volgen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/volgen_output) folder. This code has several mid-outputs which the user will not need and they will be stored in the [mid_outputs](https://github.com/diku-dk/libhip/tree/main/model_generation/mid_outputs) folder. 
 
 <p align="center">
 <img width="800" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168844422-39654fdb-5f2b-45d8-9ec0-aff3b1f2f562.png">
