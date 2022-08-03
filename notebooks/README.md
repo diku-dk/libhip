@@ -48,10 +48,14 @@ sys.path.append (str(Path.home()/'Documents'/'Github'/'RAINBOW'/'python'))
 
 :bulb: You can find the bone anatomical measurements for all the subjects in the [MorphoData](https://github.com/diku-dk/libhip/tree/main/model_repository/MorphoData) folder.
 
-# Multi-body Volume Mesh Generation
+# Multi-body volume meshing
 The `3_VolGen.ipynb` code creates volume mesh for all the sub-domains simultaneously, ensuring neither overlapping nor gaps in the interfaces. This method welds the interface nodes together in the meshing step, avoiding further contact definitions in the simulation setup.
 
 In the first step, we create a volume mesh inside and outside the model, filling a bounding box around the model. These tetrahedrons still have no inside/out classification. Next, we apply a post-processing step to extract the interior volume of each object and filter out the elements that do not belong to any of the objects. 
+
+<p align="center">
+<img width="800" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168844422-39654fdb-5f2b-45d8-9ec0-aff3b1f2f562.png">
+</p>
 
 In this jupyter notebook, we use [fTetWild](https://wildmeshing.github.io/ftetwild/) to create the volume meshes. Please remember to install this library and then update the corresponding path to the **build** folder inside this code.
 
@@ -62,16 +66,12 @@ ftetwild_dir = Path.home()/ 'Documents'/ 'Github'/ 'fTetWild'/ 'build'
 Each time you run this code, the final multi-body volume mesh together with the extracted surface meshes are stored in the [volgen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/volgen_output) folder. This code has several mid-outputs which the user will not need and they will be stored in the [mid_outputs](https://github.com/diku-dk/libhip/tree/main/model_generation/mid_outputs) folder. 
 
 <p align="center">
-<img width="800" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168844422-39654fdb-5f2b-45d8-9ec0-aff3b1f2f562.png">
+<img width="800" alt="volgen_tree" src="https://user-images.githubusercontent.com/45920627/182598197-8ccac65f-8b55-48c1-add6-c4a65dbb036e.png">
 </p>
 
 :bulb: The surface and volume mesh for all the subjects are provided in the [SurfaceMesh](https://github.com/diku-dk/libhip/tree/main/model_repository/SurfaceMesh) and the [VolumeMesh](https://github.com/diku-dk/libhip/tree/main/model_repository/VolumeMesh) folders, respectively.
 
-
-
-
-
-# Finite Element Simulation
+# Finite element simulation
 The `4_SimGen.ipynb` code generates an [FEBio](https://febio.org) model file (`.feb`) automatically suitable for `FEBio Version3.0` . Each time you run the code, the output foles are stored in the [simulation_output](https://github.com/diku-dk/libhip/tree/main/model_generation/simulation_output) folder. Since FEBio requires an initial slight penetration between the contact surfaces, we use the model versions with no gap in the hip joints to build the simulation files.
 
 A pseudo-stance scenario under *dynamic* structural mechanics analysis is set up in FEBio. We fix the pelvic girdle by restricting the sacrum's displacement and rotation in the x,y, and z-direction. The distal end of each femoral bone is tied to a rigid body. This rigid body has a force applied in the z-direction and is restricted in the other directions. The rigid force starts from zero and increases linearly to 430N on each femur. The articular interfaces in the hip joints are selected as the contact surfaces, and an augmented surface contact algorithm with friction-less tangential interaction is applied between them.
