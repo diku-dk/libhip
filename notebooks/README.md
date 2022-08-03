@@ -74,6 +74,10 @@ Each time you run this code, the final multi-body volume mesh together with the 
 # Finite element simulation
 The `4_SimGen.ipynb` code generates an [FEBio](https://febio.org) model file (`.feb`) automatically suitable for `FEBio Version3.0` . Each time you run the code, the output foles are stored in the [simulation_output](https://github.com/diku-dk/libhip/tree/main/model_generation/simulation_output) folder. Since FEBio requires an initial slight penetration between the contact surfaces, we use the model versions with no gap in the hip joints to build the simulation files.
 
+<p align="center">
+<img width="800" alt="sim_tree" src="https://user-images.githubusercontent.com/45920627/182610227-7ef8107c-bef8-4c72-8073-5c8f335c74b9.png">
+</p>
+
 A pseudo-stance scenario under *dynamic* structural mechanics analysis is set up in FEBio. We fix the pelvic girdle by restricting the sacrum's displacement and rotation in the x,y, and z-direction. The distal end of each femoral bone is tied to a rigid body. This rigid body has a force applied in the z-direction and is restricted in the other directions. The rigid force starts from zero and increases linearly to 430N on each femur. The articular interfaces in the hip joints are selected as the contact surfaces, and an augmented surface contact algorithm with friction-less tangential interaction is applied between them.
 
 <p align="center">
