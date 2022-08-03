@@ -37,8 +37,11 @@ Once you run this code, the outputs and teh cartilage anatomical measurements ar
 </p>
 
 # Bone anatomical measurements
-The `2_BoneAnt.ipynb` code measures the bone anatomical measurements and saves the output in the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folder. 
+The `2_BoneAnt.ipynb` code measures the bone anatomical measurements and saves the output in the [anatomical_info](https://github.com/diku-dk/libhip/tree/main/model_generation/anatomical_info) folder. In this jupyter notebook, we use the available modules in the [RAINBOW](https://github.com/diku-dk/RAINBOW) library to measure the hip joint center. Please remember to clone this library and then update the corresponding path to the **python** folder inside this code.
 
+```python
+sys.path.append (str(Path.home()/'Documents'/'Github'/'RAINBOW'/'python'))
+```
 <p align="center">
 <img width="800" alt="bone_tree" src = "https://user-images.githubusercontent.com/45920627/182417305-4bd853f9-7dd6-4248-922a-b87b74ec9c5e.png">
 </p>
@@ -46,16 +49,26 @@ The `2_BoneAnt.ipynb` code measures the bone anatomical measurements and saves t
 :bulb: You can find the bone anatomical measurements for all the subjects in the [MorphoData](https://github.com/diku-dk/libhip/tree/main/model_repository/MorphoData) folder.
 
 # Multi-body Volume Mesh Generation
-Using [fTetWild](https://wildmeshing.github.io/ftetwild/), we create volume mesh for all the sub-domains simultaneously, ensuring neither overlapping nor gaps in the interfaces. This method welds the interface nodes together in the meshing step, avoiding further contact definitions in the simulation setup.
+The `3_VolGen.ipynb` code creates volume mesh for all the sub-domains simultaneously, ensuring neither overlapping nor gaps in the interfaces. This method welds the interface nodes together in the meshing step, avoiding further contact definitions in the simulation setup.
 
-The `3_VolGen.ipynb` code generates volume meshes inside and outside the model, filling a bounding box around the model. These tetrahedrons still have no inside/out classification. Thus, we apply a post-processing step to extract the interior volume of each object and filter out the elements that do not belong to any of the objects. 
+In the first step, we create a volume mesh inside and outside the model, filling a bounding box around the model. These tetrahedrons still have no inside/out classification. Next, we apply a post-processing step to extract the interior volume of each object and filter out the elements that do not belong to any of the objects. 
 
-This code has several mid-outputs which the user will not need and they are stored in the [mid_outputs](https://github.com/diku-dk/libhip/tree/main/model_generation/mid_outputs) folder. Each time you run this code, the final multi-body volume mesh together with the extracted surface meshes are stored in the [volgen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/volgen_output) folder. The surface and volume mesh for all the subjects are provided in the [SurfaceMesh](https://github.com/diku-dk/libhip/tree/main/model_repository/SurfaceMesh) and the [VolumeMesh](https://github.com/diku-dk/libhip/tree/main/model_repository/VolumeMesh) folders, respectively.
+In this jupyter notebook, we use [fTetWild](https://wildmeshing.github.io/ftetwild/) to create the volume meshes. Please remember to install this library and then update the corresponding path to the **build** folder inside this code.
 
+```python
+ftetwild_dir = Path.home()/ 'Documents'/ 'Github'/ 'fTetWild'/ 'build'
+```
+
+Each time you run this code, the final multi-body volume mesh together with the extracted surface meshes are stored in the [volgen_output](https://github.com/diku-dk/libhip/tree/main/model_generation/volgen_output) folder. This code has several mid-outputs which the user will not need and they are stored in the [mid_outputs](https://github.com/diku-dk/libhip/tree/main/model_generation/mid_outputs) folder. 
 
 <p align="center">
 <img width="800" alt="Screenshot 2022-04-28 at 10 50 05" src="https://user-images.githubusercontent.com/45920627/168844422-39654fdb-5f2b-45d8-9ec0-aff3b1f2f562.png">
 </p>
+
+:bulb: The surface and volume mesh for all the subjects are provided in the [SurfaceMesh](https://github.com/diku-dk/libhip/tree/main/model_repository/SurfaceMesh) and the [VolumeMesh](https://github.com/diku-dk/libhip/tree/main/model_repository/VolumeMesh) folders, respectively.
+
+
+
 
 
 # Finite Element Simulation
