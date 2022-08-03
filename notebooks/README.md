@@ -72,8 +72,17 @@ Each time you run this code, the final multi-body volume mesh together with the 
 
 
 # Finite Element Simulation
-We demonstrate the performance of our models in different simulation setups and show that our models are compatible with different FE solvers. A pseudo-stance scenario under dynamic structural mechanics analysis is set up in the [FEBio](https://febio.org) and [PolyFEM](https://polyfem.github.io) solvers. 
+The `4_SimGen.ipynb` code generates an [FEBio](https://febio.org) model file (`.feb`) automatically suitable for `FEBio Version3.0` . Each time you run the code, the output foles are stored in the [simulation_output](https://github.com/diku-dk/libhip/tree/main/model_generation/simulation_output) folder. Since FEBio requires an initial slight penetration between the contact surfaces, we use the model versions with no gap in the hip joints to build the simulation files.
 
-We provide 11 FE model with two hip joint versions: with and without a gap between the articular cartilages. Since FEBio requires an initial slight penetration between the contact surfaces, we use the model versions with no gap in the hip joints. PolyFEM, in contrast, requires an initial configuration free of penetrations; thus, we use the model versions with a small gap between the articular cartilage layers.
+A pseudo-stance scenario under *dynamic* structural mechanics analysis is set up in FEBio. We fix the pelvic girdle by restricting the sacrum's displacement and rotation in the x,y, and z-direction. The distal end of each femoral bone is tied to a rigid body. This rigid body has a force applied in the z-direction and is restricted in the other directions. The rigid force starts from zero and increases linearly to 430N on each femur. The articular interfaces in the hip joints are selected as the contact surfaces, and an augmented surface contact algorithm with friction-less tangential interaction is applied between them.
 
-The `4_SimGen.ipynb` code generates an FEBio model file (`.feb`) automatically suitable for `FEBio Version3.0` . Each time you run the code, the output foles are stored in the [simulation_output](https://github.com/diku-dk/libhip/tree/main/model_generation/simulation_output) folder.  All the simulation files and results are located in the [Simulation](https://github.com/diku-dk/libhip/tree/main/model_repository/Simulation) folder.
+<p align="center">
+<img alt="Screenshot 2022-07-24 at 18 08 08" src="https://user-images.githubusercontent.com/45920627/180656143-66edec29-5300-47f2-906f-01accc955278.png">
+</p>
+
+:bulb: The simulation files and results for all the subjects are located in the [Simulation](https://github.com/diku-dk/libhip/tree/main/model_repository/Simulation) folder.
+
+
+
+
+
