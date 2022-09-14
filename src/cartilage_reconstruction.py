@@ -313,9 +313,12 @@ def get_hj_ac(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_pa
             fc_face_idxs += [sb_face_adjacency[k]]
     fc_face_idxs = np.array(fc_face_idxs)
 
+    fc_face_idxs = src.gap_fill(sb_vertices, sb_faces, fc_face_idxs, sb_face_adjacency, sb_cumulative_sum)
+
     frame = mp.plot(sb_vertices, sb_faces, c=src.bone, shading=src.sh_false)
     frame.add_mesh(p_vertices, p_faces[s_face_idxs], c=src.pastel_blue, shading=src.sh_true)
     frame.add_mesh(sb_vertices, sb_faces[fc_face_idxs], c=src.pastel_yellow, shading=src.sh_true)
+    # frame.add_points(sb_vertices[fc_vertex_idxs],  shading={"point_size": 0.7, "point_color": "red"})
 
 
     # _, intt_vertex_idxs_secondary_def = src.get_initial_surface2(vertices_p,
@@ -984,17 +987,15 @@ def get_sj(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_path)
     # average thickness
     triangle_centroids = igl.barycenter(p_vertices, p_faces[p_face_idxs])
     sdd, _, _ = igl.signed_distance(triangle_centroids, s_vertices, s_faces[s_face_idxs], return_normals=False)
-    sddd = np.round(np.mean(sdd), 2)
-
 
     if df.loc[18, 'Value'] == 'empty':
         df.loc[18, 'Value'] = np.round(cartilage_area_p, 2)
         df.loc[19, 'Value'] = np.round(cartilage_area_s, 2)
-        df.loc[20, 'Value'] = sddd
+        df.loc[20, 'Value'] = np.round(np.mean(sdd), 2)
     else:
         df.loc[21, 'Value'] = np.round(cartilage_area_p, 2)
         df.loc[22, 'Value'] = np.round(cartilage_area_s, 2)
-        df.loc[23, 'Value'] = sddd
+        df.loc[23, 'Value'] = np.round(np.mean(sdd), 2)
 
     # write to the specific anatomical file for each subject
     df.to_csv(str(anatomical_path), index=False)
@@ -1306,11 +1307,10 @@ def get_gap_pj(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_p
     # average thickness
     triangle_centroids = igl.barycenter(p_vertices, p_faces[p_face_idxs])
     sdd, _, _ = igl.signed_distance(triangle_centroids, s_vertices, s_faces[s_face_idxs], return_normals=False)
-    sddd = np.round(np.mean(sdd), 2)
 
     df.loc[24, 'Value'] = np.round(cartilage_area_p, 2)
     df.loc[25, 'Value'] = np.round(cartilage_area_s, 2)
-    df.loc[26, 'Value'] = sddd
+    df.loc[26, 'Value'] = np.round(np.mean(sdd), 2)
 
     # write to the specific anatomical file for each subject
     df.to_csv(str(anatomical_path), index=False)
