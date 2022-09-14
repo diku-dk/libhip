@@ -64,7 +64,7 @@ rhj_fc_var:
     trimming_base_iteration: 1            # default
     smoothing_factor: 0.5                 # default
     smoothing_iteration_base: 2           # default
-    w_gap_thickness_factor: 0.45          # default
+    w_gap_thickness_factor: 0.43          # default
     wo_gap_thickness_factor: 0.50         # default
     bandwidth: 2                          # default
     blending_order: 2                     # default
@@ -97,8 +97,8 @@ pj_var:
 # parameters for volume mesh generation
 vol_var:
     epsilon: 0.0005                       # default
-    edge_length_leg: 0.021                # default
-    edge_length_girdle: 0.015             # default
+    edge_length_leg: 0.020                # default
+    edge_length_girdle: 0.014             # default
 
 # parameters for simulation file generation
 sim_var:

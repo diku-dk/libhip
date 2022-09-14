@@ -1,7 +1,7 @@
 # parameters for the left hip joint acetabular cartilage
 lhj_ac_var:
-    gap_distance: 4.4
-    trimming_iteration: 1
+    gap_distance: 5.3
+    trimming_iteration: 3
     smoothing_factor: 0.5              # default
     smoothing_iteration_base: 2        # default
     no_extend_trimming_iteration: 2    # default
@@ -13,11 +13,11 @@ lhj_ac_var:
 
 # parameters for the left hip joint femoral cartilage
 lhj_fc_var:
-    trimming_iteration: 0
+    trimming_iteration: 1
     neighbourhood_size: 10
     curvature_type: "mean"             # default
     curve_info: False                  # default
-    min_curvature_threshold: 0.026     # default
+    min_curvature_threshold: 0.027
     max_curvature_threshold: .inf      # default
     trimming_base_iteration: 1         # default
     smoothing_factor: 0.5              # default
@@ -30,63 +30,63 @@ lhj_fc_var:
 
 # parameters for the left sacroiliac joint
 lsj_var:
-    gap_distance:  4
-    trimming_iteration_p: 2
+    gap_distance: 3                       # default
+    trimming_iteration_p: 2              # default
     smoothing_iteration_base: 2           # default
     smoothing_factor: 0.5                 # default
     fix_boundary: True                    # default
-    trimming_iteration_s: 0
+    trimming_iteration_s: 0               # default
     smoothing_iteration_extruded_base: 2  # default
-    upsampling_iteration:  0              # default
+    upsampling_iteration: 0               # default
     full_model: True                      # default
 
 # parameters for the right hip joint acetabular cartilage
 rhj_ac_var:
-    gap_distance: 5.6
-    trimming_iteration: 2
+    gap_distance: 5.45
+    trimming_iteration: 3
     smoothing_factor: 0.5                 # default
     smoothing_iteration_base: 2           # default
-    no_extend_trimming_iteration: 1
-    w_gap_thickness_factor: 0.45       # default
-    wo_gap_thickness_factor: 0.5       # default
-    bandwidth: 2                          # default
+    no_extend_trimming_iteration: 2       # default
+    w_gap_thickness_factor: 0.45          # default
+    wo_gap_thickness_factor: 0.5          # default
+    bandwidth: 1
     blending_order: 2                     # default
     full_model: True                      # default
 
 # parameters for the right hip joint femoral cartilage
 rhj_fc_var:
-    trimming_iteration: 3
+    trimming_iteration: 1
     neighbourhood_size: 11
     curvature_type: "mean"                # default
     curve_info: False                     # default
-    min_curvature_threshold: 0.026        # default
+    min_curvature_threshold: 0.03
     max_curvature_threshold: .inf         # default
     trimming_base_iteration: 1            # default
     smoothing_factor: 0.5                 # default
     smoothing_iteration_base: 2           # default
-    w_gap_thickness_factor: 0.45       # default
-    wo_gap_thickness_factor: 0.5       # default
-    bandwidth: 3
+    w_gap_thickness_factor: 0.45          # default
+    wo_gap_thickness_factor: 0.5          # default
+    bandwidth: 2                         # default
     blending_order: 2                     # default
     full_model: True                      # default
 
 # parameters for the right sacroiliac joint
 rsj_var:
-    gap_distance: 4
-    trimming_iteration_p:  2
+    gap_distance: 3
+    trimming_iteration_p: 1               # default
     smoothing_iteration_base: 2           # default
-    smoothing_factor:  0.5                # default
+    smoothing_factor: 0.5                 # default
     fix_boundary: True                    # default
-    trimming_iteration_s: 0
+    trimming_iteration_s: 0               # default
     smoothing_iteration_extruded_base: 2  # default
-    upsampling_iteration:  0              # default
+    upsampling_iteration: 0               # default
     full_model: True                      # default
 
 # parameters for the pubic joint
 pj_var:
-    gap_distance: 7
-    trimming_iteration_p: 1               # default
-    trimming_iteration_s: 1               # default
+    gap_distance: 5
+    trimming_iteration_p: 2               # default
+    trimming_iteration_s: 2               # default
     smoothing_iteration_base: 2           # default
     smoothing_factor: 0.5                 # default
     fix_boundary: True                    # default
@@ -96,14 +96,14 @@ pj_var:
 
 # parameters for volume mesh generation
 vol_var:
-    epsilon: 0.0006                # default
-    edge_length_leg: 0.013         # default
-    edge_length_girdle: 0.017      # default
+    epsilon: 0.0005                       # default
+    edge_length_leg: 0.015                # default
+    edge_length_girdle: 0.015             # default
 
 # parameters for simulation file generation
 sim_var:
-    lf_z_coord: -0.505                    # default
-    rf_z_coord: -0.505                    # default
+    lf_z_coord: -0.97                     # default
+    rf_z_coord: -0.97                     # default
 
 # parameters for surface re-meshing
 mesh_var:
@@ -113,9 +113,10 @@ mesh_var:
 
 # anatomical measurements data
 ant_var:
-    l_distal_midpoint_x: 113.85380578
-    l_distal_midpoint_y: 26.22381225
-    l_distal_midpoint_z: -504.51199341
-    r_distal_midpoint_x: -153.9444556
-    r_distal_midpoint_y: 17.89248173
-    r_distal_midpoint_z: -504.51199341
+    l_distal_midpoint_x: 122.78837959
+    l_distal_midpoint_y: -124.69547376
+    l_distal_midpoint_z: -972.29998779
+    r_distal_midpoint_x: -109.61763339
+    r_distal_midpoint_y: -111.86372101
+    r_distal_midpoint_z: -972.29998779
+
