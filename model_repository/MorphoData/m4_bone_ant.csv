@@ -1,19 +1,19 @@
-,Parameters,m4
-0,Interhip separation,171.46
-1,Height of left ilium,143.74
-2,Height of right Ilium,140.53
-3,Width of left ilium,49.67
-4,Width of right ilium,37.35
-5,Width of the pelvis,258.64
-6,left ball center,[[  78.33   28.86 -365.22]]
-7,right ball center,[[ -92.6    18.72 -356.51]]
-8,left head ball radius,25.49
-9,right head ball radius,26.19
-10,left_head_center,[[  75.84   30.79 -366.23]]
-11,right_head_center,[[ -90.11   19.78 -357.43]]
-12,left head mean radius,25.0
-13,right head mean radius,25.0
-14,lplane,[[ 113.85380578   26.22381225 -504.51199341]]
-15,rplane,[[-153.9444556    17.89248173 -504.51199341]]
-16,Left femur greatest,167.73
-17,Right femur greatest,184.26
+,Bone_anatomical_info,m4
+0,The Interhip Separation,171.47
+1,Height of the Left Ilium (L_IH),143.72
+2,Height of the Right Ilium (L_IH),140.64
+3,Width of the Left Ilium (L_IW),49.66
+4,Width of the Right Ilium (R_IW),37.35
+5,Width of the pelvis (PW),258.64
+6,The Left Hip Joint Center (L_HJC),[  78.34   28.85 -365.2 ]
+7,The Right Hip Joint Center (R_HJC),[ -92.6    18.49 -356.62]
+8,The Left Simplified Radius (L_SR),25.51
+9,The Right Simplified Radius (R_SR),26.21
+10,The Left Mean Actual Radius (L_M_AR),25.0
+11,The Right Mean Actual Radius (R_M_AR),25.0
+12,The Left Femur Distal Mid-point,[[ 113.85380578   26.22381225 -504.51199341]]
+13,The Right Femur Distal Mid-point,[[-153.9444556    17.89248173 -504.51199341]]
+14,The Visible Left Femur Length (L_VFL),167.73
+15,The Visible Right Femur Length (R_VFL),184.26
+16,The Left neck-shaft angle (L_NSA),126.0
+17,The Right neck-shaft angle (R_NSA),120.0
