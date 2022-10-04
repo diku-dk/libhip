@@ -45,9 +45,15 @@ jupyter notebook
 Further, [install fTetWild](https://wildmeshing.github.io/ftetwild/) using CMake and [clone RAINBOW](https://github.com/diku-dk/RAINBOW) on your machine.
 ## Citation
 Please cite this work by using this reference:
-
-- Soon to be added due to the review process.
-
+```bash
+@article{moshfeghifar226libhip,
+  title={LibHip: An open-access hip joint model repository suitable for finite element method simulation},
+  author={Moshfeghifar, Faezeh and Gholamalizadeh, Torkan and Ferguson, Zachary and Schneider, Teseo and Nielsen, Michael Bachmann and Panozzo, Daniele and Darkner, Sune and Erleben, Kenny},
+  journal={Computer methods and programs in biomedicine},
+  volume={226},
+  pages={107140}
+}
+```
 ## Acknowledgement 
 🌈 This project has received funding from the European Union’s Horizon 2020 research and innovation program under the Marie Sklodowska-Curie grant agreement No. 764644.
 This repository only contains the [RAINBOW](https://rainbow.ku.dk) consortium’s views, and the Research Executive Agency and the Commission are not responsible for any use that may be made of the information it contains.
