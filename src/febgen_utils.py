@@ -35,7 +35,8 @@ def read_volume_mesh(path, input_dimension, output_dimension):
 
 def xmlElementWriter(xmlElement, fileName):
     """
-    Write the given XML-element to a file that has the given fileName
+    Write the given XML-element to a file that has the given fileN
+    Based on tutorials from "http://chms.csuohio.edu/tutorials/Mechanics/FiniteElement/FeBio/PreliminaryTutorials/SimpleBarScriptedGeometry/"
 
     :param xmlElement: xml.etree.ElementTree.Element instance, The XML-element that contains all of the data that is being written, including desired child XML-elements.
     :param fileName: string, The name of the file that is being generated. Note that if this fileName already exists, then that file will be overwritten without warning.
@@ -57,6 +58,7 @@ def xmlElementWriter(xmlElement, fileName):
 def getNodeXmlElement(nodeId, nodeCoordinates):
     """
     Create a 'node' xml-element that is populated with the given data.
+    Based on tutorials from "http://chms.csuohio.edu/tutorials/Mechanics/FiniteElement/FeBio/PreliminaryTutorials/SimpleBarScriptedGeometry/"
 
     The xml-element that is returned is something similar to this:
         <node id="1">0., 0., 0.</node>
@@ -79,6 +81,8 @@ def getNodeXmlElement(nodeId, nodeCoordinates):
     return element
 
 def getSurfaceXmlElement(nodeId, surfaceDefinition):
+
+    # Based on tutorials from "http://chms.csuohio.edu/tutorials/Mechanics/FiniteElement/FeBio/PreliminaryTutorials/SimpleBarScriptedGeometry/"
     # """
     # Create a 'node' xml-element that is populated with the given data.
     #
@@ -106,6 +110,7 @@ def getSurfaceXmlElement(nodeId, surfaceDefinition):
 def getElemXmlElement(elementId, elementDefinition):
     """
     Create a 'elem' xml-element that is populated with the given data.
+    Based on tutorials from "http://chms.csuohio.edu/tutorials/Mechanics/FiniteElement/FeBio/PreliminaryTutorials/SimpleBarScriptedGeometry/"
 
     The xml-element that is returned is something similar to this:
         <elem id="1">4, 3, 10, 9, 8, 7, 11, 12</elem>
