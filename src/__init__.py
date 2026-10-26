@@ -1,3 +1,5 @@
+from src import plotting as _plotting
+
 from src.cartilage_reconstruction import *
 from src.cargen_utils import *
 from src.volgen_utils import *

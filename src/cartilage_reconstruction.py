@@ -9,7 +9,7 @@ import os
 
 def get_hj_ac(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_path):
 
-    """
+    r"""
     This function generates the hip joint acetabular cartilage based on the femur and hip bones
 
     :param pb_vertices: list of vertex positions of the primary bone, referred to as $V_{P}$ in the manuscript
@@ -64,7 +64,7 @@ def get_hj_ac(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_pa
 
     # the base of the Acetabular cartilage, referred to as $\F_{C}^{D}$ in the manuscript
     p_face_idxs = np.copy(ear_p_face_idxs)
-    boundary_edges = igl.boundary_facets(p_faces[p_face_idxs])
+    boundary_edges = igl.boundary_facets(p_faces[p_face_idxs])[0]
 
     # separate and smooth
     if param.smoothing_iteration_base != 0:
@@ -89,11 +89,11 @@ def get_hj_ac(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_pa
     s_face_idxs = np.copy (p_face_idxs)
     s_vertex_idxs = np.unique(s_faces[s_face_idxs].flatten())
 
-    s_edge_vertex_idxs = igl.boundary_facets(s_faces[s_face_idxs])
+    s_edge_vertex_idxs = igl.boundary_facets(s_faces[s_face_idxs])[0]
     s_edge_vertex_idxs = np.unique(s_edge_vertex_idxs.flatten())
 
     # geodesic distance from all the points on the primary bone to the boundary of the secondary interface
-    dist_to_s_boundary= igl.exact_geodesic(p_vertices, s_faces, s_edge_vertex_idxs, p_vertex_idxs)
+    dist_to_s_boundary= igl.exact_geodesic(p_vertices, s_faces, VS=s_edge_vertex_idxs, VT=p_vertex_idxs)
 
     # select the first subset of the secondary interface $\F_{C}^{D}$ to extrude
     if param.no_extend_trimming_iteration != 0:
@@ -271,7 +271,7 @@ def get_hj_ac(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_pa
 
     " Step D. stats "
 
-    df = pd.read_csv (str(anatomical_path), encoding = 'utf-8')
+    df = pd.read_csv(str(anatomical_path), encoding='utf-8', dtype={'Value': object})
 
     # cartilage area
     cartilage_area = src.get_area(p_vertices, p_faces[p_face_idxs])
@@ -338,7 +338,7 @@ def get_hj_ac(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_pa
 
 def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, param, anatomical_path, mid_outputs_dir):
 
-    """
+    r"""
     This function generates the hip joint femoral cartilage based on the femur and hip bones
 
     :param pb_vertices: list of vertex positions of the primary bone, referred to as $V_{P}$ in the manuscript
@@ -418,7 +418,7 @@ def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, par
 
     # the base of the Femoral cartilage, referred to as $\F_{C}^{D}$ in the manuscript
     p_face_idxs = np.copy(ear_grow_p_face_idxs)
-    boundary_edges = igl.boundary_facets(p_faces[p_face_idxs])
+    boundary_edges = igl.boundary_facets(p_faces[p_face_idxs])[0]
 
     # separate and smooth
     if param.smoothing_iteration_base != 0:
@@ -444,11 +444,11 @@ def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, par
     s_face_idxs = np.copy(p_face_idxs)
     s_vertex_idxs = np.unique(s_faces[s_face_idxs].flatten())
 
-    s_edge_vertex_idxs = igl.boundary_facets(s_faces[s_face_idxs])
+    s_edge_vertex_idxs = igl.boundary_facets(s_faces[s_face_idxs])[0]
     s_edge_vertex_idxs = np.unique(s_edge_vertex_idxs.flatten())
 
     # geodesic distance from all the points on the primary bone to the boundary of the secondary interface
-    dist_to_s_boundary= igl.exact_geodesic(p_vertices, s_faces, s_edge_vertex_idxs, p_vertex_idxs)
+    dist_to_s_boundary= igl.exact_geodesic(p_vertices, s_faces, VS=s_edge_vertex_idxs, VT=p_vertex_idxs)
 
     # select the first subset of the secondary interface $\F_{C}^{D}$ to extrude
     s1_face_idxs = np.copy(ear_p_face_idxs)
@@ -611,7 +611,7 @@ def get_hj_fc(pb_vertices, pb_faces, sb_vertices, sb_faces, int_p_face_idxs, par
     mp.plot(fc_vertices_w_gap, fc_faces_w_gap, c=src.pastel_orange, shading=src.sh_true)
 
     " Step D. stats "
-    df = pd.read_csv(str(anatomical_path), encoding='utf-8')
+    df = pd.read_csv(str(anatomical_path), encoding='utf-8', dtype={'Value': object})
 
     # cartilage area
     cartilage_area = src.get_area(p_vertices, p_faces[p_face_idxs])
@@ -978,7 +978,7 @@ def get_sj(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_path)
 
     " Step D. stats "
 
-    df = pd.read_csv(str(anatomical_path), encoding='utf-8')
+    df = pd.read_csv(str(anatomical_path), encoding='utf-8', dtype={'Value': object})
 
     # cartilage area
     cartilage_area_p = src.get_area(p_vertices, p_faces[p_face_idxs])
@@ -986,7 +986,7 @@ def get_sj(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_path)
 
     # average thickness
     triangle_centroids = igl.barycenter(p_vertices, p_faces[p_face_idxs])
-    sdd, _, _ = igl.signed_distance(triangle_centroids, s_vertices, s_faces[s_face_idxs], return_normals=False)
+    sdd, _, _ = igl.signed_distance(triangle_centroids, s_vertices, s_faces[s_face_idxs])[:3]
 
     if df.loc[18, 'Value'] == 'empty':
         df.loc[18, 'Value'] = np.round(cartilage_area_p, 2)
@@ -1298,7 +1298,7 @@ def get_gap_pj(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_p
 
     " Step D. stats "
 
-    df = pd.read_csv(str(anatomical_path), encoding='utf-8')
+    df = pd.read_csv(str(anatomical_path), encoding='utf-8', dtype={'Value': object})
 
     # cartilage area
     cartilage_area_p = src.get_area(p_vertices, p_faces[p_face_idxs])
@@ -1306,7 +1306,7 @@ def get_gap_pj(pb_vertices, pb_faces, sb_vertices, sb_faces, param, anatomical_p
 
     # average thickness
     triangle_centroids = igl.barycenter(p_vertices, p_faces[p_face_idxs])
-    sdd, _, _ = igl.signed_distance(triangle_centroids, s_vertices, s_faces[s_face_idxs], return_normals=False)
+    sdd, _, _ = igl.signed_distance(triangle_centroids, s_vertices, s_faces[s_face_idxs])[:3]
 
     df.loc[24, 'Value'] = np.round(cartilage_area_p, 2)
     df.loc[25, 'Value'] = np.round(cartilage_area_s, 2)

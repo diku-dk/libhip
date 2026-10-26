@@ -181,17 +181,17 @@ def leg_filter (csg_output_dir, output_path, data_path,  vertices_c, faces_c, ve
     barycenter = igl.barycenter(raw_vertices, raw_elements)
 
     # use signed distance to find cartilage tissue
-    sd_c, _, _ = igl.signed_distance(barycenter, vertices_c, faces_c, return_normals=False)
+    sd_c, _, _ = igl.signed_distance(barycenter, vertices_c, faces_c)[:3]
     elemC_idxs = np.where(sd_c <= 0)[0]
 
     # winding number to find the femur bone
-    wn_f = igl.fast_winding_number_for_meshes(vertices_f, faces_f, barycenter)
+    wn_f = igl.fast_winding_number(vertices_f, faces_f, barycenter)
 
     # filter based on winding number
     elemF_idxs = np.where(wn_f > 0.1)[0]
 
     # alternative
-    # sd_f, _, _ = igl.signed_distance(barycenter, vertices_f, faces_f, return_normals = False)
+    # sd_f, _, _ = igl.signed_distance(barycenter, vertices_f, faces_f)
     # elemF_idxs =np.where(sd_f<=0)[0]
 
     # give priority to cartilage comparing to the femur bone
@@ -210,7 +210,7 @@ def leg_filter (csg_output_dir, output_path, data_path,  vertices_c, faces_c, ve
                                                                          raw_elements[merged_element_idxs])
 
     # extract the model surface
-    all_tri = igl.boundary_facets(physical_elements)
+    all_tri = igl.boundary_facets(physical_elements)[0]
 
     all_tri_idxs = np.array(list(range(0, len(all_tri))))
 
@@ -219,7 +219,7 @@ def leg_filter (csg_output_dir, output_path, data_path,  vertices_c, faces_c, ve
     flipped_all_tri[:, [0, 1]] = flipped_all_tri[:, [1, 0]]
 
     # femur surface
-    femur_tri = igl.boundary_facets(physical_elements[len(elemC_idxs):])
+    femur_tri = igl.boundary_facets(physical_elements[len(elemC_idxs):])[0]
 
     # flip the normals
     flipped_femur_tri = np.copy(femur_tri)
@@ -244,7 +244,7 @@ def leg_filter (csg_output_dir, output_path, data_path,  vertices_c, faces_c, ve
     np.save( data_path+'_sliding_faces', slide_surface_list )
 
     # cartilage surface
-    cart_tri = igl.boundary_facets(physical_elements[:len(elemC_idxs)])
+    cart_tri = igl.boundary_facets(physical_elements[:len(elemC_idxs)])[0]
 
     # flip the normals
     flipped_cart_tri = np.copy(cart_tri)
@@ -293,11 +293,11 @@ def girdle_filter (csg_output_dir, output_path, data_path,  vertices_1, faces_1,
     barycenter = igl.barycenter(raw_vertices, raw_elements)
 
     # use signed distance to find "lsi"
-    sd_1, _, _ = igl.signed_distance(barycenter, vertices_1, faces_1, return_normals=False)
+    sd_1, _, _ = igl.signed_distance(barycenter, vertices_1, faces_1)[:3]
     elem_idxs_1 = np.where(sd_1 <= 0)[0]
 
     # wn for the surface meshes
-    # wn_1 = igl.fast_winding_number_for_meshes(vertices_1, faces_1, barycenter)
+    # wn_1 = igl.fast_winding_number(vertices_1, faces_1, barycenter)
     #
     # plt.hist(wn_1, 50)
     # plt.show()
@@ -310,31 +310,31 @@ def girdle_filter (csg_output_dir, output_path, data_path,  vertices_1, faces_1,
     # frame.add_mesh(vertices_1, faces_1, c = src.bone, shading = src.sh_true)
 
     # use signed distance to find "rsi"
-    sd_2, _, _ = igl.signed_distance(barycenter, vertices_2, faces_2, return_normals = False)
+    sd_2, _, _ = igl.signed_distance(barycenter, vertices_2, faces_2)[:3]
     elem_idxs_2 =np.where(sd_2<=0)[0]
 
     # use signed distance to find "lpc"
-    sd_3, _, _ = igl.signed_distance(barycenter, vertices_3, faces_3, return_normals=False)
+    sd_3, _, _ = igl.signed_distance(barycenter, vertices_3, faces_3)[:3]
     elem_idxs_3 = np.where(sd_3 <= 0)[0]
 
     # use signed distance to find "rpc"
-    sd_4, _, _ = igl.signed_distance(barycenter, vertices_4, faces_4, return_normals=False)
+    sd_4, _, _ = igl.signed_distance(barycenter, vertices_4, faces_4)[:3]
     elem_idxs_4 = np.where(sd_4 <= 0)[0]
 
     # use signed distance to find "pubic"
-    sd_5, _, _ = igl.signed_distance(barycenter, vertices_5, faces_5, return_normals=False)
+    sd_5, _, _ = igl.signed_distance(barycenter, vertices_5, faces_5)[:3]
     elem_idxs_5 = np.where(sd_5 <= 0)[0]
 
     # use signed distance to find "sacrum"
-    sd_6, _, _ = igl.signed_distance(barycenter, vertices_6, faces_6, return_normals=False)
+    sd_6, _, _ = igl.signed_distance(barycenter, vertices_6, faces_6)[:3]
     elem_idxs_6 = np.where(sd_6 <= 0)[0]
 
     # use signed distance to find "lpelvis"
-    sd_7, _, _ = igl.signed_distance(barycenter, vertices_7, faces_7, return_normals=False)
+    sd_7, _, _ = igl.signed_distance(barycenter, vertices_7, faces_7)[:3]
     elem_idxs_7 = np.where(sd_7 <= 0)[0]
 
     # use signed distance to find "rpelvis"
-    sd_8, _, _ = igl.signed_distance(barycenter, vertices_8, faces_8, return_normals=False)
+    sd_8, _, _ = igl.signed_distance(barycenter, vertices_8, faces_8)[:3]
     elem_idxs_8 = np.where(sd_8 <= 0)[0]
 
 
@@ -425,7 +425,7 @@ def girdle_filter (csg_output_dir, output_path, data_path,  vertices_1, faces_1,
     #
 
     # extract the left master surface
-    all_tri = igl.boundary_facets(physical_elements)
+    all_tri = igl.boundary_facets(physical_elements)[0]
     all_tri_idxs = np.array(list(range(0, len(all_tri))))
 
     # flip the normals
@@ -436,8 +436,8 @@ def girdle_filter (csg_output_dir, output_path, data_path,  vertices_1, faces_1,
     lrest_elem_idxs = np.where(labels!=3)
     rrest_elem_idxs = np.where(labels != 4)
 
-    lrest_tri = igl.boundary_facets(physical_elements[lrest_elem_idxs])
-    rrest_tri = igl.boundary_facets(physical_elements[rrest_elem_idxs])
+    lrest_tri = igl.boundary_facets(physical_elements[lrest_elem_idxs])[0]
+    rrest_tri = igl.boundary_facets(physical_elements[rrest_elem_idxs])[0]
 
     # flip the normals
     flipped_lrest_tri = np.copy(lrest_tri)
@@ -485,14 +485,14 @@ def girdle_filter (csg_output_dir, output_path, data_path,  vertices_1, faces_1,
     rpelvis_elem_idxs = np.where(labels == 8)
 
 
-    lsi_tri = igl.boundary_facets(physical_elements[lsi_elem_idxs])
-    rsi_tri = igl.boundary_facets(physical_elements[rsi_elem_idxs])
-    lpc_tri = igl.boundary_facets(physical_elements[lpc_elem_idxs])
-    rpc_tri = igl.boundary_facets(physical_elements[rpc_elem_idxs])
-    pubic_tri = igl.boundary_facets(physical_elements[pubic_elem_idxs])
-    sacrum_tri = igl.boundary_facets(physical_elements[sacrum_elem_idxs])
-    lpelvis_tri = igl.boundary_facets(physical_elements[lpelvis_elem_idxs])
-    rpelvis_tri = igl.boundary_facets(physical_elements[rpelvis_elem_idxs])
+    lsi_tri = igl.boundary_facets(physical_elements[lsi_elem_idxs])[0]
+    rsi_tri = igl.boundary_facets(physical_elements[rsi_elem_idxs])[0]
+    lpc_tri = igl.boundary_facets(physical_elements[lpc_elem_idxs])[0]
+    rpc_tri = igl.boundary_facets(physical_elements[rpc_elem_idxs])[0]
+    pubic_tri = igl.boundary_facets(physical_elements[pubic_elem_idxs])[0]
+    sacrum_tri = igl.boundary_facets(physical_elements[sacrum_elem_idxs])[0]
+    lpelvis_tri = igl.boundary_facets(physical_elements[lpelvis_elem_idxs])[0]
+    rpelvis_tri = igl.boundary_facets(physical_elements[rpelvis_elem_idxs])[0]
 
     # flip the normals
     flipped_lsi_tri = np.copy(lsi_tri)

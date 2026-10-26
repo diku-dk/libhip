@@ -28,21 +28,56 @@ The [src](https://github.com/diku-dk/libhip/tree/main/src), [notebooks](https://
   - Each time you run the Jupyter notebooks, the output of each step is stored in the [model_generation](https://github.com/diku-dk/libhip/tree/main/model_generation) folder.
 
 ## Installation
-First, clone this repository to your local directory and go into that folder. Below, is an example of how to clone this repository using the command line:
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and [Git LFS](https://git-lfs.com/) first. Git LFS is required to download the model data rather than pointer files. Then clone the repository:
 ```bash
+git lfs install
 git clone https://github.com/diku-dk/libhip.git
 cd libhip
+git lfs pull
 ```
-Next, create a conda environment named `libhip`, using the channel `conda-forge` and the list of packages in the `requirements.txt` file: 
+Create the local `.venv` from the committed lockfile:
 ```bash
-conda create --name libhip -c conda-forge --file requirements.txt 
+uv sync --locked
 ```
-Finally, activate your environment and run the jupyter notebook: 
+The project uses Python 3.13 by default (`.python-version`) and supports Python 3.12–3.13. uv downloads the interpreter when needed. The former Conda environment export has been replaced by direct dependencies in `pyproject.toml` and exact resolved versions in `uv.lock`; Conda activation is no longer needed.
+
+Launch Jupyter from the repository root:
 ```bash
-conda activate libhip
-jupyter notebook
+uv run --locked jupyter notebook
 ```
-Further, [install fTetWild](https://wildmeshing.github.io/ftetwild/) using CMake and [clone RAINBOW](https://github.com/diku-dk/RAINBOW) on your machine.
+Open the notebooks in `notebooks/` in numerical order and select the **Python 3 (ipykernel)** kernel from this environment. For an editor, select `.venv/bin/python` (Windows: `.venv\Scripts\python.exe`).
+
+Meshplot is installed from a pinned upstream Git commit because it is not published on PyPI. Its plotting dependencies are declared explicitly. The `libigl` distribution supplies the `igl` Python module. Native wheel availability varies by platform; the environment is verified on Apple Silicon macOS.
+
+Two tools remain external to the Python environment:
+
+- [fTetWild](https://wildmeshing.github.io/ftetwild/): build the `FloatTetwild_bin` executable using CMake, then set `ftetwild_dir` in `3_VolGen.ipynb`. The Python `wildmeshing` dependency handles preprocessing but does not replace this CSG executable.
+- [RAINBOW](https://github.com/diku-dk/RAINBOW): clone it and set `rainbow_dir` to the directory containing its `rainbow` package in `2_BoneAnt.ipynb`. This is the geometry library used by the notebook, not the unrelated PyPI package named `rainbow`.
+
+To verify the Python environment:
+
+```bash
+uv run --locked pytest
+uv pip check
+```
+
+To update dependencies, edit their constraints in `pyproject.toml` as needed, then run:
+
+```bash
+uv lock --upgrade
+uv sync --locked
+uv run --locked pytest
+```
+
+Commit `pyproject.toml`, `.python-version`, and `uv.lock` together. Meshplot's source revision must be updated explicitly. The smoke tests exercise the installed geometry APIs and notebook rendering setup; subject-specific reconstruction and FEBio simulations still require the model data and external tools.
+
+The current Meshplot release emits upstream Traitlets deprecation warnings. Wildmeshing 0.4.1 intermittently stalled inside its native Delaunay tetrahedralizer on both Python versions during validation, including with an irregular mesh. The native check is therefore opt-in and fails after a 60-second subprocess timeout:
+
+```bash
+uv run --locked pytest -m native
+```
+
+The regular smoke suite excludes this check. Production remeshing calls are not time-limited by the test safeguard; this dependency migration does not resolve the upstream native stall.
 ## Citation
 Please cite this work by using this reference:
 ```bash
