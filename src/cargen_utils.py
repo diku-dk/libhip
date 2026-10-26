@@ -19,7 +19,7 @@ def clean(vertices, faces):
     """
     # epsilon:  minimal distance to consider two vertices identical
     epsilon = np.min(igl.edge_lengths(vertices, faces)) / 100
-    vertices, faces, _ = igl.remove_duplicates(vertices, faces, epsilon)
+    vertices, _, _, faces = igl.remove_duplicate_vertices(vertices, faces, epsilon)
     faces, _ = igl.resolve_duplicated_faces(faces)
     vertices, faces, _, _ = igl.remove_unreferenced(vertices, faces)
 
@@ -37,7 +37,7 @@ def read (path, input_dimension):
     :return: the vertices and faces corresponding to the input mesh
     """
 
-    vertices, faces = igl.read_triangle_mesh(path, 'float')
+    vertices, faces = igl.read_triangle_mesh(path)
 
     if input_dimension == "m":
         vertices = vertices * 1000
@@ -58,7 +58,7 @@ def read_and_clean(path, input_dimension):
     :return: the vertices and faces corresponding to the input mesh
     """
 
-    vertices, faces = igl.read_triangle_mesh(path, 'float')
+    vertices, faces = igl.read_triangle_mesh(path)
 
     if input_dimension == "m":
         vertices = vertices * 1000
@@ -87,11 +87,11 @@ def remesh(vertices, faces, epsilon, edge_length):
     tetra.set_mesh(vertices, faces)
     tetra.tetrahedralize()
 
-    remesh_vertices, remesh_tets = tetra.get_tet_mesh()
+    remesh_vertices, remesh_tets, _ = tetra.get_tet_mesh()
     remesh_vertices, remesh_tets, _, _ = igl.remove_unreferenced(remesh_vertices, remesh_tets)
 
     # only keep the surface mesh
-    remesh_faces = igl.boundary_facets(remesh_tets)
+    remesh_faces = igl.boundary_facets(remesh_tets)[0]
 
     # flip the normals
     flipped_remesh_faces = np.copy(remesh_faces)
@@ -126,7 +126,7 @@ def get_curvature_measures(vertices,
     # min_pd_v : #v by 3 minimal curvature direction for each vertex
     # max_pv_v : #v by 1 maximal curvature value for each vertex
     # min_pv_v : #v by 1 minimal curvature value for each vertex
-    max_pd_v, min_pd_v, max_pv_v, min_pv_v = igl.principal_curvature(vertices, faces, neighbourhood_size)
+    max_pd_v, min_pd_v, max_pv_v, min_pv_v, _ = igl.principal_curvature(vertices, faces, neighbourhood_size)
 
     # curvature onto face
     min_pv_f = igl.average_onto_faces(faces, min_pv_v)
@@ -176,8 +176,7 @@ def get_initial_surface(vertices_p,
     # sd_face_idxs: list of facet indices corresponding to smallest distances
     # closest_points: closest points on the secondary surface to each point in triangle_centroids
     sd_value, sd_face_idxs, closest_points = igl.signed_distance(triangle_centroids,
-                                                                 vertices_s, faces_s,
-                                                                 return_normals=False)
+                                                                 vertices_s, faces_s)[:3]
 
     # list of facet indices below a distance threshold
     initial_face_idxs = np.where(sd_value < gap_distance)[0]
@@ -220,8 +219,7 @@ def get_initial_surface2(vertices_p,
 
     vertex_p_idxs= np.unique(faces_p.flatten())
     sd_value, sd_face_idxs, closest_points = igl.signed_distance(triangle_centroids,
-                                                                 vertices_s, faces_s,
-                                                                 return_normals=False)
+                                                                 vertices_s, faces_s)[:3]
 
     # list of facet indices below a distance threshold
     initial_face_idxs = np.where(sd_value < gap_distance)[0]
@@ -264,8 +262,7 @@ def get_initial_surface_bc(vertices_p,
     # closest_points: closest points on the secondary surface to each point in triangle_centroids
 
     sd_value, sd_face_idxs, closest_points = igl.signed_distance(triangle_centroids,
-                                                                 vertices_s, faces_s,
-                                                                 return_normals=False)
+                                                                 vertices_s, faces_s)[:3]
 
     # list of facet indices below a distance threshold
     initial_face_idxs = np.where(sd_value < gap_distance)[0]
@@ -300,7 +297,7 @@ def get_boundary_faces(faces,
     :return: Boundary face indices on both sides of the boundary and the inner boundary face indices
     """
 
-    edge_vertex_idxs = igl.boundary_facets(faces[sub_face_idxs])
+    edge_vertex_idxs = igl.boundary_facets(faces[sub_face_idxs])[0]
     boundary_vertex_idxs = np.unique(edge_vertex_idxs.flatten())
 
     boundary_face_idxs = []
@@ -348,7 +345,7 @@ def get_largest_component(faces,
     :return: list of facet indices corresponding to the largest component of the sub-region
     """
 
-    components = igl.face_components(faces[sub_face_idxs])
+    _, components = igl.facet_components(faces[sub_face_idxs])
     components_count = np.bincount(components)
     z = np.argmax(components_count)
     max_count = np.where(components == z)[0]
@@ -360,7 +357,7 @@ def get_largest_component(faces,
 def remove_ears(faces,
                 sub_face_idxs):
 
-    """
+    r"""
     This function removes any "ears" of the the sub-region.
     An "ear" refer to a single triangle with a vastly different normal than adjacent triangles
     See the illustration below for an example:
@@ -464,7 +461,7 @@ def assign_thickness(vertices_p,
 
     """
     sub_vertex_idxs = np.unique(faces_p[sub_face_idxs].flatten())
-    sd_value = igl.signed_distance(vertices_p[sub_vertex_idxs], vertices_s, faces_s, return_normals=False)[0]
+    sd_value = igl.signed_distance(vertices_p[sub_vertex_idxs], vertices_s, faces_s)[0]
     sd_value = sd_value * thickness_factor
 
     # plt.hist(sd_value)
@@ -510,7 +507,7 @@ def boundary_value(vertices,
     boundary_thickness_value_inner = thickness_profile[internal_boundary]
     boundary_thickness_value = np.concatenate((boundary_thickness_value_inner, boundary_thickness_value_outer))
 
-    weights = igl.harmonic_weights(vertices, faces, boundaries, boundary_thickness_value, blending_order)
+    weights = igl.harmonic(vertices, faces, boundaries, boundary_thickness_value[:, None], blending_order).ravel()
 
     return weights
 
@@ -811,7 +808,7 @@ def snap_to_surface ( vertices, vertices_r, faces_r ):
     """
 
     vertices_p = np.copy (vertices)
-    sd_value, _, closest_points = igl.signed_distance(vertices_p, vertices_r, faces_r, return_normals=False)
+    sd_value, _, closest_points = igl.signed_distance(vertices_p, vertices_r, faces_r)[:3]
     vertices_p = closest_points
 
     return vertices_p
@@ -898,7 +895,7 @@ def remove_penetration (vertices, vertices_r, faces_r):
     :return:
     """
     vertices_p = np.copy(vertices)
-    sd_value, _, closest_points = igl.signed_distance(vertices_p, vertices_r, faces_r, return_normals=False)
+    sd_value, _, closest_points = igl.signed_distance(vertices_p, vertices_r, faces_r)[:3]
     penetrating_vertices = np.where(sd_value <= 0)[0]
     vertices_p[penetrating_vertices] = closest_points[penetrating_vertices]
 
@@ -928,8 +925,7 @@ def contact_surface(vertices_1,
     # point to surface distance
     sd_value, _, _ = igl.signed_distance(triangle_centroids,
                                          vertices_2,
-                                         faces_2,
-                                         return_normals=False)
+                                         faces_2)[:3]
 
     print('min:', np.min(sd_value))
 
@@ -1097,7 +1093,7 @@ def fit_cylinder (vertices_p, faces_p, base_face_idxs):
     rest_face_idxs = np.delete(face_idxs, base_face_idxs, axis=0)
 
     # find the fovea region
-    components = igl.face_components(faces_p[rest_face_idxs])
+    _, components = igl.facet_components(faces_p[rest_face_idxs])
     components_count = np.bincount(components)
     z = np.argmin(components_count)
     max_count = np.where(components == z)[0]
@@ -1220,8 +1216,8 @@ def get_wall_sweep(t_vertices, t_faces, b_vertices, b_faces):
 
     x_center = 0.5 * (b_center + t_center)
 
-    sd, _, cd1 = igl.signed_distance(x_center, t_vertices, t_faces, return_normals=False)
-    sd, _, cd2 = igl.signed_distance(x_center, b_vertices, b_faces, return_normals=False)
+    sd, _, cd1 = igl.signed_distance(x_center, t_vertices, t_faces)[:3]
+    sd, _, cd2 = igl.signed_distance(x_center, b_vertices, b_faces)[:3]
     cd1 = np.array([cd1])
     cd2 = np.array([cd2])
     #
@@ -1515,7 +1511,7 @@ def gap_fill(vertices_s, b1_faces, surface_face_idxs, face_idxs, cumulative_sum)
     while len(gap_boundary_vertex_idxs) != 0:
 
         # lines creating the edge [v1 v2]
-        edgeline_vertex_idxs = igl.boundary_facets(b1_faces[surface_face_idxs])
+        edgeline_vertex_idxs = igl.boundary_facets(b1_faces[surface_face_idxs])[0]
 
         # boundary vertices
         all_boundary_vertex_idxs = edgeline_vertex_idxs.flatten()
@@ -1579,5 +1575,5 @@ new_blue = np.array([102, 165, 202]) / 255.
 
 
 # Meshplot settings
-sh_true = {'wireframe': True, 'flat': True, 'side': 'FrontSide', 'reflectivity': 0.1, 'metalness': 0, "wire_width": 0.01, "colormap": "jet",'normalize':False}
-sh_false = {'wireframe': False, 'flat': True, 'side': 'FrontSide', 'reflectivity': 0.1, 'metalness': 0, "colormap": "jet",'normalize':False}
+sh_true = {'wireframe': True, 'flat': True, 'side': 'FrontSide', 'reflectivity': 0.1, 'metalness': 0, "wire_width": 0.01, "colormap": "jet",'normalize': [None, None]}
+sh_false = {'wireframe': False, 'flat': True, 'side': 'FrontSide', 'reflectivity': 0.1, 'metalness': 0, "colormap": "jet",'normalize': [None, None]}

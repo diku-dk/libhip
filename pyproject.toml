@@ -1,0 +1,42 @@
+[project]
+name = "libhip"
+version = "0.1.0"
+description = "Subject-specific hip joint geometry and finite element modeling pipeline"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "ipywidgets>=8.1.9",
+    "libigl>=2.6.3",
+    "matplotlib>=3.11.2",
+    "meshio>=5.3.5",
+    "meshplot",
+    "miniball>=1.2.0",
+    "numpy>=2.5.4",
+    "pandas>=3.1.0",
+    "pythreejs>=2.4.2",
+    "pyyaml>=6.0.3",
+    "scikit-learn>=1.9.1",
+    "scipy>=1.18.1",
+    "vtk>=9.7.1",
+    "wildmeshing>=0.4.1",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=7.4.0",
+    "notebook>=7.6.3",
+    "pytest>=9.1.1",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+# Meshplot is not on PyPI. Pin the v0.4.0 release commit (its metadata says 0.3.3).
+meshplot = { git = "https://github.com/skoch9/meshplot.git", rev = "4708aa93018fa3ee547d0a9a091ac34f1e2ecb64" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-m 'not native'"
+markers = ["native: opt-in native tetrahedralization check (may stall in Wildmeshing)"]
